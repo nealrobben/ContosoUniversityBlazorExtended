@@ -1,0 +1,30 @@
+﻿@page "/about"
+
+<h2>Student Body Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Enrollment Date
+        </th>
+        <th>
+            Students
+        </th>
+    </tr>
+
+    @if(aboutInfo != null)
+    {
+        @foreach (var item in aboutInfo.Items)
+        {
+            <tr>
+                <td>
+                    @item.EnrollmentDate?.ToShortDateString()
+                </td>
+                <td>
+                    @item.StudentCount
+                </td>
+            </tr>
+        }
+    }
+
+</table>

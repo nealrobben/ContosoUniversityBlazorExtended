@@ -1,0 +1,125 @@
+﻿@page "/instructors"
+
+<h2>Instructors</h2>
+
+<p>
+    <a href="/instructors/create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Hire Date</th>
+            <th>Office</th>
+            <th>Courses</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (InstructorsViewModel.InstructorsOverview != null)
+        {
+            @foreach (var item in InstructorsViewModel.InstructorsOverview.Instructors)
+            {
+                string selectedRow = "";
+                if (InstructorsViewModel.SelectedInstructorId.HasValue && item.InstructorID == InstructorsViewModel.SelectedInstructorId.Value)
+                {
+                    selectedRow = "bg-success";
+                }
+
+                <tr class="@selectedRow">
+                    <td>
+                        @item.LastName
+                    </td>
+                    <td>
+                        @item.FirstName
+                    </td>
+                    <td>
+                        @item.HireDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.OfficeLocation
+                    </td>
+                    <td>
+                        @{
+                            foreach (var course in item.CourseAssignments)
+                            {
+                                @course.CourseID @:  @course.CourseTitle <br />
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a @onclick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))>Select</a> |
+                        <a href=@($"/instructors/edit/{item.InstructorID}")>Edit</a> |
+                        <a href=@($"/instructors/{item.InstructorID}")>Details</a> |
+                        <a @onclick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@if (InstructorsViewModel.CourseForInstructorOverview != null)
+{
+    <h3>Courses Taught by Selected Instructor</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Number</th>
+            <th>Title</th>
+            <th>Department</th>
+        </tr>
+
+        @foreach (var item in InstructorsViewModel.CourseForInstructorOverview.Courses)
+        {
+            string selectedRow = "";
+            if (InstructorsViewModel.SelectedCourseId.HasValue && item.CourseID == InstructorsViewModel.SelectedCourseId.Value)
+            {
+                selectedRow = "bg-success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    <a @onclick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))>Select</a>
+                </td>
+                <td>
+                    @item.CourseID
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.DepartmentName
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (InstructorsViewModel.StudentsForCourse != null)
+{
+    <h3>
+        Students Enrolled in Selected Course
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Grade</th>
+        </tr>
+        @foreach (var item in InstructorsViewModel.StudentsForCourse.Students)
+        {
+            <tr>
+                <td>
+                    @item.StudentName
+                </td>
+                <td>
+                    @item.StudentGrade
+                </td>
+            </tr>
+        }
+    </table>
+}
