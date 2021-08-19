@@ -16,10 +16,12 @@ namespace WebUI.Client.ViewModels.Courses
         public CreateCourseCommand CreateCourseCommand = new CreateCourseCommand();
         public DepartmentsLookupVM DepartmentsLookup { get; set; }
 
-        public CourseCreateViewModel(CourseService courseService, DepartmentService departmentService)
+        public CourseCreateViewModel(CourseService courseService, 
+            DepartmentService departmentService, NavigationManager navManager)
             :base(courseService)
         {
             _departmentService = departmentService;
+            _navManager = navManager;
         }
 
         public async Task OnInitializedAsync()
@@ -38,6 +40,7 @@ namespace WebUI.Client.ViewModels.Courses
 
                 if (result.IsSuccessStatusCode)
                 {
+                    CreateCourseCommand = new CreateCourseCommand();
                     _navManager.NavigateTo("/courses");
                 }
             }

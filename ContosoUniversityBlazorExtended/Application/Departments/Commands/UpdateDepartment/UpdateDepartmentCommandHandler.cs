@@ -20,7 +20,7 @@ namespace ContosoUniversityBlazor.Application.Departments.Commands.UpdateDepartm
 
         public async Task<Unit> Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
         {
-            if (request.DepartmentID == null)
+            if (request.DepartmentID == 0)
                 throw new NotFoundException(nameof(Department),request.DepartmentID);
 
             var departmentToUpdate = await _context.Departments
