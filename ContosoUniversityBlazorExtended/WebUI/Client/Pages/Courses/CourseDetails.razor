@@ -1,0 +1,44 @@
+﻿@page "/courses/{id}"
+
+<h1>Details</h1>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Title
+        </dt>
+        <dd class="col-sm-10">
+            @if (CourseDetailsViewModel.Course != null)
+            {
+                @CourseDetailsViewModel.Course.Title
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Credits
+        </dt>
+        <dd class="col-sm-10">
+            @if (CourseDetailsViewModel.Course != null)
+            {
+                @CourseDetailsViewModel.Course.Credits
+            }
+        </dd>
+        <dt class="col-sm-2">
+            DepartmentID
+        </dt>
+        <dd class="col-sm-10">
+            @if (CourseDetailsViewModel.Course != null)
+            {
+                @CourseDetailsViewModel.Course.DepartmentID
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (CourseDetailsViewModel.Course != null)
+    {
+        <a href=@($"/courses/edit/{CourseDetailsViewModel.Course.CourseID}")>Edit</a>
+    }
+    <a href="/courses">Back to List</a>
+</div>

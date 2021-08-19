@@ -1,0 +1,36 @@
+﻿@page "/instructors/create"
+
+<h1>Create</h1>
+
+<h4>Instructor</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <EditForm Model=@InstructorCreateViewModel.CreateInstructorCommand OnSubmit=@InstructorCreateViewModel.FormSubmitted>
+                <div class="form-group">
+                    <label for="LastName">LastName</label>
+                    <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.LastName class="form-control" id="LastName" />
+                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.LastName" />
+                </div>
+                <div class="form-group">
+                    <label for="FirstName">FirstName</label>
+                    <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.FirstName" />
+                </div>
+                <div class="form-group">
+                    <label for="HireDate">HireDate</label>
+                    <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
+                </div>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </EditForm>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/instructors">Back to List</a>
+</div>
+

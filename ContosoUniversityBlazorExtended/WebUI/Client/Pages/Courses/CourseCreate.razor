@@ -1,0 +1,49 @@
+﻿@page "/courses/create"
+
+<h1>Create</h1>
+
+<h4>Course</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model=@CourseCreateViewModel.CreateCourseCommand OnSubmit=@CourseCreateViewModel.FormSubmitted>
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label for="CourseID">CourseID</label>
+                <InputNumber @bind-Value=CourseCreateViewModel.CreateCourseCommand.CourseID class="form-control" id="CourseID" />
+                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.CourseID" />
+            </div>
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <InputText @bind-Value=CourseCreateViewModel.CreateCourseCommand.Title class="form-control" id="Title" />
+                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.Title" />
+            </div>
+            <div class="form-group">
+                <label for="Credits">Credits</label>
+                <InputNumber @bind-Value=CourseCreateViewModel.CreateCourseCommand.Credits class="form-control" id="Credits" />
+                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.Credits" />
+            </div>
+            <div class="form-group">
+                <label for="Department">Department</label>
+                <CustomInputSelect @bind-Value=CourseCreateViewModel.CreateCourseCommand.DepartmentID class="form-control" id="Department">
+                    @if (CourseCreateViewModel.DepartmentsLookup != null)
+                    {
+                        @foreach (var department in CourseCreateViewModel.DepartmentsLookup.Departments)
+                        {
+                            <option value="@department.DepartmentID">@department.Name</option>
+                        }
+                    }
+                </CustomInputSelect>
+                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.DepartmentID" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/courses">Back to List</a>
+</div>
