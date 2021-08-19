@@ -30,6 +30,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
                 if (result.IsSuccessStatusCode)
                 {
+                    CreateInstructorCommand = new CreateInstructorCommand();
                     _navManager.NavigateTo("/instructors");
                 }
             }

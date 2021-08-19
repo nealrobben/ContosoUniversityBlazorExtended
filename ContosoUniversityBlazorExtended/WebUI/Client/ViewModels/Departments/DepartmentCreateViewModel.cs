@@ -41,6 +41,7 @@ namespace WebUI.Client.ViewModels.Departments
 
                 if (result.IsSuccessStatusCode)
                 {
+                    CreateDepartmentCommand = new CreateDepartmentCommand();
                     _navManager.NavigateTo("/departments");
                 }
             }

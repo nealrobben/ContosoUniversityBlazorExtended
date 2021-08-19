@@ -29,6 +29,7 @@ namespace WebUI.Client.ViewModels.Students
 
                 if (result.IsSuccessStatusCode)
                 {
+                    CreateStudentCommand = new CreateStudentCommand();
                     _navManager.NavigateTo("/students");
                 }
             }
