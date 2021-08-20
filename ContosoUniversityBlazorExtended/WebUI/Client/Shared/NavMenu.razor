@@ -1,6 +1,5 @@
 ﻿
-<div class="container">
-    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Contoso University</a>
+@*<div class="container">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -39,4 +38,13 @@
             </li>
         </ul>
     </div>
-</div>
+</div>*@
+
+<MudNavMenu>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.Home">Home</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.Info">About</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.Person">Students</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.Book">Courses</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.CarRental">Instructors</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.Store">Departments</MudNavLink>
+</MudNavMenu>
