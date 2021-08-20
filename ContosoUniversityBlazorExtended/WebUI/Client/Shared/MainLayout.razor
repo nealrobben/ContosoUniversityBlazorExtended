@@ -4,20 +4,26 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        My Application
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu />
-    </nav>
-</header>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
-<div class="container">
-    <main role="main" class="pb-3">
-        @Body
-    </main>
-</div>
+@code {
+    bool _drawerOpen = true;
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2020 - Contoso University
-    </div>
-</footer>
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
