@@ -62,9 +62,13 @@
     </dl>
 </div>
 <div>
+    <MudIconButton Link="/students"
+                   Variant="Variant.Filled"
+                   Icon="fas fa-arrow-circle-left"
+                   Color="Color.Primary">
+    </MudIconButton>
     @if (StudentDetailsViewModel.Student != null)
     {
         <a href=@($"/students/edit/{StudentDetailsViewModel.Student.StudentID}")>Edit</a>
     }
-    <a href="/students">Back to List</a>
 </div>

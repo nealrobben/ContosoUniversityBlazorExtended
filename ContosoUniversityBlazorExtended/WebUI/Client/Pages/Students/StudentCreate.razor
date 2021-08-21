@@ -24,6 +24,11 @@
                 <InputDate @bind-Value=StudentCreateViewModel.CreateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
                 <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.EnrollmentDate" />
             </div>
+            <MudIconButton Link="/students"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-arrow-circle-left"
+                           Color="Color.Primary">
+            </MudIconButton>
             <input type="submit" value="Create" class="btn btn-primary" />
         </EditForm>
     </div>

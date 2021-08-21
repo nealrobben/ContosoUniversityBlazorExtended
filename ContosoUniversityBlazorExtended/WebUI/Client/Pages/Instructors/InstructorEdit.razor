@@ -29,12 +29,13 @@
                     <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation class="form-control" id="OfficeLocation" />
                     <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation" />
                 </div>
+                <MudIconButton Link="/instructors"
+                               Variant="Variant.Filled"
+                               Icon="fas fa-arrow-circle-left"
+                               Color="Color.Primary">
+                </MudIconButton>
                 <input type="submit" value="Update" class="btn btn-primary" />
             </EditForm>
         </form>
     </div>
-</div>
-
-<div>
-    <a href="/instructors">Back to List</a>
 </div>

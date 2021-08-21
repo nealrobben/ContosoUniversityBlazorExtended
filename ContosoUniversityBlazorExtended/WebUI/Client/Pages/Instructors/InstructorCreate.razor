@@ -24,6 +24,11 @@
                     <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
                     <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
                 </div>
+                <MudIconButton Link="/instructors"
+                               Variant="Variant.Filled"
+                               Icon="fas fa-arrow-circle-left"
+                               Color="Color.Primary">
+                </MudIconButton>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </EditForm>
         </form>

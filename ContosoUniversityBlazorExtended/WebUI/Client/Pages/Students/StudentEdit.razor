@@ -24,11 +24,12 @@
                 <InputDate @bind-Value=StudentEditViewModel.UpdateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
                 <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.EnrollmentDate" />
             </div>
+            <MudIconButton Link="/students"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-arrow-circle-left"
+                           Color="Color.Primary">
+            </MudIconButton>
             <input type="submit" value="Update" class="btn btn-primary" />
         </EditForm>
     </div>
-</div>
-
-<div>
-    <a href="/students">Back to List</a>
 </div>
