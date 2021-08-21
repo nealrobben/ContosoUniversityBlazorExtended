@@ -37,6 +37,11 @@
                 </CustomInputSelect>
                 <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID" />
             </div>
+            <MudIconButton Link="/departments"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-arrow-circle-left"
+                           Color="Color.Primary">
+            </MudIconButton>
             <input type="submit" value="Update" class="btn btn-primary" />
         </EditForm>
     </div>

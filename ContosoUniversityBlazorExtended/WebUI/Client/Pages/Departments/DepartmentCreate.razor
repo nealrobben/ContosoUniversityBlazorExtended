@@ -37,11 +37,12 @@
                 </CustomInputSelect>
                 <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID" />
             </div>
+            <MudIconButton Link="/departments"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-arrow-circle-left"
+                           Color="Color.Primary">
+            </MudIconButton>
             <input type="submit" value="Create" class="btn btn-primary" />
         </EditForm>
     </div>
-</div>
-
-<div>
-    <a href="/departments">Back to List</a>
 </div>
