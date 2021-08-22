@@ -4,6 +4,7 @@
 
 <p>
     <MudIconButton Link="/students/create"
+                   Title="Create"
                    Variant="Variant.Filled"
                    Icon="fas fa-plus-circle"
                    Color="Color.Primary">
@@ -13,8 +14,18 @@
 <div class="form-actions no-color">
     <p>
         Find by name: <input type="text" name="searchString" @bind="StudentsViewModel.StudentsOverview.CurrentFilter" />
-        <button type="button" class="btn btn-link" @onclick="StudentsViewModel.Filter">Search</button>|
-        <button type="button" class="btn btn-link" @onclick="StudentsViewModel.BackToFullList">Back to Full List</button>
+        <MudIconButton OnClick="StudentsViewModel.Filter"
+                       Title="Search"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-search"
+                       Color="Color.Primary">
+        </MudIconButton>
+        <MudIconButton OnClick="StudentsViewModel.BackToFullList"
+                       Title="Back to Full List"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-list"
+                       Color="Color.Primary">
+        </MudIconButton>
     </p>
 </div>
 
@@ -61,14 +72,20 @@
 
 @if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.HasPreviousPage)
 {
-    <button type="button" @onclick="StudentsViewModel.PreviousPage" class="btn btn-link">
-        Previous
-    </button>
+    <MudIconButton OnClick="StudentsViewModel.PreviousPage"
+                   Title="Previous"
+                   Variant="Variant.Filled"
+                   Icon="fas fa-backward"
+                   Color="Color.Primary">
+    </MudIconButton>
 }
 
 @if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.HasNextPage)
 {
-    <button type="button" @onclick="StudentsViewModel.NextPage" class="btn btn-link">
-        Next
-    </button>
+    <MudIconButton OnClick="StudentsViewModel.NextPage"
+                   Title="Next"
+                   Variant="Variant.Filled"
+                   Icon="fas fa-forward"
+                   Color="Color.Primary">
+    </MudIconButton>
 }
