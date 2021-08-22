@@ -10,66 +10,76 @@
                    Color="Color.Primary">
     </MudIconButton>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                CourseID
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                Credits
-            </th>
-            <th>
-                DepartmentName
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
 
-        @if (CoursesViewModel.coursesOverview != null)
-        {
-            @foreach (var item in CoursesViewModel.coursesOverview.Courses)
+@if (CoursesViewModel.coursesOverview == null)
+{
+    <div class="d-flex justify-content-center">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    CourseID
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Credits
+                </th>
+                <th>
+                    DepartmentName
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (CoursesViewModel.coursesOverview != null)
             {
-                <tr>
-                    <td>
-                        @item.CourseID
-                    </td>
-                    <td>
-                        @item.Title
-                    </td>
-                    <td>
-                        @item.Credits
-                    </td>
-                    <td>
-                        @item.DepartmentName
-                    </td>
-                    <td>
-                        <MudIconButton Link="@($"/courses/edit/{item.CourseID}")"
-                                       Title="Edit"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-edit"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                        <MudIconButton Link="@($"/courses/{item.CourseID}")"
-                                       Title="Details"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-eye"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                        <MudIconButton OnClick="(e => CoursesViewModel.DeleteCourse(item.CourseID, item.Title))"
-                                       Title="Delete"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-trash-alt"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                    </td>
-                </tr>
+                @foreach (var item in CoursesViewModel.coursesOverview.Courses)
+                {
+                    <tr>
+                        <td>
+                            @item.CourseID
+                        </td>
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            @item.Credits
+                        </td>
+                        <td>
+                            @item.DepartmentName
+                        </td>
+                        <td>
+                            <MudIconButton Link="@($"/courses/edit/{item.CourseID}")"
+                                           Title="Edit"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-edit"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton Link="@($"/courses/{item.CourseID}")"
+                                           Title="Details"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-eye"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton OnClick="(e => CoursesViewModel.DeleteCourse(item.CourseID, item.Title))"
+                                           Title="Delete"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-trash-alt"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                        </td>
+                    </tr>
+                }
             }
-        }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}

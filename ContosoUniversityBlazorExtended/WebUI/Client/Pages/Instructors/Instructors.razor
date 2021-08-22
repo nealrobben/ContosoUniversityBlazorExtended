@@ -11,145 +11,154 @@
     </MudIconButton>
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Hire Date</th>
-            <th>Office</th>
-            <th>Courses</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+@if (InstructorsViewModel.InstructorsOverview == null)
+{
+    <div class="d-flex justify-content-center">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Hire Date</th>
+                <th>Office</th>
+                <th>Courses</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 
-        @if (InstructorsViewModel.InstructorsOverview != null)
-        {
-            @foreach (var item in InstructorsViewModel.InstructorsOverview.Instructors)
+            @if (InstructorsViewModel.InstructorsOverview != null)
+            {
+                @foreach (var item in InstructorsViewModel.InstructorsOverview.Instructors)
+                {
+                    string selectedRow = "";
+                    if (InstructorsViewModel.SelectedInstructorId.HasValue && item.InstructorID == InstructorsViewModel.SelectedInstructorId.Value)
+                    {
+                        selectedRow = "mud-theme-primary";
+                    }
+
+                    <tr class="@selectedRow">
+                        <td>
+                            @item.LastName
+                        </td>
+                        <td>
+                            @item.FirstName
+                        </td>
+                        <td>
+                            @item.HireDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.OfficeLocation
+                        </td>
+                        <td>
+                            @{
+                                foreach (var course in item.CourseAssignments)
+                                {
+                                    @course.CourseID @:  @course.CourseTitle <br />
+                                }
+                            }
+                        </td>
+                        <td>
+                            <MudIconButton OnClick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))
+                                           Title="Select"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-hand-pointer"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton Link="@($"/instructors/edit/{item.InstructorID}")"
+                                           Title="Edit"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-edit"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton Link="@($"/instructors/{item.InstructorID}")"
+                                           Title="Details"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-eye"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton OnClick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))
+                                           Title="Delete"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-trash-alt"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+    @if (InstructorsViewModel.CourseForInstructorOverview != null)
+    {
+        <h3>Courses Taught by Selected Instructor</h3>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Number</th>
+                <th>Title</th>
+                <th>Department</th>
+            </tr>
+
+            @foreach (var item in InstructorsViewModel.CourseForInstructorOverview.Courses)
             {
                 string selectedRow = "";
-                if (InstructorsViewModel.SelectedInstructorId.HasValue && item.InstructorID == InstructorsViewModel.SelectedInstructorId.Value)
+                if (InstructorsViewModel.SelectedCourseId.HasValue && item.CourseID == InstructorsViewModel.SelectedCourseId.Value)
                 {
                     selectedRow = "mud-theme-primary";
                 }
-
                 <tr class="@selectedRow">
                     <td>
-                        @item.LastName
-                    </td>
-                    <td>
-                        @item.FirstName
-                    </td>
-                    <td>
-                        @item.HireDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @item.OfficeLocation
-                    </td>
-                    <td>
-                        @{
-                            foreach (var course in item.CourseAssignments)
-                            {
-                                @course.CourseID @:  @course.CourseTitle <br />
-                            }
-                        }
-                    </td>
-                    <td>
-                        <MudIconButton OnClick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))
+                        <MudIconButton OnClick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))
                                        Title="Select"
                                        Variant="Variant.Filled"
                                        Icon="fas fa-hand-pointer"
                                        Color="Color.Primary" Size="Size.Small">
                         </MudIconButton>
-                        <MudIconButton Link="@($"/instructors/edit/{item.InstructorID}")"
-                                       Title="Edit"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-edit"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                        <MudIconButton Link="@($"/instructors/{item.InstructorID}")"
-                                       Title="Details"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-eye"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                        <MudIconButton OnClick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))
-                                       Title="Delete"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-trash-alt"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
+                    </td>
+                    <td>
+                        @item.CourseID
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.DepartmentName
                     </td>
                 </tr>
             }
-        }
 
-    </tbody>
-</table>
+        </table>
+    }
 
-@if (InstructorsViewModel.CourseForInstructorOverview != null)
-{
-    <h3>Courses Taught by Selected Instructor</h3>
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>Number</th>
-            <th>Title</th>
-            <th>Department</th>
-        </tr>
-
-        @foreach (var item in InstructorsViewModel.CourseForInstructorOverview.Courses)
-        {
-            string selectedRow = "";
-            if (InstructorsViewModel.SelectedCourseId.HasValue && item.CourseID == InstructorsViewModel.SelectedCourseId.Value)
-            {
-                selectedRow = "mud-theme-primary";
-            }
-            <tr class="@selectedRow">
-                <td>
-                    <MudIconButton OnClick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))
-                                   Title="Select"
-                                   Variant="Variant.Filled"
-                                   Icon="fas fa-hand-pointer"
-                                   Color="Color.Primary" Size="Size.Small">
-                    </MudIconButton>
-                </td>
-                <td>
-                    @item.CourseID
-                </td>
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.DepartmentName
-                </td>
-            </tr>
-        }
-
-    </table>
-}
-
-@if (InstructorsViewModel.StudentsForCourse != null)
-{
-    <h3>
-        Students Enrolled in Selected Course
-    </h3>
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Grade</th>
-        </tr>
-        @foreach (var item in InstructorsViewModel.StudentsForCourse.Students)
-        {
+    @if (InstructorsViewModel.StudentsForCourse != null)
+    {
+        <h3>
+            Students Enrolled in Selected Course
+        </h3>
+        <table class="table">
             <tr>
-                <td>
-                    @item.StudentName
-                </td>
-                <td>
-                    @item.StudentGrade
-                </td>
+                <th>Name</th>
+                <th>Grade</th>
             </tr>
-        }
-    </table>
+            @foreach (var item in InstructorsViewModel.StudentsForCourse.Students)
+            {
+                <tr>
+                    <td>
+                        @item.StudentName
+                    </td>
+                    <td>
+                        @item.StudentGrade
+                    </td>
+                </tr>
+            }
+        </table>
+    }
 }
