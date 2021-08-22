@@ -56,7 +56,12 @@
                         }
                     </td>
                     <td>
-                        <a @onclick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))>Select</a> |
+                        <MudIconButton OnClick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))
+                                       Title="Select"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-hand-pointer"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
                         <MudIconButton Link="@($"/instructors/edit/{item.InstructorID}")"
                                        Title="Edit"
                                        Variant="Variant.Filled"

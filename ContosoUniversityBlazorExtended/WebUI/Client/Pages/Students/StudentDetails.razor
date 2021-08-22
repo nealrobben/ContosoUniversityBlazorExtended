@@ -5,61 +5,69 @@
 <div>
     <h4>Student</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            LastName
-        </dt>
-        <dd class="col-sm-10">
-            @if (StudentDetailsViewModel.Student != null)
-            {
-                @StudentDetailsViewModel.Student.LastName
-            }
-        </dd>
-        <dt class="col-sm-2">
-            FirstName
-        </dt>
-        <dd class="col-sm-10">
-            @if (StudentDetailsViewModel.Student != null)
-            {
-                @StudentDetailsViewModel.Student.FirstName
-            }
-        </dd>
-        <dt class="col-sm-2">
-            EnrollmentDate
-        </dt>
-        <dd class="col-sm-10">
-            @if (StudentDetailsViewModel.Student != null)
-            {
-                @StudentDetailsViewModel.Student.EnrollmentDate.ToShortDateString()
-            }
-        </dd>
-        <dt class="col-sm-2">
-            Enrollments
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    <th>Course Title</th>
-                    <th>Grade</th>
-                </tr>
-                @if (StudentDetailsViewModel.Student != null)
-                {
-                    @foreach (var item in StudentDetailsViewModel.Student.Enrollments)
+    <div class="row">
+        <div class="col">
+            <dl>
+                <dt class="col-sm-2">
+                    LastName
+                </dt>
+                <dd class="col-sm-10">
+                    @if (StudentDetailsViewModel.Student != null)
                     {
-                        <tr>
-                            <td>
-                                @item.CourseTitle
-                            </td>
-                            <td>
-                                @item.Grade
-                            </td>
-                        </tr>
+                        @StudentDetailsViewModel.Student.LastName
                     }
-                }
-            </table>
-        </dd>
-
-    </dl>
+                </dd>
+                <dt class="col-sm-2">
+                    FirstName
+                </dt>
+                <dd class="col-sm-10">
+                    @if (StudentDetailsViewModel.Student != null)
+                    {
+                        @StudentDetailsViewModel.Student.FirstName
+                    }
+                </dd>
+                <dt class="col-sm-2">
+                    EnrollmentDate
+                </dt>
+                <dd class="col-sm-10">
+                    @if (StudentDetailsViewModel.Student != null)
+                    {
+                        @StudentDetailsViewModel.Student.EnrollmentDate.ToShortDateString()
+                    }
+                </dd>
+                <dt class="col-sm-2">
+                    Enrollments
+                </dt>
+                <dd class="col-sm-10">
+                    <table class="table">
+                        <tr>
+                            <th>Course Title</th>
+                            <th>Grade</th>
+                        </tr>
+                        @if (StudentDetailsViewModel.Student != null)
+                        {
+                            @foreach (var item in StudentDetailsViewModel.Student.Enrollments)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.CourseTitle
+                                    </td>
+                                    <td>
+                                        @item.Grade
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </dd>
+            </dl>
+        </div>
+        <div class="col">
+            <div>
+                <img src="img/person.png" class="border" />
+            </div>
+        </div>
+    </div>
 </div>
 <div>
     <MudIconButton Link="/students"
