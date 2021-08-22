@@ -10,66 +10,76 @@
                    Color="Color.Primary">
     </MudIconButton>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Budget
-            </th>
-            <th>
-                StartDate
-            </th>
-            <th>
-                AdministratorName
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
 
-        @if (DepartmentsViewModel.departmentsOverview != null)
-        {
-            @foreach (var item in DepartmentsViewModel.departmentsOverview?.Departments)
+@if (DepartmentsViewModel.departmentsOverview == null)
+{
+    <div class="d-flex justify-content-center">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Budget
+                </th>
+                <th>
+                    StartDate
+                </th>
+                <th>
+                    AdministratorName
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (DepartmentsViewModel.departmentsOverview != null)
             {
-                <tr>
-                    <td>
-                        @item.Name
-                    </td>
-                    <td>
-                        @item.Budget.ToString("F")
-                    </td>
-                    <td>
-                        @item.StartDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @item.AdministratorName
-                    </td>
-                    <td>
-                        <MudIconButton Link="@($"/departments/edit/{item.DepartmentID}")"
-                                       Title="Edit"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-edit"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                        <MudIconButton Link="@($"/departments/{item.DepartmentID}")"
-                                       Title="Details"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-eye"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                        <MudIconButton OnClick="(e => DepartmentsViewModel.DeleteDepartment(item.DepartmentID, item.Name))"
-                                       Title="Delete"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-trash-alt"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                    </td>
-                </tr>
+                @foreach (var item in DepartmentsViewModel.departmentsOverview?.Departments)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Budget.ToString("F")
+                        </td>
+                        <td>
+                            @item.StartDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.AdministratorName
+                        </td>
+                        <td>
+                            <MudIconButton Link="@($"/departments/edit/{item.DepartmentID}")"
+                                           Title="Edit"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-edit"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton Link="@($"/departments/{item.DepartmentID}")"
+                                           Title="Details"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-eye"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                            <MudIconButton OnClick="(e => DepartmentsViewModel.DeleteDepartment(item.DepartmentID, item.Name))"
+                                           Title="Delete"
+                                           Variant="Variant.Filled"
+                                           Icon="fas fa-trash-alt"
+                                           Color="Color.Primary" Size="Size.Small">
+                            </MudIconButton>
+                        </td>
+                    </tr>
+                }
             }
-        }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
