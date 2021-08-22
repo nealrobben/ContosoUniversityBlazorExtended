@@ -48,9 +48,24 @@
                         @item.AdministratorName
                     </td>
                     <td>
-                        <a href=@($"/departments/edit/{item.DepartmentID}")>Edit</a> |
-                        <a href=@($"/departments/{item.DepartmentID}")>Details</a> |
-                        <a @onclick=@(e => DepartmentsViewModel.DeleteDepartment(item.DepartmentID, item.Name))>Delete</a>
+                        <MudIconButton Link="@($"/departments/edit/{item.DepartmentID}")"
+                                       Title="Edit"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-edit"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
+                        <MudIconButton Link="@($"/departments/{item.DepartmentID}")"
+                                       Title="Details"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-eye"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
+                        <MudIconButton OnClick="(e => DepartmentsViewModel.DeleteDepartment(item.DepartmentID, item.Name))"
+                                       Title="Delete"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-trash-alt"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
                     </td>
                 </tr>
             }
