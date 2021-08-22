@@ -2,29 +2,38 @@
 
 <h2>Student Body Statistics</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            Enrollment Date
-        </th>
-        <th>
-            Students
-        </th>
-    </tr>
+@if (aboutInfo == null)
+{
+    <div class="d-flex justify-content-center">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    </div>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Enrollment Date
+            </th>
+            <th>
+                Students
+            </th>
+        </tr>
 
-    @if(aboutInfo != null)
-    {
-        @foreach (var item in aboutInfo.Items)
+        @if (aboutInfo != null)
         {
-            <tr>
-                <td>
-                    @item.EnrollmentDate?.ToShortDateString()
-                </td>
-                <td>
-                    @item.StudentCount
-                </td>
-            </tr>
+            @foreach (var item in aboutInfo.Items)
+            {
+                <tr>
+                    <td>
+                        @item.EnrollmentDate?.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.StudentCount
+                    </td>
+                </tr>
+            }
         }
-    }
 
-</table>
+    </table>
+}
