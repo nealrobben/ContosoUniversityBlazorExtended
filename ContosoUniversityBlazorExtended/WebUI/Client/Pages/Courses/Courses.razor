@@ -48,8 +48,18 @@
                         @item.DepartmentName
                     </td>
                     <td>
-                        <a href=@($"/courses/edit/{item.CourseID}")>Edit</a> |
-                        <a href=@($"/courses/{item.CourseID}")>Details</a> |
+                        <MudIconButton Link="@($"/courses/edit/{item.CourseID}")"
+                                       Title="Edit"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-edit"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
+                        <MudIconButton Link="@($"/courses/{item.CourseID}")"
+                                       Title="Details"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-eye"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
                         <a @onclick=@(e => CoursesViewModel.DeleteCourse(item.CourseID, item.Title))>Delete</a>
                     </td>
                 </tr>

@@ -57,8 +57,18 @@
                     </td>
                     <td>
                         <a @onclick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))>Select</a> |
-                        <a href=@($"/instructors/edit/{item.InstructorID}")>Edit</a> |
-                        <a href=@($"/instructors/{item.InstructorID}")>Details</a> |
+                        <MudIconButton Link="@($"/instructors/edit/{item.InstructorID}")"
+                                       Title="Edit"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-edit"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
+                        <MudIconButton Link="@($"/instructors/{item.InstructorID}")"
+                                       Title="Details"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-eye"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
                         <a @onclick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
                     </td>
                 </tr>

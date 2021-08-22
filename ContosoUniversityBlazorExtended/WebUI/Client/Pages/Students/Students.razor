@@ -60,8 +60,18 @@
                         @student.EnrollmentDate.ToShortDateString()
                     </td>
                     <td>
-                        <a href=@($"/students/edit/{student.StudentID}")>Edit</a> |
-                        <a href=@($"/students/{student.StudentID}")>Details</a> |
+                        <MudIconButton Link="@($"/students/edit/{student.StudentID}")"
+                                       Title="Edit"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-edit"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
+                        <MudIconButton Link="@($"/students/{student.StudentID}")"
+                                       Title="Details"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-eye"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
                         <a @onclick=@(e => StudentsViewModel.DeleteStudent(student.StudentID, $"{student.FirstName} {student.LastName}"))>Delete</a>
                     </td>
                 </tr>
