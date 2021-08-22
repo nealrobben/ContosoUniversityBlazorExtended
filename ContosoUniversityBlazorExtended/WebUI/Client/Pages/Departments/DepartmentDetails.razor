@@ -53,6 +53,9 @@
     </MudIconButton>
     @if (DepartmentDetailsViewModel.Department != null)
     {
-        <a href=@($"/departments/edit/{DepartmentDetailsViewModel.Department.DepartmentID}")>Edit</a>
+        <MudButton Link="@($"/departments/edit/{DepartmentDetailsViewModel.Department.DepartmentID}")" 
+                   Variant="Variant.Filled"
+                   StartIcon="fas fa-edit"
+                   Color="Color.Primary">Edit</MudButton>
     }
 </div>

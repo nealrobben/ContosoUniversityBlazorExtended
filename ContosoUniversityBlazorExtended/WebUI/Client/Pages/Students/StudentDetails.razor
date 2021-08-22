@@ -70,6 +70,9 @@
     </MudIconButton>
     @if (StudentDetailsViewModel.Student != null)
     {
-        <a href=@($"/students/edit/{StudentDetailsViewModel.Student.StudentID}")>Edit</a>
+        <MudButton Link="@($"/students/edit/{StudentDetailsViewModel.Student.StudentID}")"
+                   Variant="Variant.Filled"
+                   StartIcon="fas fa-edit"
+                   Color="Color.Primary">Edit</MudButton>
     }
 </div>
