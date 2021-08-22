@@ -69,7 +69,12 @@
                                        Icon="fas fa-eye"
                                        Color="Color.Primary" Size="Size.Small">
                         </MudIconButton>
-                        <a @onclick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
+                        <MudIconButton OnClick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))
+                                       Title="Delete"
+                                       Variant="Variant.Filled"
+                                       Icon="fas fa-trash-alt"
+                                       Color="Color.Primary" Size="Size.Small">
+                        </MudIconButton>
                     </td>
                 </tr>
             }
