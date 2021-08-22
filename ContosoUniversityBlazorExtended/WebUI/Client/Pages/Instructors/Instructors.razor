@@ -31,7 +31,7 @@
                 string selectedRow = "";
                 if (InstructorsViewModel.SelectedInstructorId.HasValue && item.InstructorID == InstructorsViewModel.SelectedInstructorId.Value)
                 {
-                    selectedRow = "bg-success";
+                    selectedRow = "mud-theme-primary";
                 }
 
                 <tr class="@selectedRow">
@@ -104,11 +104,16 @@
             string selectedRow = "";
             if (InstructorsViewModel.SelectedCourseId.HasValue && item.CourseID == InstructorsViewModel.SelectedCourseId.Value)
             {
-                selectedRow = "bg-success";
+                selectedRow = "mud-theme-primary";
             }
             <tr class="@selectedRow">
                 <td>
-                    <a @onclick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))>Select</a>
+                    <MudIconButton OnClick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))
+                                   Title="Select"
+                                   Variant="Variant.Filled"
+                                   Icon="fas fa-hand-pointer"
+                                   Color="Color.Primary" Size="Size.Small">
+                    </MudIconButton>
                 </td>
                 <td>
                     @item.CourseID
