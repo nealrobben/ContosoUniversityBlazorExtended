@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+﻿using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
@@ -7,14 +7,14 @@ namespace WebUI.Client.ViewModels.Students
 {
     public class StudentsViewModel : StudentViewModelBase
     {
-        private readonly IJSRuntime _jSRuntime;
+        private IDialogService _dialogService { get; set; }
 
         public StudentsOverviewVM StudentsOverview { get; set; } = new StudentsOverviewVM();
 
-        public StudentsViewModel(StudentService studentService, IJSRuntime jSRuntime)
+        public StudentsViewModel(StudentService studentService, IDialogService dialogService)
             : base(studentService)
         {
-            _jSRuntime = jSRuntime;
+            _dialogService = dialogService;
         }
 
         public async Task OnInitializedAsync()
@@ -33,14 +33,17 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task DeleteStudent(int studentId, string name)
         {
-            if (!await _jSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the student '{name}'?"))
-                return;
+            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the student '{name}'?",
+                yesText: "Delete", cancelText: "Cancel");
 
-            var result = await _studentService.DeleteAsync(studentId.ToString());
-
-            if (result.IsSuccessStatusCode)
+            if (dialogResult == true)
             {
-                await GetStudents();
+                var result = await _studentService.DeleteAsync(studentId.ToString());
+
+                if (result.IsSuccessStatusCode)
+                {
+                    await GetStudents();
+                }
             }
         }
 

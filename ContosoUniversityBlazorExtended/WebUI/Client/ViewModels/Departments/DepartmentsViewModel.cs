@@ -1,5 +1,4 @@
-﻿using Microsoft.JSInterop;
-using MudBlazor;
+﻿using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;

@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+﻿using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
@@ -7,14 +7,14 @@ namespace WebUI.Client.ViewModels.Courses
 {
     public class CoursesViewModel : CoursesViewModelBase
     {
-        private readonly IJSRuntime _jSRuntime;
+        private IDialogService _dialogService { get; set; }
 
         public CoursesOverviewVM coursesOverview { get; set; }
 
         public CoursesViewModel(CourseService courseService,
-            IJSRuntime jSRuntime) : base(courseService)
+            IDialogService dialogService) : base(courseService)
         {
-            _jSRuntime = jSRuntime;
+            _dialogService = dialogService;
         }
 
         public async Task Initialize()
@@ -24,14 +24,17 @@ namespace WebUI.Client.ViewModels.Courses
 
         public async Task DeleteCourse(int courseId, string title)
         {
-            if (!await _jSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the course '{title}'?"))
-                return;
+            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the course '{title}'?",
+                yesText: "Delete", cancelText: "Cancel");
 
-            var result = await _courseService.DeleteAsync(courseId.ToString());
-
-            if (result.IsSuccessStatusCode)
+            if (dialogResult == true)
             {
-                coursesOverview = await _courseService.GetAllAsync();
+                var result = await _courseService.DeleteAsync(courseId.ToString());
+
+                if (result.IsSuccessStatusCode)
+                {
+                    coursesOverview = await _courseService.GetAllAsync();
+                }
             }
         }
     }
