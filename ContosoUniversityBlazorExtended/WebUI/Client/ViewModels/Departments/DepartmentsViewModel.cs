@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
@@ -7,14 +8,14 @@ namespace WebUI.Client.ViewModels.Departments
 {
     public class DepartmentsViewModel : DepartmentViewModelBase
     {
-        private readonly IJSRuntime _jSRuntime;
+        private IDialogService _dialogService { get; set; }
 
         public DepartmentsOverviewVM departmentsOverview { get; set; }
 
         public DepartmentsViewModel(DepartmentService departmentService,
-            IJSRuntime jSRuntime) : base(departmentService)
+            IDialogService dialogService) : base(departmentService)
         {
-            _jSRuntime = jSRuntime;
+            _dialogService = dialogService;
         }
 
         public async Task OnInitializedAsync()
@@ -24,14 +25,17 @@ namespace WebUI.Client.ViewModels.Departments
 
         public async Task DeleteDepartment(int departmentId, string departmentName)
         {
-            if (!await _jSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the department '{departmentName}'?"))
-                return;
+            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the department '{departmentName}'?", 
+                yesText: "Delete", cancelText: "Cancel");
 
-            var result = await _departmentService.DeleteAsync(departmentId.ToString());
-
-            if (result.IsSuccessStatusCode)
+            if (dialogResult == true)
             {
-                departmentsOverview = await _departmentService.GetAllAsync();
+                var result = await _departmentService.DeleteAsync(departmentId.ToString());
+
+                if (result.IsSuccessStatusCode)
+                {
+                    departmentsOverview = await _departmentService.GetAllAsync();
+                }
             }
         }
     }
