@@ -1,8 +1,16 @@
 ﻿<MudNavMenu>
     <MudNavLink Match="NavLinkMatch.All" href="" Icon="fas fa-home">Home</MudNavLink>
     <MudNavLink Match="NavLinkMatch.All" href="about" Icon="fas fa-info-circle">About</MudNavLink>
-    <MudNavLink Match="NavLinkMatch.All" href="students" Icon="fas fa-user-graduate">Students</MudNavLink>
-    <MudNavLink Match="NavLinkMatch.All" href="courses" Icon="fas fa-book">Courses</MudNavLink>
-    <MudNavLink Match="NavLinkMatch.All" href="instructors" Icon="fas fa-chalkboard-teacher">Instructors</MudNavLink>
-    <MudNavLink Match="NavLinkMatch.All" href="departments" Icon="fas fa-building">Departments</MudNavLink>
+    <MudTooltip Text="Students">
+        <MudNavLink Match="NavLinkMatch.All" href="students" Icon="fas fa-user-graduate">Students</MudNavLink>
+    </MudTooltip>
+    <MudTooltip Text="Courses">
+        <MudNavLink Match="NavLinkMatch.All" href="courses" Icon="fas fa-book">Courses</MudNavLink>
+    </MudTooltip>
+    <MudTooltip Text="Instructors">
+        <MudNavLink Match="NavLinkMatch.All" href="instructors" Icon="fas fa-chalkboard-teacher">Instructors</MudNavLink>
+    </MudTooltip>
+    <MudTooltip Text="Departments">
+        <MudNavLink Match="NavLinkMatch.All" href="departments" Icon="fas fa-building">Departments</MudNavLink>
+    </MudTooltip>
 </MudNavMenu>
