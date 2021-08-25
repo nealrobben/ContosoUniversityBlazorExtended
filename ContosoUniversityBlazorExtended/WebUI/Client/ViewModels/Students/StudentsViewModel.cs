@@ -8,13 +8,18 @@ namespace WebUI.Client.ViewModels.Students
     public class StudentsViewModel : StudentViewModelBase
     {
         private IDialogService _dialogService { get; set; }
+        private ISnackbar _snackbar { get; set; }
 
         public StudentsOverviewVM StudentsOverview { get; set; } = new StudentsOverviewVM();
 
-        public StudentsViewModel(StudentService studentService, IDialogService dialogService)
+        public StudentsViewModel(StudentService studentService, 
+            IDialogService dialogService, ISnackbar snackbar)
             : base(studentService)
         {
             _dialogService = dialogService;
+            _snackbar = snackbar;
+            _snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
         public async Task OnInitializedAsync()
@@ -42,6 +47,7 @@ namespace WebUI.Client.ViewModels.Students
 
                 if (result.IsSuccessStatusCode)
                 {
+                    _snackbar.Add($"Deleted student {name}", Severity.Success);
                     await GetStudents();
                 }
             }

@@ -8,13 +8,17 @@ namespace WebUI.Client.ViewModels.Courses
     public class CoursesViewModel : CoursesViewModelBase
     {
         private IDialogService _dialogService { get; set; }
+        private ISnackbar _snackbar { get; set; }
 
         public CoursesOverviewVM coursesOverview { get; set; }
 
         public CoursesViewModel(CourseService courseService,
-            IDialogService dialogService) : base(courseService)
+            IDialogService dialogService, ISnackbar snackbar) : base(courseService)
         {
             _dialogService = dialogService;
+            _snackbar = snackbar;
+            _snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
         public async Task Initialize()
@@ -33,6 +37,7 @@ namespace WebUI.Client.ViewModels.Courses
 
                 if (result.IsSuccessStatusCode)
                 {
+                    _snackbar.Add($"Deleted course {title}", Severity.Success);
                     coursesOverview = await _courseService.GetAllAsync();
                 }
             }

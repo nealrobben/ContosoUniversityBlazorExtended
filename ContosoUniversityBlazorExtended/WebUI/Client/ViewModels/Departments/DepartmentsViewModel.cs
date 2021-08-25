@@ -8,13 +8,17 @@ namespace WebUI.Client.ViewModels.Departments
     public class DepartmentsViewModel : DepartmentViewModelBase
     {
         private IDialogService _dialogService { get; set; }
+        private ISnackbar _snackbar { get; set; }
 
         public DepartmentsOverviewVM departmentsOverview { get; set; }
 
         public DepartmentsViewModel(DepartmentService departmentService,
-            IDialogService dialogService) : base(departmentService)
+            IDialogService dialogService, ISnackbar snackbar) : base(departmentService)
         {
             _dialogService = dialogService;
+            _snackbar = snackbar;
+            _snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
         public async Task OnInitializedAsync()
@@ -33,6 +37,7 @@ namespace WebUI.Client.ViewModels.Departments
 
                 if (result.IsSuccessStatusCode)
                 {
+                    _snackbar.Add($"Deleted department {departmentName}", Severity.Success);
                     departmentsOverview = await _departmentService.GetAllAsync();
                 }
             }

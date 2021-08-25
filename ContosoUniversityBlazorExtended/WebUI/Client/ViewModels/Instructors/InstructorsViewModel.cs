@@ -1,5 +1,4 @@
-﻿using Microsoft.JSInterop;
-using MudBlazor;
+﻿using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
@@ -12,6 +11,7 @@ namespace WebUI.Client.ViewModels.Instructors
     {
         private readonly CourseService _courseService;
         private readonly StudentService _studentService;
+        private ISnackbar _snackbar { get; set; }
         private IDialogService _dialogService { get; set; }
 
         public InstructorsOverviewVM InstructorsOverview { get; set; }
@@ -22,12 +22,16 @@ namespace WebUI.Client.ViewModels.Instructors
         public int? SelectedCourseId { get; set; }
 
         public InstructorsViewModel(InstructorService instructorService, 
-            CourseService courseService, StudentService studentService, IDialogService dialogService)
+            CourseService courseService, StudentService studentService, 
+            IDialogService dialogService, ISnackbar snackbar)
             : base(instructorService)
         {
             _courseService = courseService;
             _studentService = studentService;
             _dialogService = dialogService;
+            _snackbar = snackbar;
+            _snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
         public async Task OnInitializedAsync()
@@ -46,6 +50,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
                 if (result.IsSuccessStatusCode)
                 {
+                    _snackbar.Add($"Deleted instructor {name}", Severity.Success);
                     InstructorsOverview = await _instructorService.GetAllAsync();
                 }
             }
