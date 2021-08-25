@@ -10,30 +10,41 @@
 }
 else
 {
-    <table class="table">
-        <tr>
-            <th>
-                Enrollment Date
-            </th>
-            <th>
-                Students
-            </th>
-        </tr>
+    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+        <MudTabPanel Text="List">
+            <MudText>
+                <table class="table">
+                    <tr>
+                        <th>
+                            Enrollment Date
+                        </th>
+                        <th>
+                            Students
+                        </th>
+                    </tr>
 
-        @if (aboutInfo != null)
-        {
-            @foreach (var item in aboutInfo.Items)
-            {
-                <tr>
-                    <td>
-                        @item.EnrollmentDate?.ToShortDateString()
-                    </td>
-                    <td>
-                        @item.StudentCount
-                    </td>
-                </tr>
-            }
-        }
+                    @if (aboutInfo != null)
+                    {
+                        @foreach (var item in aboutInfo.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @item.EnrollmentDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.StudentCount
+                                </td>
+                            </tr>
+                        }
+                    }
 
-    </table>
+                </table>
+            </MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Chart">
+            <MudText>
+
+            </MudText>
+        </MudTabPanel>
+    </MudTabs>
 }
