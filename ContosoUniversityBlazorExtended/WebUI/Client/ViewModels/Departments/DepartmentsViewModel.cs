@@ -1,5 +1,7 @@
 ﻿using MudBlazor;
+using System;
 using System.Threading.Tasks;
+using WebUI.Client.Pages.Departments;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
@@ -41,6 +43,16 @@ namespace WebUI.Client.ViewModels.Departments
                     departmentsOverview = await _departmentService.GetAllAsync();
                 }
             }
+        }
+
+        public void OpenDepartmentDetails(int departmentId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("DepartmentId", departmentId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall};
+
+            _dialogService.Show<DepartmentDetails>("Department Details", parameters, options);
         }
     }
 }

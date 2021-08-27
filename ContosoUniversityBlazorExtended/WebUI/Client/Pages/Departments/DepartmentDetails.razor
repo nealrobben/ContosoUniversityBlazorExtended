@@ -1,61 +1,48 @@
-﻿@page "/departments/{id}"
-
-<h1>Details</h1>
-
-<div>
-    <h4>Department</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Name
-        </dt>
-        <dd class="col-sm-10">
-            @if (DepartmentDetailsViewModel.Department != null)
-            {
-                @DepartmentDetailsViewModel.Department.Name
-            }
-        </dd>
-        <dt class="col-sm-2">
-            Budget
-        </dt>
-        <dd class="col-sm-10">
-            @if (DepartmentDetailsViewModel.Department != null)
-            {
-                @DepartmentDetailsViewModel.Department.Budget.ToString("F")
-            }
-        </dd>
-        <dt class="col-sm-2">
-            StartDate
-        </dt>
-        <dd class="col-sm-10">
-            @if (DepartmentDetailsViewModel.Department != null)
-            {
-                @DepartmentDetailsViewModel.Department.StartDate.ToShortDateString()
-            }
-        </dd>
-        <dt class="col-sm-2">
-            AdministratorName
-        </dt>
-        <dd class="col-sm-10">
-            @if (DepartmentDetailsViewModel.Department != null)
-            {
-                @DepartmentDetailsViewModel.Department.AdministratorName
-            }
-        </dd>
-    </dl>
-</div>
-<div>
-    <MudIconButton Link="/departments"
-                   Title="Back to list"
-                   Variant="Variant.Filled"
-                   Icon="fas fa-arrow-circle-left"
-                   Color="Color.Primary">
-    </MudIconButton>
-    @if (DepartmentDetailsViewModel.Department != null)
-    {
-        <MudButton Link="@($"/departments/edit/{DepartmentDetailsViewModel.Department.DepartmentID}")" 
-                   Variant="Variant.Filled"
-                   StartIcon="fas fa-edit"
-                   Color="Color.Primary">Edit</MudButton>
-    }
-</div>
+﻿
+<MudDialog>
+    <DialogContent>
+        <div>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    Name
+                </dt>
+                <dd class="col-sm-8">
+                    @if (DepartmentDetailsViewModel.Department != null)
+                    {
+                        @DepartmentDetailsViewModel.Department.Name
+                    }
+                </dd>
+                <dt class="col-sm-4">
+                    Budget
+                </dt>
+                <dd class="col-sm-8">
+                    @if (DepartmentDetailsViewModel.Department != null)
+                    {
+                        @DepartmentDetailsViewModel.Department.Budget.ToString("F")
+                    }
+                </dd>
+                <dt class="col-sm-4">
+                    StartDate
+                </dt>
+                <dd class="col-sm-8">
+                    @if (DepartmentDetailsViewModel.Department != null)
+                    {
+                        @DepartmentDetailsViewModel.Department.StartDate.ToShortDateString()
+                    }
+                </dd>
+                <dt class="col-sm-4">
+                    AdministratorName
+                </dt>
+                <dd class="col-sm-8">
+                    @if (DepartmentDetailsViewModel.Department != null)
+                    {
+                        @DepartmentDetailsViewModel.Department.AdministratorName
+                    }
+                </dd>
+            </dl>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

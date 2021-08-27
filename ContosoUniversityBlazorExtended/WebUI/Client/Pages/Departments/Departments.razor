@@ -63,7 +63,7 @@ else
                                            Icon="fas fa-edit"
                                            Color="Color.Primary" Size="Size.Small">
                             </MudIconButton>
-                            <MudIconButton Link="@($"/departments/{item.DepartmentID}")"
+                            <MudIconButton OnClick="(e => DepartmentsViewModel.OpenDepartmentDetails(item.DepartmentID))"
                                            Title="Details"
                                            Variant="Variant.Filled"
                                            Icon="fas fa-eye"
