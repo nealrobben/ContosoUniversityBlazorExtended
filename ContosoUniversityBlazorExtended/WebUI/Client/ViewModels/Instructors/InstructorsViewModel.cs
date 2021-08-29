@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Pages.Instructors;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
@@ -70,6 +71,16 @@ namespace WebUI.Client.ViewModels.Instructors
             SelectedCourseId = courseId;
 
             StudentsForCourse = await _studentService.GetStudentsForCourse(courseId.ToString());
+        }
+
+        public void OpenInstructorDetails(int instructorId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("InstructorId", instructorId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
+
+            _dialogService.Show<InstructorDetails>("Instructor Details", parameters, options);
         }
     }
 }

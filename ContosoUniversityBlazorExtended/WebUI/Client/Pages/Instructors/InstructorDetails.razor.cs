@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.ViewModels.Instructors;
 
@@ -6,15 +7,23 @@ namespace WebUI.Client.Pages.Instructors
 {
     public partial class InstructorDetails
     {
-        [Parameter]
-        public string id { get; set; }
-
         [Inject]
         public InstructorDetailsViewModel InstructorDetailsViewModel { get; set; }
 
+        [CascadingParameter]
+        MudDialogInstance MudDialog { get; set; }
+
+        [Parameter]
+        public int InstructorId { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            await InstructorDetailsViewModel.OnInitializedAsync(id);
+            await InstructorDetailsViewModel.OnInitializedAsync(InstructorId.ToString());
+        }
+
+        public void Close()
+        {
+            MudDialog.Cancel();
         }
     }
 }
