@@ -1,52 +1,38 @@
-﻿@page "/courses/{id}"
-
-<h1>Details</h1>
-
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Title
-        </dt>
-        <dd class="col-sm-10">
-            @if (CourseDetailsViewModel.Course != null)
-            {
-                @CourseDetailsViewModel.Course.Title
-            }
-        </dd>
-        <dt class="col-sm-2">
-            Credits
-        </dt>
-        <dd class="col-sm-10">
-            @if (CourseDetailsViewModel.Course != null)
-            {
-                @CourseDetailsViewModel.Course.Credits
-            }
-        </dd>
-        <dt class="col-sm-2">
-            DepartmentID
-        </dt>
-        <dd class="col-sm-10">
-            @if (CourseDetailsViewModel.Course != null)
-            {
-                @CourseDetailsViewModel.Course.DepartmentID
-            }
-        </dd>
-    </dl>
-</div>
-<div>
-    <MudIconButton Link="/courses"
-                   Title="Back to list"
-                   Variant="Variant.Filled"
-                   Icon="fas fa-arrow-circle-left"
-                   Color="Color.Primary">
-    </MudIconButton>
-    @if (CourseDetailsViewModel.Course != null)
-    {
-        <MudButton Link="@($"/courses/edit/{CourseDetailsViewModel.Course.CourseID}")"
-                   Variant="Variant.Filled"
-                   StartIcon="fas fa-edit"
-                   Color="Color.Primary">Edit</MudButton>
-    }
-</div>
+﻿<MudDialog>
+    <DialogContent>
+        <div>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    Title
+                </dt>
+                <dd class="col-sm-8">
+                    @if (CourseDetailsViewModel.Course != null)
+                    {
+                        @CourseDetailsViewModel.Course.Title
+                    }
+                </dd>
+                <dt class="col-sm-4">
+                    Credits
+                </dt>
+                <dd class="col-sm-8">
+                    @if (CourseDetailsViewModel.Course != null)
+                    {
+                        @CourseDetailsViewModel.Course.Credits
+                    }
+                </dd>
+                <dt class="col-sm-4">
+                    DepartmentID
+                </dt>
+                <dd class="col-sm-8">
+                    @if (CourseDetailsViewModel.Course != null)
+                    {
+                        @CourseDetailsViewModel.Course.DepartmentID
+                    }
+                </dd>
+            </dl>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

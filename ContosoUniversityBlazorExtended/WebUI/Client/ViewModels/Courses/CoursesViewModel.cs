@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Pages.Courses;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
@@ -41,6 +42,16 @@ namespace WebUI.Client.ViewModels.Courses
                     coursesOverview = await _courseService.GetAllAsync();
                 }
             }
+        }
+
+        public void OpenCourseDetails(int courseId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("CourseId", courseId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
+
+            _dialogService.Show<CourseDetails>("Course Details", parameters, options);
         }
     }
 }
