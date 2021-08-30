@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Pages.Students;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 
@@ -106,6 +107,16 @@ namespace WebUI.Client.ViewModels.Students
             }
 
             await GetStudents();
+        }
+
+        public void OpenStudentDetails(int studentId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("StudentId", studentId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Small };
+
+            _dialogService.Show<StudentDetails>("Student Details", parameters, options);
         }
     }
 }

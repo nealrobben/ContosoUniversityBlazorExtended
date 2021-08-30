@@ -1,86 +1,73 @@
-﻿@page "/students/{id}"
-
-<h1>Details</h1>
-
-<div>
-    <h4>Student</h4>
-    <hr />
-    <div class="row">
-        <div class="col">
-            <dl>
-                <dt class="col-sm-2">
-                    LastName
-                </dt>
-                <dd class="col-sm-10">
-                    @if (StudentDetailsViewModel.Student != null)
-                    {
-                        @StudentDetailsViewModel.Student.LastName
-                    }
-                </dd>
-                <dt class="col-sm-2">
-                    FirstName
-                </dt>
-                <dd class="col-sm-10">
-                    @if (StudentDetailsViewModel.Student != null)
-                    {
-                        @StudentDetailsViewModel.Student.FirstName
-                    }
-                </dd>
-                <dt class="col-sm-2">
-                    EnrollmentDate
-                </dt>
-                <dd class="col-sm-10">
-                    @if (StudentDetailsViewModel.Student != null)
-                    {
-                        @StudentDetailsViewModel.Student.EnrollmentDate.ToShortDateString()
-                    }
-                </dd>
-                <dt class="col-sm-2">
-                    Enrollments
-                </dt>
-                <dd class="col-sm-10">
-                    <table class="table">
-                        <tr>
-                            <th>Course Title</th>
-                            <th>Grade</th>
-                        </tr>
-                        @if (StudentDetailsViewModel.Student != null)
-                        {
-                            @foreach (var item in StudentDetailsViewModel.Student.Enrollments)
+﻿
+<MudDialog>
+    <DialogContent>
+        <div>
+            <div class="row">
+                <div class="col">
+                    <dl>
+                        <dt class="col-sm-4">
+                            LastName
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (StudentDetailsViewModel.Student != null)
                             {
-                                <tr>
-                                    <td>
-                                        @item.CourseTitle
-                                    </td>
-                                    <td>
-                                        @item.Grade
-                                    </td>
-                                </tr>
+                                @StudentDetailsViewModel.Student.LastName
                             }
-                        }
-                    </table>
-                </dd>
-            </dl>
-        </div>
-        <div class="col">
-            <div>
-                <img src="img/person.png" class="border" />
+                        </dd>
+                        <dt class="col-sm-4">
+                            FirstName
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (StudentDetailsViewModel.Student != null)
+                            {
+                                @StudentDetailsViewModel.Student.FirstName
+                            }
+                        </dd>
+                        <dt class="col-sm-4">
+                            EnrollmentDate
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (StudentDetailsViewModel.Student != null)
+                            {
+                                @StudentDetailsViewModel.Student.EnrollmentDate.ToShortDateString()
+                            }
+                        </dd>
+                        <dt class="col-sm-4">
+                            Enrollments
+                        </dt>
+                        <dd class="col-sm-8">
+                            <table class="table">
+                                <tr>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                </tr>
+                                @if (StudentDetailsViewModel.Student != null)
+                                {
+                                    @foreach (var item in StudentDetailsViewModel.Student.Enrollments)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.CourseTitle
+                                            </td>
+                                            <td>
+                                                @item.Grade
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col">
+                    <div>
+                        <img src="img/person.png" class="border" />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div>
-    <MudIconButton Link="/students"
-                   Title="Back to list"
-                   Variant="Variant.Filled"
-                   Icon="fas fa-arrow-circle-left"
-                   Color="Color.Primary">
-    </MudIconButton>
-    @if (StudentDetailsViewModel.Student != null)
-    {
-        <MudButton Link="@($"/students/edit/{StudentDetailsViewModel.Student.StudentID}")"
-                   Variant="Variant.Filled"
-                   StartIcon="fas fa-edit"
-                   Color="Color.Primary">Edit</MudButton>
-    }
-</div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

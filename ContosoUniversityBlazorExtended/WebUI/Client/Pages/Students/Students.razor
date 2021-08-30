@@ -74,7 +74,7 @@ else
                                            Icon="fas fa-edit"
                                            Color="Color.Primary" Size="Size.Small">
                             </MudIconButton>
-                            <MudIconButton Link="@($"/students/{student.StudentID}")"
+                            <MudIconButton OnClick="(e => StudentsViewModel.OpenStudentDetails(student.StudentID))"
                                            Title="Details"
                                            Variant="Variant.Filled"
                                            Icon="fas fa-eye"
