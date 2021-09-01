@@ -18,12 +18,7 @@ namespace WebUI.Client.Pages.Departments
 
         protected override async Task OnInitializedAsync()
         {
-            await DepartmentDetailsViewModel.OnInitializedAsync(DepartmentId.ToString());
-        }
-
-        public void Close()
-        {
-            MudDialog.Cancel();
+            await DepartmentDetailsViewModel.OnInitializedAsync(MudDialog, DepartmentId.ToString());
         }
     }
 }

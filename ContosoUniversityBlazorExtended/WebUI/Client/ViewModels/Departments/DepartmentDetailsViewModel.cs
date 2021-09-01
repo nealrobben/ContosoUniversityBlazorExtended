@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using MudBlazor;
+using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 
@@ -7,6 +8,7 @@ namespace WebUI.Client.ViewModels.Departments
     public class DepartmentDetailsViewModel : DepartmentViewModelBase
     {
         private string _id;
+        private MudDialogInstance _mudDialog;
 
         public DepartmentDetailVM Department { get; set; }
 
@@ -15,10 +17,16 @@ namespace WebUI.Client.ViewModels.Departments
         {
         }
 
-        public async Task OnInitializedAsync(string id)
+        public async Task OnInitializedAsync(MudDialogInstance MudDialog, string id)
         {
+            _mudDialog = MudDialog;
             _id = id;
-            Department = await _departmentService.GetAsync(id);
+            Department = await _departmentService.GetAsync(_id);
+        }
+
+        public void Close()
+        {
+            _mudDialog.Cancel();
         }
     }
 }
