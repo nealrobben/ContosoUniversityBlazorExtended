@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,28 +12,32 @@ namespace WebUI.Client.ViewModels.Departments
 {
     public class DepartmentCreateViewModel : DepartmentViewModelBase
     {
-        private readonly NavigationManager _navManager;
         private readonly InstructorService _instructorService;
+        private MudDialogInstance _mudDialog;
 
         public CreateDepartmentCommand CreateDepartmentCommand { get; set; } = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
         public InstructorsLookupVM InstructorsLookup { get; set; }
 
+        public bool ErrorVisible { get; set; }
+
         public DepartmentCreateViewModel(DepartmentService departmentService, 
-            InstructorService instructorService, NavigationManager navManager) 
+            InstructorService instructorService) 
             : base(departmentService)
         {
             _instructorService = instructorService;
-            _navManager = navManager;
         }
 
-        public async Task OnInitializedAsync()
+        public async Task OnInitializedAsync(MudDialogInstance MudDialog)
         {
+            _mudDialog = MudDialog;
             InstructorsLookup = await _instructorService.GetLookupAsync();
             CreateDepartmentCommand.InstructorID = InstructorsLookup.Instructors.First().ID;
         }
 
         public async Task FormSubmitted(EditContext editContext)
         {
+            ErrorVisible = false;
+
             bool formIsValid = editContext.Validate();
 
             if (formIsValid)
@@ -42,9 +47,18 @@ namespace WebUI.Client.ViewModels.Departments
                 if (result.IsSuccessStatusCode)
                 {
                     CreateDepartmentCommand = new CreateDepartmentCommand();
-                    _navManager.NavigateTo("/departments");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }

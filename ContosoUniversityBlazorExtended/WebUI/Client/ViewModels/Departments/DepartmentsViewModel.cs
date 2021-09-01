@@ -53,5 +53,18 @@ namespace WebUI.Client.ViewModels.Departments
 
             _dialogService.Show<DepartmentDetails>("Department Details", parameters, options);
         }
+
+        public async Task OpenDepartmentCreate()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+            var dialog =_dialogService.Show<DepartmentCreate>("Create department", options);
+            var result = await dialog.Result;
+
+            if(result.Data != null && (bool)result.Data)
+            {
+                departmentsOverview = await _departmentService.GetAllAsync();
+            }
+        }
     }
 }
