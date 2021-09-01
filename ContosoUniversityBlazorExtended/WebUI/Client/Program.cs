@@ -27,25 +27,25 @@ namespace WebUI.Client
             builder.Services.AddScoped<InstructorService>();
             builder.Services.AddScoped<StudentService>();
 
-            builder.Services.AddScoped<DepartmentCreateViewModel>();
-            builder.Services.AddScoped<DepartmentDetailsViewModel>();
-            builder.Services.AddScoped<DepartmentsViewModel>();
-            builder.Services.AddScoped<DepartmentEditViewModel>();
+            builder.Services.AddTransient<DepartmentCreateViewModel>();
+            builder.Services.AddTransient<DepartmentDetailsViewModel>();
+            builder.Services.AddTransient<DepartmentsViewModel>();
+            builder.Services.AddTransient<DepartmentEditViewModel>();
 
-            builder.Services.AddScoped<CourseCreateViewModel>();
-            builder.Services.AddScoped<CourseDetailsViewModel>();
-            builder.Services.AddScoped<CoursesViewModel>();
-            builder.Services.AddScoped<CourseEditViewModel>();
+            builder.Services.AddTransient<CourseCreateViewModel>();
+            builder.Services.AddTransient<CourseDetailsViewModel>();
+            builder.Services.AddTransient<CoursesViewModel>();
+            builder.Services.AddTransient<CourseEditViewModel>();
 
-            builder.Services.AddScoped<InstructorCreateViewModel>();
-            builder.Services.AddScoped<InstructorDetailsViewModel>();
-            builder.Services.AddScoped<InstructorsViewModel>();
-            builder.Services.AddScoped<InstructorEditViewModel>();
+            builder.Services.AddTransient<InstructorCreateViewModel>();
+            builder.Services.AddTransient<InstructorDetailsViewModel>();
+            builder.Services.AddTransient<InstructorsViewModel>();
+            builder.Services.AddTransient<InstructorEditViewModel>();
 
-            builder.Services.AddScoped<StudentCreateViewModel>();
-            builder.Services.AddScoped<StudentDetailsViewModel>();
-            builder.Services.AddScoped<StudentsViewModel>();
-            builder.Services.AddScoped<StudentEditViewModel>();
+            builder.Services.AddTransient<StudentCreateViewModel>();
+            builder.Services.AddTransient<StudentDetailsViewModel>();
+            builder.Services.AddTransient<StudentsViewModel>();
+            builder.Services.AddTransient<StudentEditViewModel>();
 
             await builder.Build().RunAsync();
         }
