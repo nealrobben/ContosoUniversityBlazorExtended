@@ -53,5 +53,18 @@ namespace WebUI.Client.ViewModels.Courses
 
             _dialogService.Show<CourseDetails>("Course Details", parameters, options);
         }
+
+        public async Task OpenCourseCreate()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+            var dialog = _dialogService.Show<CourseCreate>("Create course", options);
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                coursesOverview = await _courseService.GetAllAsync();
+            }
+        }
     }
 }

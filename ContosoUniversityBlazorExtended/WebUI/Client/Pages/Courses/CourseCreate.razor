@@ -1,54 +1,50 @@
-﻿@page "/courses/create"
-
-<h1>Create</h1>
-
-<h4>Course</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model=@CourseCreateViewModel.CreateCourseCommand OnSubmit=@CourseCreateViewModel.FormSubmitted>
-            <DataAnnotationsValidator />
-            <div class="form-group">
-                <label for="CourseID">CourseID</label>
-                <InputNumber @bind-Value=CourseCreateViewModel.CreateCourseCommand.CourseID class="form-control" id="CourseID" />
-                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.CourseID" />
-            </div>
-            <div class="form-group">
-                <label for="Title">Title</label>
-                <InputText @bind-Value=CourseCreateViewModel.CreateCourseCommand.Title class="form-control" id="Title" />
-                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.Title" />
-            </div>
-            <div class="form-group">
-                <label for="Credits">Credits</label>
-                <InputNumber @bind-Value=CourseCreateViewModel.CreateCourseCommand.Credits class="form-control" id="Credits" />
-                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.Credits" />
-            </div>
-            <div class="form-group">
-                <label for="Department">Department</label>
-                <CustomInputSelect @bind-Value=CourseCreateViewModel.CreateCourseCommand.DepartmentID class="form-control" id="Department">
-                    @if (CourseCreateViewModel.DepartmentsLookup != null)
-                    {
-                        @foreach (var department in CourseCreateViewModel.DepartmentsLookup.Departments)
+﻿<MudDialog>
+    <DialogContent>
+        @if (CourseCreateViewModel.ErrorVisible)
+        {
+            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+        }
+    <div class="row">
+        <div class="col-md-12">
+            <EditForm Model=@CourseCreateViewModel.CreateCourseCommand OnSubmit=@CourseCreateViewModel.FormSubmitted>
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label for="CourseID">CourseID</label>
+                    <InputNumber @bind-Value=CourseCreateViewModel.CreateCourseCommand.CourseID class="form-control" id="CourseID" />
+                    <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.CourseID" />
+                </div>
+                <div class="form-group">
+                    <label for="Title">Title</label>
+                    <InputText @bind-Value=CourseCreateViewModel.CreateCourseCommand.Title class="form-control" id="Title" />
+                    <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.Title" />
+                </div>
+                <div class="form-group">
+                    <label for="Credits">Credits</label>
+                    <InputNumber @bind-Value=CourseCreateViewModel.CreateCourseCommand.Credits class="form-control" id="Credits" />
+                    <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.Credits" />
+                </div>
+                <div class="form-group">
+                    <label for="Department">Department</label>
+                    <CustomInputSelect @bind-Value=CourseCreateViewModel.CreateCourseCommand.DepartmentID class="form-control" id="Department">
+                        @if (CourseCreateViewModel.DepartmentsLookup != null)
                         {
-                            <option value="@department.DepartmentID">@department.Name</option>
+                            @foreach (var department in CourseCreateViewModel.DepartmentsLookup.Departments)
+                            {
+                                <option value="@department.DepartmentID">@department.Name</option>
+                            }
                         }
-                    }
-                </CustomInputSelect>
-                <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.DepartmentID" />
-            </div>
-            <div class="form-group">
-                <MudIconButton Link="/courses"
-                               Title="Back to list"
+                    </CustomInputSelect>
+                    <ValidationMessage For="() => CourseCreateViewModel.CreateCourseCommand.DepartmentID" />
+                </div>
+                <div class="form-group">
+                    <MudButton ButtonType="ButtonType.Submit"
                                Variant="Variant.Filled"
-                               Icon="fas fa-arrow-circle-left"
-                               Color="Color.Primary">
-                </MudIconButton>
-                <MudButton ButtonType="ButtonType.Submit"
-                           Variant="Variant.Filled"
-                           StartIcon="fas fa-save"
-                           Color="Color.Primary">Create</MudButton>
-            </div>
-        </EditForm>
+                               StartIcon="fas fa-save"
+                               Color="Color.Primary">Create</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="CourseCreateViewModel.Cancel">Cancel</MudButton>
+                </div>
+            </EditForm>
+        </div>
     </div>
-</div>
+    </DialogContent>
+</MudDialog>

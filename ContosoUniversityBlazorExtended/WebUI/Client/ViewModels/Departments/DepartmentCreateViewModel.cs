@@ -36,7 +36,6 @@ namespace WebUI.Client.ViewModels.Departments
         public async Task FormSubmitted(EditContext editContext)
         {
             ErrorVisible = false;
-
             bool formIsValid = editContext.Validate();
 
             if (formIsValid)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
@@ -12,9 +13,12 @@ namespace WebUI.Client.ViewModels.Courses
     {
         private readonly NavigationManager _navManager;
         private readonly DepartmentService _departmentService;
+        private MudDialogInstance _mudDialog;
 
         public CreateCourseCommand CreateCourseCommand = new CreateCourseCommand();
         public DepartmentsLookupVM DepartmentsLookup { get; set; }
+
+        public bool ErrorVisible { get; set; }
 
         public CourseCreateViewModel(CourseService courseService, 
             DepartmentService departmentService, NavigationManager navManager)
@@ -24,14 +28,16 @@ namespace WebUI.Client.ViewModels.Courses
             _navManager = navManager;
         }
 
-        public async Task OnInitializedAsync()
+        public async Task OnInitializedAsync(MudDialogInstance MudDialog)
         {
+            _mudDialog = MudDialog;
             DepartmentsLookup = await _departmentService.GetLookupAsync();
             CreateCourseCommand.DepartmentID = DepartmentsLookup.Departments.First().DepartmentID;
         }
 
         public async Task FormSubmitted(EditContext editContext)
         {
+            ErrorVisible = false;
             bool formIsValid = editContext.Validate();
 
             if (formIsValid)
@@ -41,9 +47,18 @@ namespace WebUI.Client.ViewModels.Courses
                 if (result.IsSuccessStatusCode)
                 {
                     CreateCourseCommand = new CreateCourseCommand();
-                    _navManager.NavigateTo("/courses");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }
