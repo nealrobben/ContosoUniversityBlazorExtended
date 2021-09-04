@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
@@ -9,19 +10,25 @@ namespace WebUI.Client.ViewModels.Instructors
 {
     public class InstructorCreateViewModel : InstructorViewModelBase
     {
-        private readonly NavigationManager _navManager;
+        private MudDialogInstance _mudDialog;
 
         public CreateInstructorCommand CreateInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
 
-        public InstructorCreateViewModel(InstructorService instructorService,
-             NavigationManager navManager)
+        public bool ErrorVisible { get; set; }
+
+        public InstructorCreateViewModel(InstructorService instructorService)
             :base(instructorService)
         {
-            _navManager = navManager;
+        }
+
+        public void OnInitialized(MudDialogInstance MudDialog)
+        {
+            _mudDialog = MudDialog;
         }
 
         public async Task FormSubmitted(EditContext editContext)
         {
+            ErrorVisible = false;
             bool formIsValid = editContext.Validate();
 
             if (formIsValid)
@@ -31,9 +38,18 @@ namespace WebUI.Client.ViewModels.Instructors
                 if (result.IsSuccessStatusCode)
                 {
                     CreateInstructorCommand = new CreateInstructorCommand();
-                    _navManager.NavigateTo("/instructors");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }

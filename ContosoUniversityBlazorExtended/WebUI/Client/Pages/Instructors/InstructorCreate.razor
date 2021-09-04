@@ -1,40 +1,35 @@
-﻿@page "/instructors/create"
-
-<h1>Create</h1>
-
-<h4>Instructor</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <EditForm Model=@InstructorCreateViewModel.CreateInstructorCommand OnSubmit=@InstructorCreateViewModel.FormSubmitted>
-                <div class="form-group">
-                    <label for="LastName">LastName</label>
-                    <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.LastName class="form-control" id="LastName" />
-                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.LastName" />
-                </div>
-                <div class="form-group">
-                    <label for="FirstName">FirstName</label>
-                    <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
-                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.FirstName" />
-                </div>
-                <div class="form-group">
-                    <label for="HireDate">HireDate</label>
-                    <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
-                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
-                </div>
-                <MudIconButton Link="/instructors"
-                               Title="Back to list"
-                               Variant="Variant.Filled"
-                               Icon="fas fa-arrow-circle-left"
-                               Color="Color.Primary">
-                </MudIconButton>
-                <MudButton ButtonType="ButtonType.Submit"
-                           Variant="Variant.Filled"
-                           StartIcon="fas fa-save"
-                           Color="Color.Primary">Create</MudButton>
-            </EditForm>
-        </form>
+﻿<MudDialog>
+    <DialogContent>
+        @if (InstructorCreateViewModel.ErrorVisible)
+        {
+            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+        }
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create">
+                <EditForm Model=@InstructorCreateViewModel.CreateInstructorCommand OnSubmit=@InstructorCreateViewModel.FormSubmitted>
+                    <div class="form-group">
+                        <label for="LastName">LastName</label>
+                        <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.LastName class="form-control" id="LastName" />
+                        <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.LastName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="FirstName">FirstName</label>
+                        <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                        <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.FirstName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="HireDate">HireDate</label>
+                        <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                        <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
+                    </div>
+                    <MudButton ButtonType="ButtonType.Submit"
+                               StartIcon="fas fa-save"
+                               Color="Color.Primary">Create</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="InstructorCreateViewModel.Cancel">Cancel</MudButton>
+                </EditForm>
+            </form>
+        </div>
     </div>
-</div>
+    </DialogContent>
+</MudDialog>
