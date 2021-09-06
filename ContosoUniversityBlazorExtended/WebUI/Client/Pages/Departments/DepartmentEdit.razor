@@ -1,52 +1,47 @@
-﻿@page "/departments/edit/{id}"
-
-<h1>Edit</h1>
-
-<h4>Department</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model=@DepartmentEditViewModel.UpdateDepartmentCommand OnSubmit=@DepartmentEditViewModel.FormSubmitted>
-            <DataAnnotationsValidator />
-            <div class="form-group">
-                <label for="Name">Name</label>
-                <InputText @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Name class="form-control" id="Name" />
-                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Name" />
+﻿<MudDialog>
+    <DialogContent>
+        @if (DepartmentEditViewModel.ErrorVisible)
+        {
+            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <EditForm Model=@DepartmentEditViewModel.UpdateDepartmentCommand OnSubmit=@DepartmentEditViewModel.FormSubmitted>
+                    <DataAnnotationsValidator />
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <InputText @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Name class="form-control" id="Name" />
+                        <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Budget">Budget</label>
+                        <InputNumber @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Budget class="form-control" id="Budget" />
+                        <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Budget" />
+                    </div>
+                    <div class="form-group">
+                        <label for="StartDate">StartDate</label>
+                        <InputDate @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.StartDate class="form-control" id="StartDate" />
+                        <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.StartDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="InstructorID">InstructorID</label>
+                        <CustomInputSelect @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                            @if (DepartmentEditViewModel.InstructorsLookup != null)
+                            {
+                                @foreach (var instructor in DepartmentEditViewModel.InstructorsLookup.Instructors)
+                                {
+                                    <option value="@instructor.ID">@instructor.FullName</option>
+                                }
+                            }
+                        </CustomInputSelect>
+                        <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID" />
+                    </div>
+                    <MudButton ButtonType="ButtonType.Submit"
+                               StartIcon="fas fa-save"
+                               Color="Color.Primary">Save</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="DepartmentEditViewModel.Cancel">Cancel</MudButton>
+                </EditForm>
             </div>
-            <div class="form-group">
-                <label for="Budget">Budget</label>
-                <InputNumber @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Budget class="form-control" id="Budget" />
-                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Budget" />
-            </div>
-            <div class="form-group">
-                <label for="StartDate">StartDate</label>
-                <InputDate @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.StartDate class="form-control" id="StartDate" />
-                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.StartDate" />
-            </div>
-            <div class="form-group">
-                <label for="InstructorID">InstructorID</label>
-                <CustomInputSelect @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
-                    @if (DepartmentEditViewModel.InstructorsLookup != null)
-                    {
-                        @foreach (var instructor in DepartmentEditViewModel.InstructorsLookup.Instructors)
-                        {
-                            <option value="@instructor.ID">@instructor.FullName</option>
-                        }
-                    }
-                </CustomInputSelect>
-                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID" />
-            </div>
-            <MudIconButton Link="/departments"
-                           Title="Back to list"
-                           Variant="Variant.Filled"
-                           Icon="fas fa-arrow-circle-left"
-                           Color="Color.Primary">
-            </MudIconButton>
-            <MudButton ButtonType="ButtonType.Submit"
-                       Variant="Variant.Filled"
-                       StartIcon="fas fa-save"
-                       Color="Color.Primary">Save</MudButton>
-        </EditForm>
-    </div>
-</div>
+        </div>
+    </DialogContent>
+</MudDialog>

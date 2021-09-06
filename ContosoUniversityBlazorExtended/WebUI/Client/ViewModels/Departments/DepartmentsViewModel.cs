@@ -54,6 +54,23 @@ namespace WebUI.Client.ViewModels.Departments
             _dialogService.Show<DepartmentDetails>("Department Details", parameters, options);
         }
 
+        public async Task OpenDepartmentEdit(int departmentId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("DepartmentId", departmentId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
+
+            var dialog = _dialogService.Show<DepartmentEdit>("Department Edit", parameters, options);
+
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                departmentsOverview = await _departmentService.GetAllAsync();
+            }
+        }
+
         public async Task OpenDepartmentCreate()
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
