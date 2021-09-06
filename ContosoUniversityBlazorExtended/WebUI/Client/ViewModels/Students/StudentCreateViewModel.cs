@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
@@ -9,14 +9,20 @@ namespace WebUI.Client.ViewModels.Students
 {
     public class StudentCreateViewModel : StudentViewModelBase
     {
-        private readonly NavigationManager _navManager;
+        private MudDialogInstance _mudDialog;
 
         public CreateStudentCommand CreateStudentCommand { get; set; } = new CreateStudentCommand { EnrollmentDate = DateTime.Now };
 
-        public StudentCreateViewModel(StudentService studentService, NavigationManager navManager)
+        public bool ErrorVisible { get; set; }
+
+        public StudentCreateViewModel(StudentService studentService)
             :base(studentService)
         {
-            _navManager = navManager;
+        }
+
+        public async Task OnInitializedAsync(MudDialogInstance MudDialog)
+        {
+            _mudDialog = MudDialog;
         }
 
         public async Task FormSubmitted(EditContext editContext)
@@ -30,9 +36,18 @@ namespace WebUI.Client.ViewModels.Students
                 if (result.IsSuccessStatusCode)
                 {
                     CreateStudentCommand = new CreateStudentCommand();
-                    _navManager.NavigateTo("/students");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }

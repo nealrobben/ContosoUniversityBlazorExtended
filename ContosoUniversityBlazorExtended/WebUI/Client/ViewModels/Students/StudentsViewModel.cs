@@ -118,5 +118,18 @@ namespace WebUI.Client.ViewModels.Students
 
             _dialogService.Show<StudentDetails>("Student Details", parameters, options);
         }
+
+        public async Task OpenStudentCreate()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+            var dialog = _dialogService.Show<StudentCreate>("Create student", options);
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                await GetStudents();
+            }
+        }
     }
 }
