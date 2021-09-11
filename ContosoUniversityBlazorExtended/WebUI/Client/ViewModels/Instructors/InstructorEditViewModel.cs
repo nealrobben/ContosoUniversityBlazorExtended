@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Instructors.Commands.UpdateInstructor;
@@ -8,21 +9,23 @@ namespace WebUI.Client.ViewModels.Instructors
 {
     public class InstructorEditViewModel : InstructorViewModelBase
     {
-        private readonly NavigationManager _navManager;
+        private MudDialogInstance _mudDialog;
 
         public UpdateInstructorCommand UpdateInstructorCommand = new UpdateInstructorCommand();
 
         private string _id;
 
-        public InstructorEditViewModel(InstructorService instructorService, NavigationManager navManager)
+        public bool ErrorVisible { get; set; }
+
+        public InstructorEditViewModel(InstructorService instructorService)
             : base(instructorService)
         {
-            _navManager = navManager;
         }
 
-        public async Task OnInitializedAsync(string id)
+        public async Task OnInitializedAsync(string id, MudDialogInstance MudDialog)
         {
             _id = id;
+            _mudDialog = MudDialog;
 
             var instructor = await _instructorService.GetAsync(id);
 
@@ -43,9 +46,18 @@ namespace WebUI.Client.ViewModels.Instructors
 
                 if (result.IsSuccessStatusCode)
                 {
-                   _navManager.NavigateTo("/instructors");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }

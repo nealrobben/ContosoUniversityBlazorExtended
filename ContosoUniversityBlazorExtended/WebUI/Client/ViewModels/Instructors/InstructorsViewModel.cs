@@ -78,9 +78,26 @@ namespace WebUI.Client.ViewModels.Instructors
             var parameters = new DialogParameters();
             parameters.Add("InstructorId", instructorId);
 
-            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
             _dialogService.Show<InstructorDetails>("Instructor Details", parameters, options);
+        }
+
+        public async Task OpenInstructorEdit(int instructorId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("InstructorId", instructorId.ToString());
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+            var dialog = _dialogService.Show<InstructorEdit>("Instructor Edit", parameters, options);
+
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                InstructorsOverview = await _instructorService.GetAllAsync();
+            }
         }
 
         public async Task OpenCreateInstructor()

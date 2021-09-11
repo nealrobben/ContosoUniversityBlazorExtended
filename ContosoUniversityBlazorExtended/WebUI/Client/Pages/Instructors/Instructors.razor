@@ -70,7 +70,7 @@ else
                                            Icon="fas fa-hand-pointer"
                                            Color="Color.Primary" Size="Size.Small">
                             </MudIconButton>
-                            <MudIconButton Link="@($"/instructors/edit/{item.InstructorID}")"
+                            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorEdit(item.InstructorID))"
                                            Title="Edit"
                                            Variant="Variant.Filled"
                                            Icon="fas fa-edit"

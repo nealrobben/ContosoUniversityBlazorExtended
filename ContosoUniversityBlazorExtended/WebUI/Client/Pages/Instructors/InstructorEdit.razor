@@ -1,45 +1,40 @@
-﻿@page "/instructors/edit/{id}"
-
-<h1>Edit</h1>
-
-<h4>Instructor</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <EditForm Model=@InstructorEditViewModel.UpdateInstructorCommand OnSubmit=@InstructorEditViewModel.FormSubmitted>
-                <div class="form-group">
-                    <label for="LastName">LastName</label>
-                    <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.LastName class="form-control" id="LastName" />
-                    <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.LastName" />
-                </div>
-                <div class="form-group">
-                    <label for="FirstName">FirstName</label>
-                    <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.FirstName class="form-control" id="FirstName" />
-                    <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.FirstName" />
-                </div>
-                <div class="form-group">
-                    <label for="HireDate">HireDate</label>
-                    <InputDate @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.HireDate class="form-control" id="HireDate" />
-                    <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.HireDate" />
-                </div>
-                <div class="form-group">
-                    <label for="OfficeLocation">OfficeLocation</label>
-                    <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation class="form-control" id="OfficeLocation" />
-                    <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation" />
-                </div>
-                <MudIconButton Link="/instructors"
-                               Title="Back to list"
-                               Variant="Variant.Filled"
-                               Icon="fas fa-arrow-circle-left"
-                               Color="Color.Primary">
-                </MudIconButton>
-                <MudButton ButtonType="ButtonType.Submit"
-                           Variant="Variant.Filled"
-                           StartIcon="fas fa-save"
-                           Color="Color.Primary">Save</MudButton>
-            </EditForm>
-        </form>
-    </div>
-</div>
+﻿<MudDialog>
+    <DialogContent>
+        @if (InstructorEditViewModel.ErrorVisible)
+        {
+            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create">
+                    <EditForm Model=@InstructorEditViewModel.UpdateInstructorCommand OnSubmit=@InstructorEditViewModel.FormSubmitted>
+                        <div class="form-group">
+                            <label for="LastName">LastName</label>
+                            <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.LastName class="form-control" id="LastName" />
+                            <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.LastName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="FirstName">FirstName</label>
+                            <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                            <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.FirstName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="HireDate">HireDate</label>
+                            <InputDate @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                            <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.HireDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="OfficeLocation">OfficeLocation</label>
+                            <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation class="form-control" id="OfficeLocation" />
+                            <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation" />
+                        </div>
+                        <MudButton ButtonType="ButtonType.Submit"
+                                   StartIcon="fas fa-save"
+                                   Color="Color.Primary">Save</MudButton>
+                        <MudButton Color="Color.Primary" OnClick="InstructorEditViewModel.Cancel">Cancel</MudButton>
+                    </EditForm>
+                </form>
+            </div>
+        </div>
+    </DialogContent>
+</MudDialog>
