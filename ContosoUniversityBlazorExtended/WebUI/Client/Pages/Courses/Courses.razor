@@ -57,7 +57,7 @@ else
                             @item.DepartmentName
                         </td>
                         <td>
-                            <MudIconButton Link="@($"/courses/edit/{item.CourseID}")"
+                            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseEdit(item.CourseID))"
                                            Title="Edit"
                                            Variant="Variant.Filled"
                                            Icon="fas fa-edit"

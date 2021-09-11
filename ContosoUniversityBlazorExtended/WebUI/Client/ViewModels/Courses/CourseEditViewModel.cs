@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
@@ -9,25 +9,27 @@ namespace WebUI.Client.ViewModels.Courses
 {
     public class CourseEditViewModel : CoursesViewModelBase
     {
-        private readonly NavigationManager _navManager;
         private readonly DepartmentService _departmentService;
+        private MudDialogInstance _mudDialog;
 
         public UpdateCourseCommand UpdateCourseCommand { get; set; } = new UpdateCourseCommand();
         public DepartmentsLookupVM DepartmentsLookup { get; set; }
 
         private string _id;
 
+        public bool ErrorVisible { get; set; }
+
         public CourseEditViewModel(CourseService courseService, 
-            DepartmentService departmentService, NavigationManager navManager)
+            DepartmentService departmentService)
             : base(courseService)
         {
             _departmentService = departmentService;
-            _navManager = navManager;
         }
 
-        public async Task OnInitializedAsync(string id)
+        public async Task OnInitializedAsync(string id, MudDialogInstance MudDialog)
         {
             _id = id;
+            _mudDialog = MudDialog;
 
             var course = await _courseService.GetAsync(id);
 
@@ -49,9 +51,18 @@ namespace WebUI.Client.ViewModels.Courses
 
                 if (result.IsSuccessStatusCode)
                 {
-                    _navManager.NavigateTo("/courses");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }
