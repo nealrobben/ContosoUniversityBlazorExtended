@@ -68,7 +68,7 @@ else
                             @student.EnrollmentDate.ToShortDateString()
                         </td>
                         <td>
-                            <MudIconButton Link="@($"/students/edit/{student.StudentID}")"
+                            <MudIconButton OnClick="(e => StudentsViewModel.OpenStudentEdit(student.StudentID))"
                                            Title="Edit"
                                            Variant="Variant.Filled"
                                            Icon="fas fa-edit"

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Commands.UpdateStudent;
@@ -8,18 +9,20 @@ namespace WebUI.Client.ViewModels.Students
 {
     public class StudentEditViewModel : StudentViewModelBase
     {
-        private readonly NavigationManager _navManager;
+        private MudDialogInstance _mudDialog;
 
         public UpdateStudentCommand UpdateStudentCommand { get; set; } = new UpdateStudentCommand();
 
-        public StudentEditViewModel(StudentService studentService, NavigationManager navManager)
+        public bool ErrorVisible { get; set; }
+
+        public StudentEditViewModel(StudentService studentService)
             : base(studentService)
         {
-            _navManager = navManager;
         }
 
-        public async Task OnInitializedAsync(string id)
+        public async Task OnInitializedAsync(string id, MudDialogInstance MudDialog)
         {
+            _mudDialog = MudDialog;
             var student = await _studentService.GetAsync(id);
 
             UpdateStudentCommand.StudentID = student.StudentID;
@@ -38,9 +41,18 @@ namespace WebUI.Client.ViewModels.Students
 
                 if (result.IsSuccessStatusCode)
                 {
-                    _navManager.NavigateTo("/students");
+                    _mudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            _mudDialog.Cancel();
         }
     }
 }

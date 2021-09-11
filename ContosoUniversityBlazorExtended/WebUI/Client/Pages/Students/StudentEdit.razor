@@ -1,39 +1,34 @@
-﻿@page "/students/edit/{id}"
-
-<h1>Edit</h1>
-
-<h4>Student</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model=@StudentEditViewModel.UpdateStudentCommand OnSubmit=@StudentEditViewModel.FormSubmitted>
-            <DataAnnotationsValidator />
-            <div class="form-group">
-                <label for="LastName">LastName</label>
-                <InputText @bind-Value=StudentEditViewModel.UpdateStudentCommand.LastName class="form-control" id="LastName" />
-                <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.LastName" />
+﻿<MudDialog>
+    <DialogContent>
+        @if (StudentEditViewModel.ErrorVisible)
+        {
+            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <EditForm Model=@StudentEditViewModel.UpdateStudentCommand OnSubmit=@StudentEditViewModel.FormSubmitted>
+                    <DataAnnotationsValidator />
+                    <div class="form-group">
+                        <label for="LastName">LastName</label>
+                        <InputText @bind-Value=StudentEditViewModel.UpdateStudentCommand.LastName class="form-control" id="LastName" />
+                        <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.LastName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="FirstName">FirstName</label>
+                        <InputText @bind-Value=StudentEditViewModel.UpdateStudentCommand.FirstName class="form-control" id="FirstName" />
+                        <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.FirstName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="EnrollmentDate">EnrollmentDate</label>
+                        <InputDate @bind-Value=StudentEditViewModel.UpdateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
+                        <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.EnrollmentDate" />
+                    </div>
+                    <MudButton ButtonType="ButtonType.Submit"
+                               StartIcon="fas fa-save"
+                               Color="Color.Primary">Save</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="StudentEditViewModel.Cancel">Cancel</MudButton>
+                </EditForm>
             </div>
-            <div class="form-group">
-                <label for="FirstName">FirstName</label>
-                <InputText @bind-Value=StudentEditViewModel.UpdateStudentCommand.FirstName class="form-control" id="FirstName" />
-                <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.FirstName" />
-            </div>
-            <div class="form-group">
-                <label for="EnrollmentDate">EnrollmentDate</label>
-                <InputDate @bind-Value=StudentEditViewModel.UpdateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
-                <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.EnrollmentDate" />
-            </div>
-            <MudIconButton Link="/students"
-                           Title="Back to list"
-                           Variant="Variant.Filled"
-                           Icon="fas fa-arrow-circle-left"
-                           Color="Color.Primary">
-            </MudIconButton>
-            <MudButton ButtonType="ButtonType.Submit"
-                           Variant="Variant.Filled"
-                           StartIcon="fas fa-save"
-                           Color="Color.Primary">Save</MudButton>
-        </EditForm>
-    </div>
-</div>
+        </div>
+    </DialogContent>
+</MudDialog>

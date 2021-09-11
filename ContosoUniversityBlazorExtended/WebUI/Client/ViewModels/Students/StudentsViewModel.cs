@@ -114,9 +114,26 @@ namespace WebUI.Client.ViewModels.Students
             var parameters = new DialogParameters();
             parameters.Add("StudentId", studentId);
 
-            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Small };
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
             _dialogService.Show<StudentDetails>("Student Details", parameters, options);
+        }
+
+        public async Task OpenStudentEdit(int studentId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("StudentId", studentId.ToString());
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+            var dialog = _dialogService.Show<StudentEdit>("Student Edit", parameters, options);
+
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                await GetStudents();
+            }
         }
 
         public async Task OpenStudentCreate()
