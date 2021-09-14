@@ -1,0 +1,30 @@
+﻿<div>
+    <img src="@Url" class="border" />
+</div>
+
+@code {
+
+    private string _url;
+    private const string emptyUrl = "img/person.png";
+
+    [Parameter]
+    public string Url
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(_url))
+            {
+                return _url;
+            }
+            else 
+            {
+                return emptyUrl;
+            }
+        }
+        set
+        {
+            _url = value;
+        }
+    }
+
+}
