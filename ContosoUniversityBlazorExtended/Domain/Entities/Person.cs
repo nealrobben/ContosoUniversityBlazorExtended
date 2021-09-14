@@ -5,6 +5,7 @@
         public int ID { get; set; }
         public string LastName { get; set; }
         public string FirstMidName { get; set; }
+        public string ProfilePictureName { get; set; }
 
         public string FullName
         {

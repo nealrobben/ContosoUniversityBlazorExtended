@@ -20,6 +20,9 @@ namespace ContosoUniversityBlazor.Persistence.Configurations
             builder.Property(e => e.LastName)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            builder.Property(e => e.ProfilePictureName)
+                .HasMaxLength(200);
         }
     }
 }

@@ -17,6 +17,8 @@ namespace WebUI.Shared.Instructors.Queries.GetInstructorDetails
 
         public string OfficeLocation { get; set; }
 
+        public string ProfilePictureName { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Instructor, InstructorDetailsVM>()

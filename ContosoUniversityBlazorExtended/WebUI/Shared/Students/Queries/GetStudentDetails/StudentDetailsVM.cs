@@ -19,6 +19,8 @@ namespace WebUI.Shared.Students.Queries.GetStudentDetails
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EnrollmentDate { get; set; }
 
+        public string ProfilePictureName { get; set; }
+
         public List<StudentDetailsEnrollmentVM> Enrollments { get; set; }
 
         public StudentDetailsVM()
