@@ -1,11 +1,13 @@
-﻿<MudDialog>
+﻿@using WebUI.Client.Components
+
+<MudDialog>
     <DialogContent>
         @if (InstructorEditViewModel.ErrorVisible)
         {
             <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
         }
         <div class="row">
-            <div class="col-md-12">
+            <div class="col">
                 <form asp-action="Create">
                     <EditForm Model=@InstructorEditViewModel.UpdateInstructorCommand OnSubmit=@InstructorEditViewModel.FormSubmitted>
                         <div class="form-group">
@@ -34,6 +36,9 @@
                         <MudButton Color="Color.Primary" OnClick="InstructorEditViewModel.Cancel">Cancel</MudButton>
                     </EditForm>
                 </form>
+            </div>
+            <div class="col">
+                <ProfilePicture />
             </div>
         </div>
     </DialogContent>
