@@ -1,29 +1,29 @@
 ﻿<div>
-    <img src="@Url" class="border" />
+    <img src="@FileName" class="border" style="max-height: 200px; max-width: 200px; height: auto; width: auto; " />
 </div>
 
 @code {
 
-    private string _url;
+    private string _fileName;
     private const string emptyUrl = "img/person.png";
 
     [Parameter]
-    public string Url
+    public string FileName
     {
         get
         {
-            if (!string.IsNullOrWhiteSpace(_url))
+            if (!string.IsNullOrWhiteSpace(_fileName))
             {
-                return _url;
+                return string.Concat("img/ProfilePictures/",_fileName);
             }
-            else 
+            else
             {
                 return emptyUrl;
             }
         }
         set
         {
-            _url = value;
+            _fileName = value;
         }
     }
 
