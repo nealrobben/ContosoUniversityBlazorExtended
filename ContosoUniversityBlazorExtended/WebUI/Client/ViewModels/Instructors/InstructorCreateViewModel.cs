@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
@@ -16,9 +17,12 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public bool ErrorVisible { get; set; }
 
+        public IList<IBrowserFile> files { get; set; }
+
         public InstructorCreateViewModel(InstructorService instructorService)
             :base(instructorService)
         {
+            files = new List<IBrowserFile>();
         }
 
         public void OnInitialized(MudDialogInstance MudDialog)
@@ -50,6 +54,14 @@ namespace WebUI.Client.ViewModels.Instructors
         public void Cancel()
         {
             _mudDialog.Cancel();
+        }
+
+        public void UploadFiles(InputFileChangeEventArgs e)
+        {
+            foreach (var file in e.GetMultipleFiles())
+            {
+                files.Add(file);
+            }
         }
     }
 }
