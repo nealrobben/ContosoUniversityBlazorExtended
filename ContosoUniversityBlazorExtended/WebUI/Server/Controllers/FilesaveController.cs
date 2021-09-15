@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using ContosoUniversityBlazor.WebUI.Controllers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,9 +12,7 @@ using WebUI.Shared;
 
 namespace WebUI.Server.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class FilesaveController : Controller
+    public class FilesaveController : ApiController
     {
         private readonly IWebHostEnvironment _env;
         private readonly ILogger<FilesaveController> _logger;
@@ -24,6 +23,7 @@ namespace WebUI.Server.Controllers
             _logger = logger;
         }
 
+        [HttpPost]
         public async Task<ActionResult<IList<UploadResult>>> UploadFile([FromForm] IEnumerable<IFormFile> files)
         {
             const int maxAllowedFiles = 3;
@@ -58,8 +58,8 @@ namespace WebUI.Server.Controllers
                     {
                         try
                         {
-                            trustedFileNameForFileStorage = (new Guid()).ToString() + ".jpg"; //May not actually be a jpeg, fix later
-                            var path = Path.Combine(_env.WebRootPath, "img", "ProfilePictures",
+                            trustedFileNameForFileStorage = (Guid.NewGuid()).ToString() + ".jpg"; //May not actually be a jpeg, fix later
+                            var path = Path.Combine(_env.ContentRootPath, "img", "ProfilePictures",
                                 trustedFileNameForFileStorage);
 
                             await using FileStream fs = new(path, FileMode.Create);

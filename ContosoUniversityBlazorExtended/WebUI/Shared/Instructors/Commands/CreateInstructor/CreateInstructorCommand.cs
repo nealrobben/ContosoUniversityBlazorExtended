@@ -10,5 +10,7 @@ namespace WebUI.Shared.Instructors.Commands.CreateInstructor
         public string LastName { get; set; }
 
         public DateTime HireDate { get; set; }
+
+        public string ProfilePictureName { get; set; }
     }
 }
