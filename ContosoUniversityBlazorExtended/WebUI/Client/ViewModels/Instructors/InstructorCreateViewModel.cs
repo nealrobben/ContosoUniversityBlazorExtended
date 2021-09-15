@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
-using WebUI.Shared;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
 
 namespace WebUI.Client.ViewModels.Instructors
@@ -16,7 +12,7 @@ namespace WebUI.Client.ViewModels.Instructors
     public class InstructorCreateViewModel : InstructorViewModelBase
     {
         private MudDialogInstance _mudDialog;
-        private HttpClient _http;
+        private FileuploadService _fileuploadService;
 
         public CreateInstructorCommand CreateInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
 
@@ -24,11 +20,11 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public IList<IBrowserFile> files { get; set; }
 
-        public InstructorCreateViewModel(InstructorService instructorService, HttpClient http)
+        public InstructorCreateViewModel(InstructorService instructorService, FileuploadService fileuploadService)
             :base(instructorService)
         {
             files = new List<IBrowserFile>();
-            _http = http;
+            _fileuploadService = fileuploadService;
         }
 
         public void OnInitialized(MudDialogInstance MudDialog)
@@ -40,37 +36,14 @@ namespace WebUI.Client.ViewModels.Instructors
         {
             ErrorVisible = false;
             bool formIsValid = editContext.Validate();
-            var storedFileName = "";
 
             if (formIsValid)
             {
-                long maxFileSize = 1024 * 1024 * 15;
-                using var content = new MultipartFormDataContent();
-
-                foreach(var file in files)
+                if (files.Any())
                 {
-                    try
-                    {
-                        var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
-
-                        content.Add(content: fileContent,name: "\"files\"",fileName: file.Name);
-
-                        var response = await _http.PostAsync("/api/Filesave", content);
-
-                        var newUploadResults = await response.Content.ReadFromJsonAsync<IList<UploadResult>>();
-
-                        if(newUploadResults.Count != 0)
-                        {
-                            storedFileName = newUploadResults.First().StoredFileName;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    CreateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
                 }
 
-                CreateInstructorCommand.ProfilePictureName = storedFileName;
                 var result = await _instructorService.CreateAsync(CreateInstructorCommand);
 
                 if (result.IsSuccessStatusCode)
