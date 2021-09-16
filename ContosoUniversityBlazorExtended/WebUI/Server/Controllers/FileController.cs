@@ -93,5 +93,13 @@ namespace WebUI.Server.Controllers
 
             return new CreatedResult(resourcePath, uploadResults);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFile(string id)
+        {
+            var path = Path.Combine(_env.ContentRootPath, "Img", "ProfilePictures", id);
+            var bytes = await System.IO.File.ReadAllBytesAsync(path);
+            return File(bytes, "image/jpeg", Path.GetFileName(path));
+        }
     }
 }
