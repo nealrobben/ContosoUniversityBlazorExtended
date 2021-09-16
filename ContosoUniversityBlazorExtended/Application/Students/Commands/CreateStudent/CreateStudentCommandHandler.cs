@@ -22,7 +22,8 @@ namespace ContosoUniversityBlazor.Application.Students.Commands.CreateStudent
             {
                 FirstMidName = request.FirstName,
                 LastName = request.LastName,
-                EnrollmentDate = request.EnrollmentDate
+                EnrollmentDate = request.EnrollmentDate,
+                ProfilePictureName = request.ProfilePictureName
             });
 
             await _context.SaveChangesAsync(cancellationToken);
