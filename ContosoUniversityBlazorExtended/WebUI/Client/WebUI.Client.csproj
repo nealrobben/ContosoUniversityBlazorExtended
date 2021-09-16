@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Shared\WebUI.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\ProfilePictures\" />
-  </ItemGroup>
-
 </Project>

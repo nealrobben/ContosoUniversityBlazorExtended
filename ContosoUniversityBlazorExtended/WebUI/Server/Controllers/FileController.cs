@@ -12,12 +12,12 @@ using WebUI.Shared;
 
 namespace WebUI.Server.Controllers
 {
-    public class FilesaveController : ApiController
+    public class FileController : ApiController
     {
         private readonly IWebHostEnvironment _env;
-        private readonly ILogger<FilesaveController> _logger;
+        private readonly ILogger<FileController> _logger;
 
-        public FilesaveController(IWebHostEnvironment env, ILogger<FilesaveController> logger)
+        public FileController(IWebHostEnvironment env, ILogger<FileController> logger)
         {
             _env = env;
             _logger = logger;
@@ -59,7 +59,7 @@ namespace WebUI.Server.Controllers
                         try
                         {
                             trustedFileNameForFileStorage = (Guid.NewGuid()).ToString() + ".jpg"; //May not actually be a jpeg, fix later
-                            var path = Path.Combine(_env.ContentRootPath, "img", "ProfilePictures",
+                            var path = Path.Combine(_env.ContentRootPath, "Img", "ProfilePictures",
                                 trustedFileNameForFileStorage);
 
                             await using FileStream fs = new(path, FileMode.Create);

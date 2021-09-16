@@ -28,7 +28,7 @@ namespace WebUI.Client.Services
 
                 content.Add(content: fileContent, name: "\"files\"", fileName: file.Name);
 
-                var response = await _http.PostAsync("/api/Filesave", content);
+                var response = await _http.PostAsync("/api/File", content);
 
                 var newUploadResults = await response.Content.ReadFromJsonAsync<IList<UploadResult>>();
 
