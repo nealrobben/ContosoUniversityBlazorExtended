@@ -22,7 +22,8 @@ namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstruc
             {
                 FirstMidName = request.FirstName,
                 LastName = request.LastName,
-                HireDate = request.HireDate
+                HireDate = request.HireDate,
+                ProfilePictureName = request.ProfilePictureName
             });
 
             await _context.SaveChangesAsync(cancellationToken);
