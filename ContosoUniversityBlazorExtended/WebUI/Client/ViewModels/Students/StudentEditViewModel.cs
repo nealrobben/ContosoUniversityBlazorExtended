@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Commands.UpdateStudent;
@@ -10,14 +11,19 @@ namespace WebUI.Client.ViewModels.Students
     public class StudentEditViewModel : StudentViewModelBase
     {
         private MudDialogInstance _mudDialog;
+        private FileuploadService _fileuploadService;
 
         public UpdateStudentCommand UpdateStudentCommand { get; set; } = new UpdateStudentCommand();
 
         public bool ErrorVisible { get; set; }
 
-        public StudentEditViewModel(StudentService studentService)
+        public IList<IBrowserFile> files { get; set; }
+
+        public StudentEditViewModel(StudentService studentService, FileuploadService fileuploadService)
             : base(studentService)
         {
+            files = new List<IBrowserFile>();
+            _fileuploadService = fileuploadService;
         }
 
         public async Task OnInitializedAsync(string id, MudDialogInstance MudDialog)
@@ -29,6 +35,7 @@ namespace WebUI.Client.ViewModels.Students
             UpdateStudentCommand.FirstName = student.FirstName;
             UpdateStudentCommand.LastName = student.LastName;
             UpdateStudentCommand.EnrollmentDate = student.EnrollmentDate;
+            UpdateStudentCommand.ProfilePictureName = student.ProfilePictureName;
         }
 
         public async Task FormSubmitted(EditContext editContext)
@@ -37,6 +44,11 @@ namespace WebUI.Client.ViewModels.Students
 
             if (formIsValid)
             {
+                if (files.Any())
+                {
+                    UpdateStudentCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                }
+
                 var result = await _studentService.UpdateAsync(UpdateStudentCommand);
 
                 if (result.IsSuccessStatusCode)
@@ -53,6 +65,14 @@ namespace WebUI.Client.ViewModels.Students
         public void Cancel()
         {
             _mudDialog.Cancel();
+        }
+
+        public void UploadFiles(InputFileChangeEventArgs e)
+        {
+            foreach (var file in e.GetMultipleFiles())
+            {
+                files.Add(file);
+            }
         }
     }
 }

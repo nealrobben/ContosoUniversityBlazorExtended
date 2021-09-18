@@ -25,6 +25,26 @@
                         <InputDate @bind-Value=StudentEditViewModel.UpdateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
                         <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.EnrollmentDate" />
                     </div>
+                    <div>
+                        <InputFile id="fileInput" OnChange="StudentEditViewModel.UploadFiles" hidden />
+                        <MudButton HtmlTag="label"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Filled.CloudUpload"
+                                   for="fileInput">
+                            Upload Files
+                        </MudButton>
+                        @if (StudentEditViewModel.files != null)
+                        {
+                            <MudList>
+                                @foreach (var file in StudentEditViewModel.files)
+                                {
+                                    <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
+                                        @file.Name <code>@file.Size bytes</code>
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        }
+                    </div>
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
                                Color="Color.Primary">Save</MudButton>
@@ -32,7 +52,7 @@
                 </EditForm>
             </div>
             <div class="col">
-                <ProfilePicture />
+                <ProfilePicture FileName="@StudentEditViewModel?.UpdateStudentCommand?.ProfilePictureName" />
             </div>
         </div>
     </DialogContent>

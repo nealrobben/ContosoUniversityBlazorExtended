@@ -12,5 +12,7 @@ namespace WebUI.Shared.Students.Commands.UpdateStudent
         public string FirstName { get; set; }
 
         public DateTime EnrollmentDate { get; set; }
+
+        public string ProfilePictureName { get; set; }
     }
 }
