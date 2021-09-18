@@ -1,4 +1,5 @@
-﻿@page "/students"
+﻿@using WebUI.Shared.Students.Queries.GetStudentDetails
+@page "/students"
 
 <h1>Students</h1>
 
@@ -113,3 +114,34 @@ else
         </MudIconButton>
     }
 }
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<StudentDetailsVM>>>(ServerReload))"
+          Dense="true" Hover="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Students</MudText>
+        <MudSpacer />
+        <MudTextField T="string" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="lastname_field" T="StudentDetailsVM">Last Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="firstname_field" T="StudentDetailsVM">First Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="enrollmentdate_field" T="StudentDetailsVM">Enrollment Date</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Last Name"></MudTd>
+        <MudTd DataLabel="First Name"></MudTd>
+        <MudTd DataLabel="Enrollment Date"></MudTd>
+        <MudTd DataLabel=""></MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
