@@ -1,4 +1,4 @@
-﻿@using WebUI.Shared.Students.Queries.GetStudentDetails
+﻿@using WebUI.Shared.Students.Queries.GetStudentsOverview
 @page "/students"
 
 <h1>Students</h1>
@@ -115,7 +115,7 @@ else
     }
 }
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<StudentDetailsVM>>>(StudentsViewModel.ServerReload))"
+<MudTable ServerData="@(new Func<TableState, Task<TableData<StudentOverviewVM>>>(StudentsViewModel.ServerReload))"
           Dense="true" Hover="true" FixedFooter="true" Height="500px">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Students</MudText>
@@ -124,9 +124,9 @@ else
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="lastname_field" T="StudentDetailsVM">Last Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="firstname_field" T="StudentDetailsVM">First Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="enrollmentdate_field" T="StudentDetailsVM">Enrollment Date</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="lastname_field" T="StudentOverviewVM">Last Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="firstname_field" T="StudentOverviewVM">First Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="enrollmentdate_field" T="StudentOverviewVM">Enrollment Date</MudTableSortLabel></MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>

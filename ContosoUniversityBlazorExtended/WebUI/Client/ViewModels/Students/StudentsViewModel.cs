@@ -151,9 +151,15 @@ namespace WebUI.Client.ViewModels.Students
             }
         }
 
-        public async Task<TableData<StudentDetailsVM>> ServerReload(TableState state)
+        public async Task<TableData<StudentOverviewVM>> ServerReload(TableState state)
         {
-            return new TableData<StudentDetailsVM>() { TotalItems = 0, Items = new List<StudentDetailsVM>() };
+            var pageNumber = state.Page; //TODO: add pagesize as a parameter
+            var searchString = StudentsOverview?.CurrentFilter ?? "";
+            var sortOrder = StudentsOverview.CurrentSort ?? "";
+
+            var result = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString);
+
+            return new TableData<StudentOverviewVM>() { TotalItems = 0, Items = result.Students };
         }
     }
 }

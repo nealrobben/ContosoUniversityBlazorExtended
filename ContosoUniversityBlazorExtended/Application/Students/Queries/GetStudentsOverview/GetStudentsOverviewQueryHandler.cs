@@ -69,6 +69,9 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             result.TotalPages = (int)Math.Ceiling(numberOfPages);
             result.PageNumber = request.PageNumber ?? 1;
 
+            if (result.PageNumber >= 0)
+                result.PageNumber = 1; //Temporary fix
+
             var items = await students.AsNoTracking().Skip((result.PageNumber - 1) * _pageSize)
                 .Take(_pageSize)
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
