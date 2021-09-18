@@ -1,7 +1,9 @@
 ﻿using MudBlazor;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebUI.Client.Pages.Students;
 using WebUI.Client.Services;
+using WebUI.Shared.Students.Queries.GetStudentDetails;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 
 namespace WebUI.Client.ViewModels.Students
@@ -147,6 +149,11 @@ namespace WebUI.Client.ViewModels.Students
             {
                 await GetStudents();
             }
+        }
+
+        public async Task<TableData<StudentDetailsVM>> ServerReload(TableState state)
+        {
+            return new TableData<StudentDetailsVM>() { TotalItems = 0, Items = new List<StudentDetailsVM>() };
         }
     }
 }

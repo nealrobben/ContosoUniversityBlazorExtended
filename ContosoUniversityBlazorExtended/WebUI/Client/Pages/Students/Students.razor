@@ -115,8 +115,8 @@ else
     }
 }
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<StudentDetailsVM>>>(ServerReload))"
-          Dense="true" Hover="true">
+<MudTable ServerData="@(new Func<TableState, Task<TableData<StudentDetailsVM>>>(StudentsViewModel.ServerReload))"
+          Dense="true" Hover="true" FixedFooter="true" Height="500px">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Students</MudText>
         <MudSpacer />
@@ -130,9 +130,9 @@ else
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Last Name"></MudTd>
-        <MudTd DataLabel="First Name"></MudTd>
-        <MudTd DataLabel="Enrollment Date"></MudTd>
+        <MudTd DataLabel="Last Name">@context.LastName</MudTd>
+        <MudTd DataLabel="First Name">@context.FirstName</MudTd>
+        <MudTd DataLabel="Enrollment Date">@context.EnrollmentDate</MudTd>
         <MudTd DataLabel=""></MudTd>
     </RowTemplate>
     <NoRecordsContent>
