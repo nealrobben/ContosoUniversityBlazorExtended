@@ -18,6 +18,8 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
 
         public int TotalPages { get; set; }
 
+        public int TotalRecords { get; set; }
+
         public bool HasPreviousPage
         {
             get

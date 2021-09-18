@@ -159,7 +159,7 @@ namespace WebUI.Client.ViewModels.Students
 
             var result = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString);
 
-            return new TableData<StudentOverviewVM>() { TotalItems = 0, Items = result.Students };
+            return new TableData<StudentOverviewVM>() { TotalItems = result.TotalRecords, Items = result.Students };
         }
     }
 }

@@ -65,7 +65,9 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
                     break;
             }
 
-            var numberOfPages = (await students.CountAsync() / (double)_pageSize);
+            var totalStudents = await students.CountAsync();
+            var numberOfPages = (totalStudents / (double)_pageSize);
+            result.TotalRecords = totalStudents;
             result.TotalPages = (int)Math.Ceiling(numberOfPages);
             result.PageNumber = request.PageNumber ?? 1;
 
