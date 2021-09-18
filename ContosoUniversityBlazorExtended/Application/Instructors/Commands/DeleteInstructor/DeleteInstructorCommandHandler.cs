@@ -1,4 +1,5 @@
-﻿using ContosoUniversityBlazor.Application.Common.Exceptions;
+﻿using Application.Common.Interfaces;
+using ContosoUniversityBlazor.Application.Common.Exceptions;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
 using ContosoUniversityBlazor.Domain.Entities;
 using MediatR;
@@ -12,10 +13,12 @@ namespace ContosoUniversityBlazor.Application.Instructors.Commands.DeleteInstruc
     public class DeleteInstructorCommandHandler : IRequestHandler<DeleteInstructorCommand>
     {
         private readonly ISchoolContext _context;
+        private readonly IProfilePictureService _profilePictureService;
 
-        public DeleteInstructorCommandHandler(ISchoolContext context)
+        public DeleteInstructorCommandHandler(ISchoolContext context, IProfilePictureService profilePictureService)
         {
             _context = context;
+            _profilePictureService = profilePictureService;
         }
 
         public async Task<Unit> Handle(DeleteInstructorCommand request, CancellationToken cancellationToken)
@@ -26,6 +29,9 @@ namespace ContosoUniversityBlazor.Application.Instructors.Commands.DeleteInstruc
 
             if (instructor == null)
                 throw new NotFoundException(nameof(Instructor), request.ID);
+
+            if (!string.IsNullOrWhiteSpace(instructor.ProfilePictureName))
+                _profilePictureService.DeleteImageFile(instructor.ProfilePictureName);
 
             var departments = await _context.Departments
                 .Where(d => d.InstructorID == request.ID)

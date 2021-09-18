@@ -1,4 +1,5 @@
-﻿using ContosoUniversityBlazor.WebUI.Controllers;
+﻿using Application.Common.Interfaces;
+using ContosoUniversityBlazor.WebUI.Controllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ namespace WebUI.Server.Controllers
     {
         private readonly IWebHostEnvironment _env;
         private readonly ILogger<FileController> _logger;
+        private readonly IProfilePictureService _profilePictureService;
 
-        public FileController(IWebHostEnvironment env, ILogger<FileController> logger)
+        public FileController(IWebHostEnvironment env, ILogger<FileController> logger, IProfilePictureService profilePictureService)
         {
             _env = env;
             _logger = logger;
+            _profilePictureService = profilePictureService;
         }
 
         [HttpPost]
@@ -59,14 +62,15 @@ namespace WebUI.Server.Controllers
                         try
                         {
                             trustedFileNameForFileStorage = (Guid.NewGuid()).ToString() + ".jpg"; //May not actually be a jpeg, fix later
-                            var path = Path.Combine(_env.ContentRootPath, "Img", "ProfilePictures",
-                                trustedFileNameForFileStorage);
 
-                            await using FileStream fs = new(path, FileMode.Create);
-                            await file.CopyToAsync(fs);
+                            await using (MemoryStream ms = new MemoryStream())
+                            {
+                                await file.CopyToAsync(ms);
+                                await _profilePictureService.WriteImageFile(trustedFileNameForFileStorage, ms);
+                            };
 
-                            _logger.LogInformation("{FileName} saved at {Path}",
-                                trustedFileNameForDisplay, path);
+                            _logger.LogInformation("{FileName} saved",
+                                trustedFileNameForDisplay);
                             uploadResult.Uploaded = true;
                             uploadResult.StoredFileName = trustedFileNameForFileStorage;
                         }
@@ -98,7 +102,7 @@ namespace WebUI.Server.Controllers
         public async Task<IActionResult> GetFile(string id)
         {
             var path = Path.Combine(_env.ContentRootPath, "Img", "ProfilePictures", id);
-            var bytes = await System.IO.File.ReadAllBytesAsync(path);
+            var bytes = await _profilePictureService.GetImageFile(path);
             return File(bytes, "image/jpeg", Path.GetFileName(path));
         }
     }
