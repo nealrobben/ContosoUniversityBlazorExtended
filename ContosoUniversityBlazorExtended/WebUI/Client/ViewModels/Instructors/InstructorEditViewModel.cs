@@ -34,6 +34,7 @@ namespace WebUI.Client.ViewModels.Instructors
             UpdateInstructorCommand.LastName = instructor.LastName;
             UpdateInstructorCommand.HireDate = instructor.HireDate;
             UpdateInstructorCommand.OfficeLocation = instructor.OfficeLocation;
+            UpdateInstructorCommand.ProfilePictureName = instructor.ProfilePictureName;
         }
 
         public async Task FormSubmitted(EditContext editContext)

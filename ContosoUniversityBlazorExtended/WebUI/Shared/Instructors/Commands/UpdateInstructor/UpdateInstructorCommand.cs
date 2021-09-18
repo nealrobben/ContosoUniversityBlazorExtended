@@ -14,5 +14,7 @@ namespace WebUI.Shared.Instructors.Commands.UpdateInstructor
         public DateTime HireDate { get; set; }
 
         public string OfficeLocation { get; set; }
+
+        public string ProfilePictureName { get; set; }
     }
 }
