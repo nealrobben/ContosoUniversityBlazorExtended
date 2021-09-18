@@ -13,7 +13,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
 {
     public class GetStudentsOverviewQueryHandler : IRequestHandler<GetStudentsOverviewQuery, StudentsOverviewVM>
     {
-        private const int _pageSize = 3;
+        private const int _defaultPageSize = 3;
 
         private readonly ISchoolContext _context;
         private readonly IMapper _mapper;
@@ -65,8 +65,10 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
                     break;
             }
 
+            var pageSize = request.PageSize ?? _defaultPageSize;
+
             var totalStudents = await students.CountAsync();
-            var numberOfPages = (totalStudents / (double)_pageSize);
+            var numberOfPages = (totalStudents / (double)pageSize);
             result.TotalRecords = totalStudents;
             result.TotalPages = (int)Math.Ceiling(numberOfPages);
             result.PageNumber = request.PageNumber ?? 1;
@@ -74,8 +76,8 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             if (result.PageNumber >= 0)
                 result.PageNumber = 1; //Temporary fix
 
-            var items = await students.AsNoTracking().Skip((result.PageNumber - 1) * _pageSize)
-                .Take(_pageSize)
+            var items = await students.AsNoTracking().Skip((result.PageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

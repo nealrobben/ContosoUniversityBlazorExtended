@@ -36,7 +36,7 @@ namespace WebUI.Client.ViewModels.Students
             var searchString = StudentsOverview?.CurrentFilter ?? "";
             var sortOrder = StudentsOverview.CurrentSort ?? "";
 
-            StudentsOverview = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString);
+            StudentsOverview = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString, null);
         }
 
         public async Task DeleteStudent(int studentId, string name)
@@ -157,7 +157,7 @@ namespace WebUI.Client.ViewModels.Students
             var searchString = StudentsOverview?.CurrentFilter ?? "";
             var sortOrder = StudentsOverview.CurrentSort ?? "";
 
-            var result = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString);
+            var result = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString, state.PageSize);
 
             return new TableData<StudentOverviewVM>() { TotalItems = result.TotalRecords, Items = result.Students };
         }
