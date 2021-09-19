@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper.QueryableExtensions;
 using AutoMapper;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
+using Application.Common.Extensions;
 
 namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview
 {
@@ -41,29 +42,9 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
                 result.MetaData.CurrentFilter = request.SearchString;
             }
 
-            var students = from s in _context.Students
-                           select s;
-            if (!string.IsNullOrEmpty(request.SearchString))
-            {
-                students = students.Where(s => s.LastName.Contains(request.SearchString)
-                                       || s.FirstMidName.Contains(request.SearchString));
-            }
-
-            switch (result.MetaData.CurrentSort)
-            {
-                case "name_desc":
-                    students = students.OrderByDescending(s => s.LastName);
-                    break;
-                case "Date":
-                    students = students.OrderBy(s => s.EnrollmentDate);
-                    break;
-                case "date_desc":
-                    students = students.OrderByDescending(s => s.EnrollmentDate);
-                    break;
-                default:
-                    students = students.OrderBy(s => s.LastName);
-                    break;
-            }
+            var students = _context.Students
+                .Search(request.SearchString)
+                .Sort(result.MetaData.CurrentSort);
 
             var pageSize = request.PageSize ?? _defaultPageSize;
 
