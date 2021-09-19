@@ -6,6 +6,43 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
     {
         public IList<StudentOverviewVM> Students { get; set; }
 
+        public MetaData MetaData { get; set; }
+
+        public StudentsOverviewVM()
+        {
+            Students = new List<StudentOverviewVM>();
+            MetaData = new MetaData();
+            MetaData.PageNumber = 1;
+        }
+
+        public StudentsOverviewVM(IList<StudentOverviewVM> students)
+        {
+            if (students != null)
+                Students = students;
+            else
+                Students = new List<StudentOverviewVM>();
+
+            MetaData = new MetaData();
+            MetaData.PageNumber = 1;
+        }
+
+        public void AddStudents(List<StudentOverviewVM> students)
+        {
+            foreach (var student in students)
+            {
+                Students.Add(student);
+            }
+        }
+    }
+
+    public class MetaData
+    {
+        public int PageNumber { get; set; }
+
+        public int TotalPages { get; set; }
+
+        public int TotalRecords { get; set; }
+
         public string CurrentSort { get; set; }
 
         public string NameSortParm { get; set; }
@@ -13,12 +50,6 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
         public string DateSortParm { get; set; }
 
         public string CurrentFilter { get; set; }
-
-        public int PageNumber { get; set; }
-
-        public int TotalPages { get; set; }
-
-        public int TotalRecords { get; set; }
 
         public bool HasPreviousPage
         {
@@ -33,30 +64,6 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
             get
             {
                 return (PageNumber < TotalPages);
-            }
-        }
-
-        public StudentsOverviewVM()
-        {
-            Students = new List<StudentOverviewVM>();
-            PageNumber = 1;
-        }
-
-        public StudentsOverviewVM(IList<StudentOverviewVM> students)
-        {
-            if (students != null)
-                Students = students;
-            else
-                Students = new List<StudentOverviewVM>();
-
-            PageNumber = 1;
-        }
-
-        public void AddStudents(List<StudentOverviewVM> students)
-        {
-            foreach (var student in students)
-            {
-                Students.Add(student);
             }
         }
     }

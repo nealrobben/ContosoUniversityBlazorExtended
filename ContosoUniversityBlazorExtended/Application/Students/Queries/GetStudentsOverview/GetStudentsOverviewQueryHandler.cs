@@ -28,9 +28,9 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
         {
             var result = new StudentsOverviewVM();
 
-            result.CurrentSort = request.SortOrder;
-            result.NameSortParm = string.IsNullOrEmpty(request.SortOrder) ? "name_desc" : "";
-            result.DateSortParm = request.SortOrder == "Date" ? "date_desc" : "Date";
+            result.MetaData.CurrentSort = request.SortOrder;
+            result.MetaData.NameSortParm = string.IsNullOrEmpty(request.SortOrder) ? "name_desc" : "";
+            result.MetaData.DateSortParm = request.SortOrder == "Date" ? "date_desc" : "Date";
 
             if (request.SearchString != null)
             {
@@ -38,7 +38,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             }
             else
             {
-                result.CurrentFilter = request.SearchString;
+                result.MetaData.CurrentFilter = request.SearchString;
             }
 
             var students = from s in _context.Students
@@ -49,7 +49,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
                                        || s.FirstMidName.Contains(request.SearchString));
             }
 
-            switch (result.CurrentSort)
+            switch (result.MetaData.CurrentSort)
             {
                 case "name_desc":
                     students = students.OrderByDescending(s => s.LastName);
@@ -69,14 +69,14 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
 
             var totalStudents = await students.CountAsync();
             var numberOfPages = (totalStudents / (double)pageSize);
-            result.TotalRecords = totalStudents;
-            result.TotalPages = (int)Math.Ceiling(numberOfPages);
-            result.PageNumber = request.PageNumber ?? 1;
+            result.MetaData.TotalRecords = totalStudents;
+            result.MetaData.TotalPages = (int)Math.Ceiling(numberOfPages);
+            result.MetaData.PageNumber = request.PageNumber ?? 1;
 
-            if (result.PageNumber >= 0)
-                result.PageNumber = 1; //Temporary fix
+            if (result.MetaData.PageNumber >= 0)
+                result.MetaData.PageNumber = 1; //Temporary fix
 
-            var items = await students.AsNoTracking().Skip((result.PageNumber - 1) * pageSize)
+            var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);

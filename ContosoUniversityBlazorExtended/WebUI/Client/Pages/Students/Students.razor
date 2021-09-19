@@ -22,7 +22,7 @@ else
 {
     <div class="form-actions no-color">
         <p>
-            Find by name: <input type="text" name="searchString" @bind="StudentsViewModel.StudentsOverview.CurrentFilter" />
+            Find by name: <input type="text" name="searchString" @bind="StudentsViewModel.StudentsOverview.MetaData.CurrentFilter" />
             <MudIconButton OnClick="StudentsViewModel.Filter"
                            Title="Search"
                            Variant="Variant.Filled"
@@ -94,7 +94,7 @@ else
         </tbody>
     </table>
 
-    @if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.HasPreviousPage)
+    @if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.MetaData.HasPreviousPage)
     {
         <MudIconButton OnClick="StudentsViewModel.PreviousPage"
                        Title="Previous"
@@ -104,7 +104,7 @@ else
         </MudIconButton>
     }
 
-    @if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.HasNextPage)
+    @if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.MetaData.HasNextPage)
     {
         <MudIconButton OnClick="StudentsViewModel.NextPage"
                        Title="Next"

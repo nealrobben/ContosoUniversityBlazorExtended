@@ -32,9 +32,9 @@ namespace WebUI.Client.ViewModels.Students
 
         private async Task GetStudents()
         {
-            var pageNumber = StudentsOverview?.PageNumber;
-            var searchString = StudentsOverview?.CurrentFilter ?? "";
-            var sortOrder = StudentsOverview.CurrentSort ?? "";
+            var pageNumber = StudentsOverview?.MetaData.PageNumber;
+            var searchString = StudentsOverview?.MetaData.CurrentFilter ?? "";
+            var sortOrder = StudentsOverview.MetaData.CurrentSort ?? "";
 
             StudentsOverview = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString, null);
         }
@@ -58,16 +58,16 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task PreviousPage()
         {
-            if (StudentsOverview.PageNumber > 1)
-                StudentsOverview.PageNumber -= 1;
+            if (StudentsOverview.MetaData.PageNumber > 1)
+                StudentsOverview.MetaData.PageNumber -= 1;
 
             await GetStudents();
         }
 
         public async Task NextPage()
         {
-            if (StudentsOverview.PageNumber < StudentsOverview.TotalPages)
-                StudentsOverview.PageNumber += 1;
+            if (StudentsOverview.MetaData.PageNumber < StudentsOverview.MetaData.TotalPages)
+                StudentsOverview.MetaData.PageNumber += 1;
 
             await GetStudents();
         }
@@ -79,19 +79,19 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task BackToFullList()
         {
-            StudentsOverview.CurrentFilter = "";
+            StudentsOverview.MetaData.CurrentFilter = "";
             await GetStudents();
         }
 
         public async Task SortByLastName()
         {
-            if (StudentsOverview.CurrentSort == "" || StudentsOverview.CurrentSort == null)
+            if (StudentsOverview.MetaData.CurrentSort == "" || StudentsOverview.MetaData.CurrentSort == null)
             {
-                StudentsOverview.CurrentSort = "name_desc";
+                StudentsOverview.MetaData.CurrentSort = "name_desc";
             }
             else
             {
-                StudentsOverview.CurrentSort = "";
+                StudentsOverview.MetaData.CurrentSort = "";
             }
 
             await GetStudents();
@@ -99,13 +99,13 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task SortByEnrollmentDate()
         {
-            if (StudentsOverview.CurrentSort == "Date")
+            if (StudentsOverview.MetaData.CurrentSort == "Date")
             {
-                StudentsOverview.CurrentSort = "date_desc";
+                StudentsOverview.MetaData.CurrentSort = "date_desc";
             }
             else
             {
-                StudentsOverview.CurrentSort = "Date";
+                StudentsOverview.MetaData.CurrentSort = "Date";
             }
 
             await GetStudents();
@@ -153,13 +153,12 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task<TableData<StudentOverviewVM>> ServerReload(TableState state)
         {
-            var pageNumber = state.Page; //TODO: add pagesize as a parameter
-            var searchString = StudentsOverview?.CurrentFilter ?? "";
-            var sortOrder = StudentsOverview.CurrentSort ?? "";
+            var searchString = StudentsOverview?.MetaData.CurrentFilter ?? "";
+            var sortOrder = StudentsOverview.MetaData.CurrentSort ?? "";
 
-            var result = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString, state.PageSize);
+            var result = await _studentService.GetAllAsync(sortOrder, state.Page, searchString, state.PageSize);
 
-            return new TableData<StudentOverviewVM>() { TotalItems = result.TotalRecords, Items = result.Students };
+            return new TableData<StudentOverviewVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Students };
         }
     }
 }
