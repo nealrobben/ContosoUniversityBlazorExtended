@@ -30,8 +30,6 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             var result = new StudentsOverviewVM();
 
             result.MetaData.CurrentSort = request.SortOrder;
-            result.MetaData.NameSortParm = string.IsNullOrEmpty(request.SortOrder) ? "name_desc" : "";
-            result.MetaData.DateSortParm = request.SortOrder == "Date" ? "date_desc" : "Date";
 
             if (request.SearchString != null)
             {
