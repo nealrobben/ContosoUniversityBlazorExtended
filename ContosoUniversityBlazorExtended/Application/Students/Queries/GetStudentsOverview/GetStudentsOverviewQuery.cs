@@ -6,17 +6,15 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
     public class GetStudentsOverviewQuery : IRequest<StudentsOverviewVM>
     {
         public string SortOrder { get; set; }
-        public string CurrentFilter { get; set; }
         public string SearchString { get; set; }
         public int? PageNumber { get; set; }
 
         public int? PageSize { get; set; }
 
-        public GetStudentsOverviewQuery(string sortOrder, string currentFilter, 
+        public GetStudentsOverviewQuery(string sortOrder,
             string searchString, int? pageNumber, int? pageSize)
         {
             SortOrder = sortOrder;
-            CurrentFilter = currentFilter;
             SearchString = searchString;
             PageNumber = pageNumber;
             PageSize = pageSize;

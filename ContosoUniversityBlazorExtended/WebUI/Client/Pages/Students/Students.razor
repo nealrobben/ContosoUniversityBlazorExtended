@@ -122,6 +122,18 @@ else
         <MudSpacer />
         <MudTextField T="string" Placeholder="Search" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudIconButton OnClick="StudentsViewModel.Filter"
+                       Title="Search"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-search"
+                       Color="Color.Primary">
+        </MudIconButton>
+        <MudIconButton OnClick="StudentsViewModel.BackToFullList"
+                       Title="Back to Full List"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-list"
+                       Color="Color.Primary">
+        </MudIconButton>
     </ToolBarContent>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortLabel="lastname_field" T="StudentOverviewVM">Last Name</MudTableSortLabel></MudTh>

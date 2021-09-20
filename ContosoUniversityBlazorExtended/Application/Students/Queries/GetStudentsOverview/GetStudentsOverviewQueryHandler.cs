@@ -30,15 +30,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             var result = new StudentsOverviewVM();
 
             result.MetaData.CurrentSort = request.SortOrder;
-
-            if (request.SearchString != null)
-            {
-                request.PageNumber = 1;
-            }
-            else
-            {
-                result.MetaData.CurrentFilter = request.SearchString;
-            }
+            result.MetaData.CurrentFilter = request.SearchString;
 
             var students = _context.Students
                 .Search(request.SearchString)
@@ -50,10 +42,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             var numberOfPages = (totalStudents / (double)pageSize);
             result.MetaData.TotalRecords = totalStudents;
             result.MetaData.TotalPages = (int)Math.Ceiling(numberOfPages);
-            result.MetaData.PageNumber = request.PageNumber ?? 1;
-
-            if (result.MetaData.PageNumber < 0)
-                result.MetaData.PageNumber = 0; //Temporary fix
+            result.MetaData.PageNumber = request.PageNumber ?? 0;
 
             var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber) * pageSize)
                 .Take(pageSize)

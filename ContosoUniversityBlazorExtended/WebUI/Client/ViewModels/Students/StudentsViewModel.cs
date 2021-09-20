@@ -1,9 +1,7 @@
 ﻿using MudBlazor;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebUI.Client.Pages.Students;
 using WebUI.Client.Services;
-using WebUI.Shared.Students.Queries.GetStudentDetails;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 
 namespace WebUI.Client.ViewModels.Students
