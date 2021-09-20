@@ -52,10 +52,10 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             result.MetaData.TotalPages = (int)Math.Ceiling(numberOfPages);
             result.MetaData.PageNumber = request.PageNumber ?? 1;
 
-            if (result.MetaData.PageNumber >= 0)
-                result.MetaData.PageNumber = 1; //Temporary fix
+            if (result.MetaData.PageNumber < 0)
+                result.MetaData.PageNumber = 0; //Temporary fix
 
-            var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber - 1) * pageSize)
+            var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber) * pageSize)
                 .Take(pageSize)
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
