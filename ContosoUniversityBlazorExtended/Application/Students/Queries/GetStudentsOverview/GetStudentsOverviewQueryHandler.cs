@@ -30,7 +30,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             var result = new StudentsOverviewVM();
 
             result.MetaData.CurrentSort = request.SortOrder;
-            result.MetaData.CurrentFilter = request.SearchString;
+            result.MetaData.SearchString = request.SearchString;
 
             var students = _context.Students
                 .Search(request.SearchString)

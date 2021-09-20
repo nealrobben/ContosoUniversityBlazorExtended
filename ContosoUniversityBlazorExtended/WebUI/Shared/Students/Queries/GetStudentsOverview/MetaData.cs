@@ -10,7 +10,7 @@
 
         public string CurrentSort { get; set; }
 
-        public string CurrentFilter { get; set; }
+        public string SearchString { get; set; }
 
         public bool HasPreviousPage
         {
