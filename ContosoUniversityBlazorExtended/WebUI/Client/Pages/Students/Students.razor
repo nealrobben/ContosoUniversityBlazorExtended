@@ -133,7 +133,26 @@ else
         <MudTd DataLabel="Last Name">@context.LastName</MudTd>
         <MudTd DataLabel="First Name">@context.FirstName</MudTd>
         <MudTd DataLabel="Enrollment Date">@context.EnrollmentDate</MudTd>
-        <MudTd DataLabel=""></MudTd>
+        <MudTd DataLabel="">
+            <MudIconButton OnClick="(e => StudentsViewModel.OpenStudentEdit(context.StudentID))"
+                           Title="Edit"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-edit"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+            <MudIconButton OnClick="(e => StudentsViewModel.OpenStudentDetails(context.StudentID))"
+                           Title="Details"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-eye"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+            <MudIconButton OnClick=@(e => StudentsViewModel.DeleteStudent(context.StudentID, $"{context.FirstName} {context.LastName}"))
+                           Title="Delete"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-trash-alt"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+        </MudTd>
     </RowTemplate>
     <NoRecordsContent>
         <MudText>No matching records found</MudText>
