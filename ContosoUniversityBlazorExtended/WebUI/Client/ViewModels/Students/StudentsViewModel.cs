@@ -72,12 +72,14 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task Filter()
         {
+            //TODO: set page number of table to 0
             await GetStudents();
         }
 
         public async Task BackToFullList()
         {
             StudentsOverview.MetaData.SearchString = "";
+            //TODO: set page number of table to 0
             await GetStudents();
         }
 
@@ -152,7 +154,7 @@ namespace WebUI.Client.ViewModels.Students
         public async Task<TableData<StudentOverviewVM>> ServerReload(TableState state)
         {
             var searchString = StudentsOverview?.MetaData.SearchString ?? "";
-            var sortOrder = StudentsOverview.MetaData.CurrentSort ?? "";
+            var sortOrder = StudentsOverview.MetaData.CurrentSort ?? ""; //TODO: implement sorting
 
             var result = await _studentService.GetAllAsync(sortOrder, state.Page, searchString, state.PageSize);
 

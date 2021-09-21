@@ -29,23 +29,17 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
         {
             var result = new StudentsOverviewVM();
 
-            result.MetaData.CurrentSort = request.SortOrder;
-            result.MetaData.SearchString = request.SearchString;
-
             var students = _context.Students
                 .Search(request.SearchString)
-                .Sort(result.MetaData.CurrentSort);
-
-            var pageSize = request.PageSize ?? _defaultPageSize;
+                .Sort(request.SortOrder);
 
             var totalStudents = await students.CountAsync();
-            var numberOfPages = (totalStudents / (double)pageSize);
-            result.MetaData.TotalRecords = totalStudents;
-            result.MetaData.TotalPages = (int)Math.Ceiling(numberOfPages);
-            result.MetaData.PageNumber = request.PageNumber ?? 0;
 
-            var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber) * pageSize)
-                .Take(pageSize)
+            result.MetaData = new MetaData(request.PageNumber ?? 0, totalStudents, 
+                request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
+
+            var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber) * result.MetaData.PageSize)
+                .Take(result.MetaData.PageSize)
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
