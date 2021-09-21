@@ -13,7 +13,7 @@
 </p>
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<StudentOverviewVM>>>(StudentsViewModel.ServerReload))"
-          Dense="true" Hover="true" FixedFooter="true" Height="500px">
+          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Students</MudText>
         <MudSpacer />

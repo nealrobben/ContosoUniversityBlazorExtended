@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using MudBlazor;
 using WebUI.Client.ViewModels.Students;
+using WebUI.Shared.Students.Queries.GetStudentsOverview;
 
 namespace WebUI.Client.Pages.Students
 {
@@ -9,9 +10,11 @@ namespace WebUI.Client.Pages.Students
         [Inject]
         public StudentsViewModel StudentsViewModel { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        private MudTable<StudentOverviewVM> table;
+
+        protected override void OnAfterRender(bool firstRender)
         {
-            await StudentsViewModel.OnInitializedAsync();
+            StudentsViewModel.Table = table;
         }
     }
 }

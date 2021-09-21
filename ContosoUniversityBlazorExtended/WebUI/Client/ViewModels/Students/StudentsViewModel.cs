@@ -10,6 +10,7 @@ namespace WebUI.Client.ViewModels.Students
     {
         private IDialogService _dialogService { get; set; }
         private ISnackbar _snackbar { get; set; }
+        public MudTable<StudentOverviewVM> Table { get; set; }
 
         public StudentsOverviewVM StudentsOverview { get; set; } = new StudentsOverviewVM();
 
@@ -23,18 +24,9 @@ namespace WebUI.Client.ViewModels.Students
             _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
-        public async Task OnInitializedAsync()
-        {
-            await GetStudents();
-        }
-
         private async Task GetStudents()
         {
-            var pageNumber = StudentsOverview?.MetaData.PageNumber;
-            var searchString = StudentsOverview?.MetaData.SearchString ?? "";
-            var sortOrder = StudentsOverview.MetaData.CurrentSort ?? "";
-
-            StudentsOverview = await _studentService.GetAllAsync(sortOrder, pageNumber, searchString, null);
+            await Table.ReloadServerData();
         }
 
         public async Task DeleteStudent(int studentId, string name)
@@ -54,22 +46,6 @@ namespace WebUI.Client.ViewModels.Students
             }
         }
 
-        public async Task PreviousPage()
-        {
-            if (StudentsOverview.MetaData.PageNumber > 1)
-                StudentsOverview.MetaData.PageNumber -= 1;
-
-            await GetStudents();
-        }
-
-        public async Task NextPage()
-        {
-            if (StudentsOverview.MetaData.PageNumber < StudentsOverview.MetaData.TotalPages)
-                StudentsOverview.MetaData.PageNumber += 1;
-
-            await GetStudents();
-        }
-
         public async Task Filter()
         {
             //TODO: set page number of table to 0
@@ -80,34 +56,6 @@ namespace WebUI.Client.ViewModels.Students
         {
             StudentsOverview.MetaData.SearchString = "";
             //TODO: set page number of table to 0
-            await GetStudents();
-        }
-
-        public async Task SortByLastName()
-        {
-            if (StudentsOverview.MetaData.CurrentSort == "" || StudentsOverview.MetaData.CurrentSort == null)
-            {
-                StudentsOverview.MetaData.CurrentSort = "name_desc";
-            }
-            else
-            {
-                StudentsOverview.MetaData.CurrentSort = "";
-            }
-
-            await GetStudents();
-        }
-
-        public async Task SortByEnrollmentDate()
-        {
-            if (StudentsOverview.MetaData.CurrentSort == "Date")
-            {
-                StudentsOverview.MetaData.CurrentSort = "date_desc";
-            }
-            else
-            {
-                StudentsOverview.MetaData.CurrentSort = "Date";
-            }
-
             await GetStudents();
         }
 
