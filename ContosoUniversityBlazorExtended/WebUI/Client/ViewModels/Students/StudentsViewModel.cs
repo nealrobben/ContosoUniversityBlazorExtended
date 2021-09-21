@@ -154,9 +154,11 @@ namespace WebUI.Client.ViewModels.Students
         public async Task<TableData<StudentOverviewVM>> ServerReload(TableState state)
         {
             var searchString = StudentsOverview?.MetaData.SearchString ?? "";
-            var sortOrder = StudentsOverview.MetaData.CurrentSort ?? ""; //TODO: implement sorting
+            var sortField = state.SortLabel;
+            var sortDirection = state.SortDirection == SortDirection.Ascending ? "asc" : "desc";
+            var sortClause = $"{sortField}_{sortDirection}";
 
-            var result = await _studentService.GetAllAsync(sortOrder, state.Page, searchString, state.PageSize);
+            var result = await _studentService.GetAllAsync(sortClause, state.Page, searchString, state.PageSize);
 
             return new TableData<StudentOverviewVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Students };
         }

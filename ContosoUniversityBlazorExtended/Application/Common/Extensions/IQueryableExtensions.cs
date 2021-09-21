@@ -16,13 +16,19 @@ namespace Application.Common.Extensions
 
         public static IQueryable<Student> Sort(this IQueryable<Student> value, string sortString)
         {
-            switch (sortString)
+            switch (sortString?.ToLower() ?? "")
             {
-                case "name_desc":
+                case "lastname_asc":
+                    return value.OrderBy(s => s.LastName);
+                case "lastname_desc":
                     return value.OrderByDescending(s => s.LastName);
-                case "Date":
+                case "firstname_asc":
+                    return value.OrderBy(s => s.FirstMidName);
+                case "firstname_desc":
+                    return value.OrderByDescending(s => s.FirstMidName);
+                case "enrollmentdate_asc":
                     return value.OrderBy(s => s.EnrollmentDate);
-                case "date_desc":
+                case "enrollmentdate_desc":
                     return value.OrderByDescending(s => s.EnrollmentDate);
                 default:
                     return value.OrderBy(s => s.LastName);
