@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WebUI.Shared.Common;
 
 namespace WebUI.Shared.Students.Queries.GetStudentsOverview
 {

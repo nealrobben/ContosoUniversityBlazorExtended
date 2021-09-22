@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;

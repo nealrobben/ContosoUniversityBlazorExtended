@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebUI.Shared.Students.Queries.GetStudentsOverview
+namespace WebUI.Shared.Common
 {
     public class MetaData
     {
@@ -15,22 +15,6 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
         public string CurrentSort { get; set; }
 
         public string SearchString { get; set; }
-
-        public bool HasPreviousPage
-        {
-            get
-            {
-                return (PageNumber > 1);
-            }
-        }
-
-        public bool HasNextPage
-        {
-            get
-            {
-                return (PageNumber < TotalPages);
-            }
-        }
 
         public MetaData()
         {
