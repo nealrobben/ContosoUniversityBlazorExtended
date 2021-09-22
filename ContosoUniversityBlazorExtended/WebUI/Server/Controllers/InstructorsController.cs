@@ -1,6 +1,4 @@
-﻿using ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstructor;
-using ContosoUniversityBlazor.Application.Instructors.Commands.DeleteInstructor;
-using ContosoUniversityBlazor.Application.Instructors.Commands.UpdateInstructor;
+﻿using ContosoUniversityBlazor.Application.Instructors.Commands.DeleteInstructor;
 using ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorDetails;
 using ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsLookup;
 using ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOverview;
@@ -20,7 +18,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<InstructorsOverviewVM>> GetAll()
         {
-            var vm = await Mediator.Send(new GetInstructorsOverviewQuery());
+            var vm = await Mediator.Send(new GetInstructorsOverviewQuery("", "", null, null));
 
             return Ok(vm);
         }

@@ -17,7 +17,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<CoursesOverviewVM>> GetAll()
         {
-            var vm = await Mediator.Send(new GetCoursesOverviewQuery());
+            var vm = await Mediator.Send(new GetCoursesOverviewQuery("","",null,null));
 
             return Ok(vm);
         }

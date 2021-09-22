@@ -49,14 +49,12 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task Filter()
         {
-            //TODO: set page number of table to 0
             await GetStudents();
         }
 
         public async Task BackToFullList()
         {
             StudentsOverview.MetaData.SearchString = "";
-            //TODO: set page number of table to 0
             await GetStudents();
         }
 
