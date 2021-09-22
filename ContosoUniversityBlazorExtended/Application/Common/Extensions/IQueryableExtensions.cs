@@ -34,5 +34,26 @@ namespace Application.Common.Extensions
                     return value.OrderBy(s => s.LastName);
             }
         }
+
+        public static IQueryable<Department> Search(this IQueryable<Department> value, string searchString)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return value;
+
+            return value.Where(s => s.Name.Contains(searchString));
+        }
+
+        public static IQueryable<Department> Sort(this IQueryable<Department> value, string sortString)
+        {
+            switch (sortString?.ToLower() ?? "")
+            {
+                case "name_asc":
+                    return value.OrderBy(s => s.Name);
+                case "name_desc":
+                    return value.OrderByDescending(s => s.Name);
+                default:
+                    return value.OrderBy(s => s.Name);
+            }
+        }
     }
 }

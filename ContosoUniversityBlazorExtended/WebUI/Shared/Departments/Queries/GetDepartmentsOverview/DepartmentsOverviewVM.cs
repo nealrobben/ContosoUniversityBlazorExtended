@@ -16,15 +16,14 @@ namespace WebUI.Shared.Departments.Queries.GetDepartmentsOverview
             MetaData.PageNumber = 0;
         }
 
-        public DepartmentsOverviewVM(IList<DepartmentVM> departments)
+        public DepartmentsOverviewVM(IList<DepartmentVM> departments, MetaData metaData)
         {
             if (departments != null)
                 Departments = departments;
             else
                 Departments = new List<DepartmentVM>();
 
-            MetaData = new MetaData();
-            MetaData.PageNumber = 0;
+            MetaData = metaData;
         }
     }
 }
