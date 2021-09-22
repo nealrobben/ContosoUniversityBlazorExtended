@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Common.Extensions;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
 using ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOverview;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Common;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsOverview
@@ -17,6 +19,8 @@ namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructors
         private readonly ISchoolContext _context;
         private readonly IMapper _mapper;
 
+        private const int _defaultPageSize = 10;
+
         public GetInstructorsOverviewQueryHandler(ISchoolContext context, IMapper mapper)
         {
             _context = context;
@@ -25,12 +29,16 @@ namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructors
 
         public async Task<InstructorsOverviewVM> Handle(GetInstructorsOverviewQuery request, CancellationToken cancellationToken)
         {
-            return new InstructorsOverviewVM(await GetInstructors(cancellationToken));
-        }
+            var instructors = _context.Instructors
+                .Search(request.SearchString)
+                .Sort(request.SortOrder);
 
-        private async Task<List<InstructorVM>> GetInstructors(CancellationToken cancellationToken)
-        {
-            return await _context.Instructors
+            var totalInstructors = await instructors.CountAsync();
+
+            var metaData = new MetaData(request.PageNumber ?? 0, totalInstructors,
+                request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
+
+            var items = await instructors
                   .Include(i => i.OfficeAssignment)
                   .Include(i => i.CourseAssignments)
                     .ThenInclude(i => i.Course)
@@ -43,6 +51,8 @@ namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructors
                   .OrderBy(i => i.LastName)
                   .ProjectTo<InstructorVM>(_mapper.ConfigurationProvider)
                   .ToListAsync(cancellationToken);
+
+            return new InstructorsOverviewVM(items, metaData);
         }
     }
 }
