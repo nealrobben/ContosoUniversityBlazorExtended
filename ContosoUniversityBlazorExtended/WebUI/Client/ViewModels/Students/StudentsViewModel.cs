@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Students;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
@@ -102,11 +103,9 @@ namespace WebUI.Client.ViewModels.Students
         public async Task<TableData<StudentOverviewVM>> ServerReload(TableState state)
         {
             var searchString = StudentsOverview?.MetaData.SearchString ?? "";
-            var sortField = state.SortLabel;
-            var sortDirection = state.SortDirection == SortDirection.Ascending ? "asc" : "desc";
-            var sortClause = $"{sortField}_{sortDirection}";
+            var sortString = state.GetSortString();
 
-            var result = await _studentService.GetAllAsync(sortClause, state.Page, searchString, state.PageSize);
+            var result = await _studentService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
 
             return new TableData<StudentOverviewVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Students };
         }
