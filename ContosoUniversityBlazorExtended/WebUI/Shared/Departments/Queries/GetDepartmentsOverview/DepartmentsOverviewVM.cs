@@ -13,7 +13,6 @@ namespace WebUI.Shared.Departments.Queries.GetDepartmentsOverview
         {
             Departments = new List<DepartmentVM>();
             MetaData = new MetaData();
-            MetaData.PageNumber = 0;
         }
 
         public DepartmentsOverviewVM(IList<DepartmentVM> departments, MetaData metaData)

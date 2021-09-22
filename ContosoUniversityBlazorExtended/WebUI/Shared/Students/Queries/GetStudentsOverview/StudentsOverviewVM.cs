@@ -16,23 +16,14 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
             MetaData.PageNumber = 0;
         }
 
-        public StudentsOverviewVM(IList<StudentOverviewVM> students)
+        public StudentsOverviewVM(IList<StudentOverviewVM> students, MetaData metaData)
         {
             if (students != null)
                 Students = students;
             else
                 Students = new List<StudentOverviewVM>();
 
-            MetaData = new MetaData();
-            MetaData.PageNumber = 0;
-        }
-
-        public void AddStudents(List<StudentOverviewVM> students)
-        {
-            foreach (var student in students)
-            {
-                Students.Add(student);
-            }
+            MetaData = metaData;
         }
     }
 }

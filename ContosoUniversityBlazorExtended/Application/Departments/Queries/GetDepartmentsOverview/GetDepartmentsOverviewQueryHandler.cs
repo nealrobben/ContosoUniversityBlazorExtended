@@ -4,6 +4,7 @@ using AutoMapper.QueryableExtensions;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Common;
@@ -38,6 +39,8 @@ namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartments
             var items = await departments
                 .Include(d => d.Administrator)
                 .AsNoTracking()
+                .Skip((metaData.PageNumber) * metaData.PageSize)
+                .Take(metaData.PageSize)
                 .ProjectTo<DepartmentVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

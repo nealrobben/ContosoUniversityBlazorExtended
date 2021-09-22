@@ -28,25 +28,21 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
 
         public async Task<StudentsOverviewVM> Handle(GetStudentsOverviewQuery request, CancellationToken cancellationToken)
         {
-            var result = new StudentsOverviewVM();
-
             var students = _context.Students
                 .Search(request.SearchString)
                 .Sort(request.SortOrder);
 
             var totalStudents = await students.CountAsync();
 
-            result.MetaData = new MetaData(request.PageNumber ?? 0, totalStudents, 
+            var metaData = new MetaData(request.PageNumber ?? 0, totalStudents, 
                 request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
 
-            var items = await students.AsNoTracking().Skip((result.MetaData.PageNumber) * result.MetaData.PageSize)
-                .Take(result.MetaData.PageSize)
+            var items = await students.AsNoTracking().Skip((metaData.PageNumber) * metaData.PageSize)
+                .Take(metaData.PageSize)
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            result.AddStudents(items);
-
-            return result;
+            return new StudentsOverviewVM(items, metaData);
         }
     }
 }
