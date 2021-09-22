@@ -55,5 +55,56 @@ namespace Application.Common.Extensions
                     return value.OrderBy(s => s.Name);
             }
         }
+
+        public static IQueryable<Instructor> Search(this IQueryable<Instructor> value, string searchString)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return value;
+
+            return value.Where(s => s.LastName.Contains(searchString)
+                       || s.FirstMidName.Contains(searchString));
+        }
+
+        public static IQueryable<Instructor> Sort(this IQueryable<Instructor> value, string sortString)
+        {
+            switch (sortString?.ToLower() ?? "")
+            {
+                case "lastname_asc":
+                    return value.OrderBy(s => s.LastName);
+                case "lastname_desc":
+                    return value.OrderByDescending(s => s.LastName);
+                case "firstname_asc":
+                    return value.OrderBy(s => s.FirstMidName);
+                case "firstname_desc":
+                    return value.OrderByDescending(s => s.FirstMidName);
+                case "hiredate_asc":
+                    return value.OrderBy(s => s.HireDate);
+                case "hiredate_desc":
+                    return value.OrderByDescending(s => s.HireDate);
+                default:
+                    return value.OrderBy(s => s.LastName);
+            }
+        }
+
+        public static IQueryable<Course> Search(this IQueryable<Course> value, string searchString)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return value;
+
+            return value.Where(s => s.Title.Contains(searchString));
+        }
+
+        public static IQueryable<Course> Sort(this IQueryable<Course> value, string sortString)
+        {
+            switch (sortString?.ToLower() ?? "")
+            {
+                case "title_asc":
+                    return value.OrderBy(s => s.Title);
+                case "title_desc":
+                    return value.OrderByDescending(s => s.Title);
+                default:
+                    return value.OrderBy(s => s.Title);
+            }
+        }
     }
 }
