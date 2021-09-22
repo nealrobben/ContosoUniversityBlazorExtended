@@ -9,6 +9,7 @@ using AutoMapper.QueryableExtensions;
 using AutoMapper;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 using Application.Common.Extensions;
+using WebUI.Shared.Common;
 
 namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview
 {

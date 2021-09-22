@@ -13,7 +13,7 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
         {
             Students = new List<StudentOverviewVM>();
             MetaData = new MetaData();
-            MetaData.PageNumber = 1;
+            MetaData.PageNumber = 0;
         }
 
         public StudentsOverviewVM(IList<StudentOverviewVM> students)
@@ -24,7 +24,7 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
                 Students = new List<StudentOverviewVM>();
 
             MetaData = new MetaData();
-            MetaData.PageNumber = 1;
+            MetaData.PageNumber = 0;
         }
 
         public void AddStudents(List<StudentOverviewVM> students)

@@ -1,12 +1,10 @@
 ﻿using ContosoUniversityBlazor.Application.Departments.Commands.DeleteDepartment;
 using ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentDetails;
 using ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsOverview;
-using ContosoUniversityBlazor.Application.Departments.Commands.CreateDepartment;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsLookup;
-using ContosoUniversityBlazor.Application.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
@@ -20,7 +18,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<DepartmentsOverviewVM>> GetAll()
         {
-            var vm = await Mediator.Send(new GetDepartmentsOverviewQuery());
+            var vm = await Mediator.Send(new GetDepartmentsOverviewQuery("","",null,null));
 
             return Ok(vm);
         }
