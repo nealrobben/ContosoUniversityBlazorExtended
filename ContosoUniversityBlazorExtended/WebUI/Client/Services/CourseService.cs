@@ -15,9 +15,40 @@ namespace WebUI.Client.Services
         {
         }
 
-        public async Task<CoursesOverviewVM> GetAllAsync()
+        public async Task<CoursesOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            return await _http.GetFromJsonAsync<CoursesOverviewVM>("/api/courses");
+            var url = "/api/courses";
+
+            if (pageNumber != null)
+            {
+                url += $"?pageNumber={pageNumber}";
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                if (!url.Contains("?"))
+                    url += $"?searchString={searchString}";
+                else
+                    url += $"&searchString={searchString}";
+            }
+
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                if (!url.Contains("?"))
+                    url += $"?sortOrder={sortOrder}";
+                else
+                    url += $"&sortOrder={sortOrder}";
+            }
+
+            if (pageSize != null)
+            {
+                if (!url.Contains("?"))
+                    url += $"?pageSize={pageSize}";
+                else
+                    url += $"&pageSize={pageSize}";
+            }
+
+            return await _http.GetFromJsonAsync<CoursesOverviewVM>(url);
         }
 
         public async Task<CourseDetailVM> GetAsync(string id)

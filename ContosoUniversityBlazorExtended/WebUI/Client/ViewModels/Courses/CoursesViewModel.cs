@@ -24,7 +24,7 @@ namespace WebUI.Client.ViewModels.Courses
 
         public async Task Initialize()
         {
-            coursesOverview = await _courseService.GetAllAsync();
+            coursesOverview = await _courseService.GetAllAsync("",null,"",null);
         }
 
         public async Task DeleteCourse(int courseId, string title)
@@ -39,7 +39,7 @@ namespace WebUI.Client.ViewModels.Courses
                 if (result.IsSuccessStatusCode)
                 {
                     _snackbar.Add($"Deleted course {title}", Severity.Success);
-                    coursesOverview = await _courseService.GetAllAsync();
+                    coursesOverview = await _courseService.GetAllAsync("", null, "", null);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace WebUI.Client.ViewModels.Courses
 
             if (result.Data != null && (bool)result.Data)
             {
-                coursesOverview = await _courseService.GetAllAsync();
+                coursesOverview = await _courseService.GetAllAsync("", null, "", null);
             }
         }
 
@@ -80,7 +80,7 @@ namespace WebUI.Client.ViewModels.Courses
 
             if (result.Data != null && (bool)result.Data)
             {
-                coursesOverview = await _courseService.GetAllAsync();
+                coursesOverview = await _courseService.GetAllAsync("", null, "", null);
             }
         }
     }
