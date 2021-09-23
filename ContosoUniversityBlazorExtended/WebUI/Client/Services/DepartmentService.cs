@@ -15,9 +15,40 @@ namespace WebUI.Client.Services
         {
         }
 
-        public async Task<DepartmentsOverviewVM> GetAllAsync()
+        public async Task<DepartmentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            return await _http.GetFromJsonAsync<DepartmentsOverviewVM>("/api/departments");
+            var url = "/api/departments";
+
+            if (pageNumber != null)
+            {
+                url += $"?pageNumber={pageNumber}";
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                if (!url.Contains("?"))
+                    url += $"?searchString={searchString}";
+                else
+                    url += $"&searchString={searchString}";
+            }
+
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                if (!url.Contains("?"))
+                    url += $"?sortOrder={sortOrder}";
+                else
+                    url += $"&sortOrder={sortOrder}";
+            }
+
+            if (pageSize != null)
+            {
+                if (!url.Contains("?"))
+                    url += $"?pageSize={pageSize}";
+                else
+                    url += $"&pageSize={pageSize}";
+            }
+
+            return await _http.GetFromJsonAsync<DepartmentsOverviewVM>(url);
         }
 
         public async Task<DepartmentDetailVM> GetAsync(string id)

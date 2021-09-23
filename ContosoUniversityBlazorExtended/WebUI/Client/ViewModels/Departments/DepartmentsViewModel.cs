@@ -24,7 +24,7 @@ namespace WebUI.Client.ViewModels.Departments
 
         public async Task OnInitializedAsync()
         {
-            departmentsOverview = await _departmentService.GetAllAsync();
+            departmentsOverview = await _departmentService.GetAllAsync("",null,"",null);
         }
 
         public async Task DeleteDepartment(int departmentId, string departmentName)
@@ -39,7 +39,7 @@ namespace WebUI.Client.ViewModels.Departments
                 if (result.IsSuccessStatusCode)
                 {
                     _snackbar.Add($"Deleted department {departmentName}", Severity.Success);
-                    departmentsOverview = await _departmentService.GetAllAsync();
+                    departmentsOverview = await _departmentService.GetAllAsync("", null, "", null);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace WebUI.Client.ViewModels.Departments
 
             if (result.Data != null && (bool)result.Data)
             {
-                departmentsOverview = await _departmentService.GetAllAsync();
+                departmentsOverview = await _departmentService.GetAllAsync("", null, "", null);
             }
         }
 
@@ -80,7 +80,7 @@ namespace WebUI.Client.ViewModels.Departments
 
             if(result.Data != null && (bool)result.Data)
             {
-                departmentsOverview = await _departmentService.GetAllAsync();
+                departmentsOverview = await _departmentService.GetAllAsync("", null, "", null);
             }
         }
     }
