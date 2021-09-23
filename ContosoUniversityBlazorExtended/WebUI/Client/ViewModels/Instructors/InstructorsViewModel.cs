@@ -37,7 +37,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public async Task OnInitializedAsync()
         {
-            InstructorsOverview = await _instructorService.GetAllAsync();
+            InstructorsOverview = await _instructorService.GetAllAsync("",null,"",null);
         }
 
         public async Task DeleteInstructor(int instructorId, string name)
@@ -52,7 +52,7 @@ namespace WebUI.Client.ViewModels.Instructors
                 if (result.IsSuccessStatusCode)
                 {
                     _snackbar.Add($"Deleted instructor {name}", Severity.Success);
-                    InstructorsOverview = await _instructorService.GetAllAsync();
+                    InstructorsOverview = await _instructorService.GetAllAsync("", null, "", null);
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
             if (result.Data != null && (bool)result.Data)
             {
-                InstructorsOverview = await _instructorService.GetAllAsync();
+                InstructorsOverview = await _instructorService.GetAllAsync("", null, "", null);
             }
         }
 
@@ -109,7 +109,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
             if (result.Data != null && (bool)result.Data)
             {
-                InstructorsOverview = await _instructorService.GetAllAsync();
+                InstructorsOverview = await _instructorService.GetAllAsync("", null, "", null);
             }
         }
     }
