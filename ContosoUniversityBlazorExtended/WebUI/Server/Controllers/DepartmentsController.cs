@@ -16,9 +16,9 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
     public class DepartmentsController : ApiController
     {
         [HttpGet]
-        public async Task<ActionResult<DepartmentsOverviewVM>> GetAll()
+        public async Task<ActionResult<DepartmentsOverviewVM>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
         {
-            var vm = await Mediator.Send(new GetDepartmentsOverviewQuery("","",null,null));
+            var vm = await Mediator.Send(new GetDepartmentsOverviewQuery(sortOrder, searchString, pageNumber, pageSize));
 
             return Ok(vm);
         }
