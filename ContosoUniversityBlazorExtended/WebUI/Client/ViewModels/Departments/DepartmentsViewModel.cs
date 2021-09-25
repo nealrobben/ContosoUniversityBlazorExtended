@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Departments;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
@@ -11,7 +12,9 @@ namespace WebUI.Client.ViewModels.Departments
         private IDialogService _dialogService { get; set; }
         private ISnackbar _snackbar { get; set; }
 
-        public DepartmentsOverviewVM departmentsOverview { get; set; }
+        public MudTable<DepartmentVM> Table { get; set; }
+
+        public DepartmentsOverviewVM DepartmentsOverview { get; set; } = new DepartmentsOverviewVM();
 
         public DepartmentsViewModel(DepartmentService departmentService,
             IDialogService dialogService, ISnackbar snackbar) : base(departmentService)
@@ -22,9 +25,9 @@ namespace WebUI.Client.ViewModels.Departments
             _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
-        public async Task OnInitializedAsync()
+        private async Task GetDepartments()
         {
-            departmentsOverview = await _departmentService.GetAllAsync("",null,"",null);
+            await Table.ReloadServerData();
         }
 
         public async Task DeleteDepartment(int departmentId, string departmentName)
@@ -39,7 +42,7 @@ namespace WebUI.Client.ViewModels.Departments
                 if (result.IsSuccessStatusCode)
                 {
                     _snackbar.Add($"Deleted department {departmentName}", Severity.Success);
-                    departmentsOverview = await _departmentService.GetAllAsync("", null, "", null);
+                    await GetDepartments();
                 }
             }
         }
@@ -67,7 +70,7 @@ namespace WebUI.Client.ViewModels.Departments
 
             if (result.Data != null && (bool)result.Data)
             {
-                departmentsOverview = await _departmentService.GetAllAsync("", null, "", null);
+                await GetDepartments();
             }
         }
 
@@ -80,8 +83,29 @@ namespace WebUI.Client.ViewModels.Departments
 
             if(result.Data != null && (bool)result.Data)
             {
-                departmentsOverview = await _departmentService.GetAllAsync("", null, "", null);
+                await GetDepartments();
             }
+        }
+
+        public async Task Filter()
+        {
+            await GetDepartments();
+        }
+
+        public async Task BackToFullList()
+        {
+            DepartmentsOverview.MetaData.SearchString = "";
+            await GetDepartments();
+        }
+
+        public async Task<TableData<DepartmentVM>> ServerReload(TableState state)
+        {
+            var searchString = DepartmentsOverview?.MetaData.SearchString ?? "";
+            var sortString = state.GetSortString();
+
+            var result = await _departmentService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
+
+            return new TableData<DepartmentVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Departments };
         }
     }
 }

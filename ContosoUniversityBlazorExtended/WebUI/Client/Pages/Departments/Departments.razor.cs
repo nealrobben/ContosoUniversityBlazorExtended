@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using MudBlazor;
 using WebUI.Client.ViewModels.Departments;
+using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.Client.Pages.Departments
 {
@@ -9,9 +10,11 @@ namespace WebUI.Client.Pages.Departments
         [Inject]
         public DepartmentsViewModel DepartmentsViewModel { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        private MudTable<DepartmentVM> table;
+
+        protected override void OnAfterRender(bool firstRender)
         {
-            await DepartmentsViewModel.OnInitializedAsync();
+            DepartmentsViewModel.Table = table;
         }
     }
 }
