@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Courses;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
@@ -10,8 +11,9 @@ namespace WebUI.Client.ViewModels.Courses
     {
         private IDialogService _dialogService { get; set; }
         private ISnackbar _snackbar { get; set; }
+        public MudTable<CourseVM> Table { get; set; }
 
-        public CoursesOverviewVM coursesOverview { get; set; }
+        public CoursesOverviewVM CoursesOverview { get; set; } = new CoursesOverviewVM();
 
         public CoursesViewModel(CourseService courseService,
             IDialogService dialogService, ISnackbar snackbar) : base(courseService)
@@ -22,9 +24,9 @@ namespace WebUI.Client.ViewModels.Courses
             _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
-        public async Task Initialize()
+        private async Task GetCourses()
         {
-            coursesOverview = await _courseService.GetAllAsync("",null,"",null);
+            await Table.ReloadServerData();
         }
 
         public async Task DeleteCourse(int courseId, string title)
@@ -39,7 +41,7 @@ namespace WebUI.Client.ViewModels.Courses
                 if (result.IsSuccessStatusCode)
                 {
                     _snackbar.Add($"Deleted course {title}", Severity.Success);
-                    coursesOverview = await _courseService.GetAllAsync("", null, "", null);
+                    await GetCourses();
                 }
             }
         }
@@ -67,7 +69,7 @@ namespace WebUI.Client.ViewModels.Courses
 
             if (result.Data != null && (bool)result.Data)
             {
-                coursesOverview = await _courseService.GetAllAsync("", null, "", null);
+                await GetCourses();
             }
         }
 
@@ -80,8 +82,29 @@ namespace WebUI.Client.ViewModels.Courses
 
             if (result.Data != null && (bool)result.Data)
             {
-                coursesOverview = await _courseService.GetAllAsync("", null, "", null);
+                await GetCourses();
             }
+        }
+
+        public async Task Filter()
+        {
+            await GetCourses();
+        }
+
+        public async Task BackToFullList()
+        {
+            CoursesOverview.MetaData.SearchString = "";
+            await GetCourses();
+        }
+
+        public async Task<TableData<CourseVM>> ServerReload(TableState state)
+        {
+            var searchString = CoursesOverview?.MetaData.SearchString ?? "";
+            var sortString = state.GetSortString();
+
+            var result = await _courseService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
+
+            return new TableData<CourseVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Courses };
         }
     }
 }

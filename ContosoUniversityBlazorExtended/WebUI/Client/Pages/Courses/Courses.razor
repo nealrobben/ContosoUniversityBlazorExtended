@@ -1,4 +1,5 @@
-﻿@page "/courses"
+﻿@using WebUI.Shared.Courses.Queries.GetCoursesOverview
+@page "/courses"
 
 <h2>Courses</h2>
 
@@ -11,75 +12,66 @@
     </MudIconButton>
 </p>
 
-@if (CoursesViewModel.coursesOverview == null)
-{
-    <div class="d-flex justify-content-center">
-        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
-    </div>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    CourseID
-                </th>
-                <th>
-                    Title
-                </th>
-                <th>
-                    Credits
-                </th>
-                <th>
-                    DepartmentName
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @if (CoursesViewModel.coursesOverview != null)
-            {
-                @foreach (var item in CoursesViewModel.coursesOverview.Courses)
-                {
-                    <tr>
-                        <td>
-                            @item.CourseID
-                        </td>
-                        <td>
-                            @item.Title
-                        </td>
-                        <td>
-                            @item.Credits
-                        </td>
-                        <td>
-                            @item.DepartmentName
-                        </td>
-                        <td>
-                            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseEdit(item.CourseID))"
-                                           Title="Edit"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-edit"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseDetails(item.CourseID))"
-                                           Title="Details"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-eye"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                            <MudIconButton OnClick="(e => CoursesViewModel.DeleteCourse(item.CourseID, item.Title))"
-                                           Title="Delete"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-trash-alt"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                        </td>
-                    </tr>
-                }
-            }
-
-        </tbody>
-    </table>
-}
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CourseVM>>>(CoursesViewModel.ServerReload))"
+          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Courses</MudText>
+        <MudSpacer />
+        <MudTextField T="string" Placeholder="Search" Adornment="Adornment.Start" @bind-Value="@CoursesViewModel.CoursesOverview.MetaData.SearchString"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudIconButton OnClick="CoursesViewModel.Filter"
+                       Title="Search"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-search"
+                       Color="Color.Primary">
+        </MudIconButton>
+        <MudIconButton OnClick="CoursesViewModel.BackToFullList"
+                       Title="Back to Full List"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-list"
+                       Color="Color.Primary">
+        </MudIconButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="courseid" T="CourseVM">Course ID</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="title" T="CourseVM">Title</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="credits" T="CourseVM">Credits</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="departmentname" T="CourseVM">Department name</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.CourseID</MudTd>
+        <MudTd DataLabel="Budget">@context.Title</MudTd>
+        <MudTd DataLabel="StartDate">@context.Credits</MudTd>
+        <MudTd DataLabel="AdministratorName">@context.DepartmentName</MudTd>
+        <MudTd DataLabel="">
+            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseEdit(context.CourseID))"
+                           Title="Edit"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-edit"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseDetails(context.CourseID))"
+                           Title="Details"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-eye"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+            <MudIconButton OnClick=@(e => CoursesViewModel.DeleteCourse(context.CourseID, $"{context.Title}"))
+                           Title="Delete"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-trash-alt"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>

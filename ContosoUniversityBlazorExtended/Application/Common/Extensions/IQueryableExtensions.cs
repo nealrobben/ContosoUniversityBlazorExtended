@@ -102,6 +102,14 @@ namespace Application.Common.Extensions
                     return value.OrderBy(s => s.Title);
                 case "title_desc":
                     return value.OrderByDescending(s => s.Title);
+                case "courseid_asc":
+                    return value.OrderBy(s => s.CourseID);
+                case "courseid_desc":
+                    return value.OrderByDescending(s => s.CourseID);
+                case "credits_asc":
+                    return value.OrderBy(s => s.Credits);
+                case "credits_desc":
+                    return value.OrderByDescending(s => s.Credits);
                 default:
                     return value.OrderBy(s => s.Title);
             }
