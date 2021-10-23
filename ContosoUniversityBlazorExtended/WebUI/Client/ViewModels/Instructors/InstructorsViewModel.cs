@@ -15,7 +15,7 @@ namespace WebUI.Client.ViewModels.Instructors
         private ISnackbar _snackbar { get; set; }
         private IDialogService _dialogService { get; set; }
 
-        public InstructorsOverviewVM InstructorsOverview { get; set; }
+        public InstructorsOverviewVM InstructorsOverview { get; set; } = new InstructorsOverviewVM();
         public CoursesForInstructorOverviewVM CourseForInstructorOverview { get; set; }
         public StudentsForCourseVM StudentsForCourse { get; set; }
 

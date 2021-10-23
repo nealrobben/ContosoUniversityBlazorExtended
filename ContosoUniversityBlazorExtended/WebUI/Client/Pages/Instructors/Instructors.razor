@@ -143,22 +143,16 @@ else
         <h3>
             Students Enrolled in Selected Course
         </h3>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Grade</th>
-            </tr>
-            @foreach (var item in InstructorsViewModel.StudentsForCourse.Students)
-            {
-                <tr>
-                    <td>
-                        @item.StudentName
-                    </td>
-                    <td>
-                        @item.StudentGrade
-                    </td>
-                </tr>
-            }
-        </table>
+
+        <MudTable Items="InstructorsViewModel.StudentsForCourse.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Grade</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Nr">@context.StudentName</MudTd>
+                <MudTd DataLabel="Sign">@context.StudentGrade</MudTd>
+            </RowTemplate>
+        </MudTable>
     }
 }
