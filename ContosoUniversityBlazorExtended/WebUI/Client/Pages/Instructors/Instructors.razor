@@ -136,6 +136,19 @@ else
             }
 
         </table>
+
+        <MudTable Items="InstructorsViewModel.CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Number</MudTh>
+                <MudTh>Title</MudTh>
+                <MudTh>Department</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.CourseID</MudTd>
+                <MudTd>@context.Title</MudTd>
+                <MudTd>@context.DepartmentName</MudTd>
+            </RowTemplate>
+        </MudTable>
     }
 
     @if (InstructorsViewModel.StudentsForCourse != null)
@@ -150,8 +163,8 @@ else
                 <MudTh>Grade</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Nr">@context.StudentName</MudTd>
-                <MudTd DataLabel="Sign">@context.StudentGrade</MudTd>
+                <MudTd>@context.StudentName</MudTd>
+                <MudTd>@context.StudentGrade</MudTd>
             </RowTemplate>
         </MudTable>
     }
