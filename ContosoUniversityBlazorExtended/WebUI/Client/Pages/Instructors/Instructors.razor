@@ -1,4 +1,5 @@
-﻿@page "/instructors"
+﻿@using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
+@page "/instructors"
 
 <h2>Instructors</h2>
 
@@ -10,6 +11,73 @@
                    Color="Color.Primary">
     </MudIconButton>
 </p>
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<InstructorVM>>>(InstructorsViewModel.ServerReload))"
+          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Departments</MudText>
+        <MudSpacer />
+        <MudTextField T="string" Placeholder="Search" Adornment="Adornment.Start" @bind-Value="@InstructorsViewModel.InstructorsOverview.MetaData.SearchString"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudIconButton OnClick="InstructorsViewModel.Filter"
+                       Title="Search"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-search"
+                       Color="Color.Primary">
+        </MudIconButton>
+        <MudIconButton OnClick="InstructorsViewModel.BackToFullList"
+                       Title="Back to Full List"
+                       Variant="Variant.Filled"
+                       Icon="fas fa-list"
+                       Color="Color.Primary">
+        </MudIconButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="lastname" T="InstructorVM">Last name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="firstname" T="InstructorVM">First name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="hiredate" T="InstructorVM">Hire date</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="office" T="InstructorVM">Office</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="courses" T="InstructorVM">Courses</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="LastName">@context.LastName</MudTd>
+        <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
+        <MudTd DataLabel="HireDate">@context.HireDate</MudTd>
+        <MudTd DataLabel="Office">@context.OfficeLocation</MudTd>
+        <MudTd DataLabel="Courses"></MudTd>
+        <MudTd DataLabel="">
+            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorEdit(context.InstructorID))"
+                           Title="Edit"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-edit"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorDetails(context.InstructorID))"
+                           Title="Details"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-eye"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+            <MudIconButton OnClick=@(e =>
+                InstructorsViewModel.DeleteInstructor(context.InstructorID, $"{context.FirstName} {context.LastName}"))
+                           Title="Delete"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-trash-alt"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
 
 @if (InstructorsViewModel.InstructorsOverview == null)
 {

@@ -1,5 +1,6 @@
 ﻿using MudBlazor;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Instructors;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
@@ -14,6 +15,8 @@ namespace WebUI.Client.ViewModels.Instructors
         private readonly StudentService _studentService;
         private ISnackbar _snackbar { get; set; }
         private IDialogService _dialogService { get; set; }
+
+        public MudTable<InstructorVM> Table { get; set; }
 
         public InstructorsOverviewVM InstructorsOverview { get; set; } = new InstructorsOverviewVM();
         public CoursesForInstructorOverviewVM CourseForInstructorOverview { get; set; }
@@ -35,9 +38,9 @@ namespace WebUI.Client.ViewModels.Instructors
             _snackbar.Configuration.ClearAfterNavigation = true;
         }
 
-        public async Task OnInitializedAsync()
+        private async Task GetInstructors()
         {
-            InstructorsOverview = await _instructorService.GetAllAsync("",null,"",null);
+            await Table.ReloadServerData();
         }
 
         public async Task DeleteInstructor(int instructorId, string name)
@@ -52,7 +55,7 @@ namespace WebUI.Client.ViewModels.Instructors
                 if (result.IsSuccessStatusCode)
                 {
                     _snackbar.Add($"Deleted instructor {name}", Severity.Success);
-                    InstructorsOverview = await _instructorService.GetAllAsync("", null, "", null);
+                    await GetInstructors();
                 }
             }
         }
@@ -96,7 +99,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
             if (result.Data != null && (bool)result.Data)
             {
-                InstructorsOverview = await _instructorService.GetAllAsync("", null, "", null);
+                await GetInstructors();
             }
         }
 
@@ -109,8 +112,29 @@ namespace WebUI.Client.ViewModels.Instructors
 
             if (result.Data != null && (bool)result.Data)
             {
-                InstructorsOverview = await _instructorService.GetAllAsync("", null, "", null);
+                await GetInstructors();
             }
+        }
+
+        public async Task Filter()
+        {
+            await GetInstructors();
+        }
+
+        public async Task BackToFullList()
+        {
+            InstructorsOverview.MetaData.SearchString = "";
+            await GetInstructors();
+        }
+
+        public async Task<TableData<InstructorVM>> ServerReload(TableState state)
+        {
+            var searchString = InstructorsOverview?.MetaData.SearchString ?? "";
+            var sortString = state.GetSortString();
+
+            var result = await _instructorService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
+
+            return new TableData<InstructorVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Instructors };
         }
     }
 }

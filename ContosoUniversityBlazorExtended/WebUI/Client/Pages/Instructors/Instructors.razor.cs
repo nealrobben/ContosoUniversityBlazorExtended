@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using MudBlazor;
 using WebUI.Client.ViewModels.Instructors;
+using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace WebUI.Client.Pages.Instructors
 {
@@ -9,9 +10,11 @@ namespace WebUI.Client.Pages.Instructors
         [Inject]
         public InstructorsViewModel InstructorsViewModel { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        private MudTable<InstructorVM> table;
+
+        protected override void OnAfterRender(bool firstRender)
         {
-            await InstructorsViewModel.OnInitializedAsync();
+            InstructorsViewModel.Table = table;
         }
     }
 }
