@@ -136,5 +136,13 @@ namespace WebUI.Client.ViewModels.Instructors
 
             return new TableData<InstructorVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Instructors };
         }
+
+        public string InstructorsSelectRowClassFunc(InstructorVM instructor, int rowNumber)
+        {
+            if (instructor?.InstructorID == SelectedInstructorId)
+                return "mud-theme-primary";
+
+            return "";
+        }
     }
 }

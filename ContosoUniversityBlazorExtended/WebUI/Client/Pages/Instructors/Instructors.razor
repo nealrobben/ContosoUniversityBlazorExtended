@@ -13,7 +13,7 @@
 </p>
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<InstructorVM>>>(InstructorsViewModel.ServerReload))"
-          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table">
+          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table" RowClassFunc="@InstructorsViewModel.InstructorsSelectRowClassFunc">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Departments</MudText>
         <MudSpacer />
@@ -93,83 +93,6 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Hire Date</th>
-                <th>Office</th>
-                <th>Courses</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @if (InstructorsViewModel.InstructorsOverview != null)
-            {
-                @foreach (var item in InstructorsViewModel.InstructorsOverview.Instructors)
-                {
-                    string selectedRow = "";
-                    if (InstructorsViewModel.SelectedInstructorId.HasValue && item.InstructorID == InstructorsViewModel.SelectedInstructorId.Value)
-                    {
-                        selectedRow = "mud-theme-primary";
-                    }
-
-                    <tr class="@selectedRow">
-                        <td>
-                            @item.LastName
-                        </td>
-                        <td>
-                            @item.FirstName
-                        </td>
-                        <td>
-                            @item.HireDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @item.OfficeLocation
-                        </td>
-                        <td>
-                            @{
-                                foreach (var course in item.CourseAssignments)
-                                {
-                                    @course.CourseID @:  @course.CourseTitle <br />
-                                }
-                            }
-                        </td>
-                        <td>
-                            <MudIconButton OnClick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))
-                                           Title="Select"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-hand-pointer"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorEdit(item.InstructorID))"
-                                           Title="Edit"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-edit"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorDetails(item.InstructorID))"
-                                           Title="Details"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-eye"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                            <MudIconButton OnClick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))
-                                           Title="Delete"
-                                           Variant="Variant.Filled"
-                                           Icon="fas fa-trash-alt"
-                                           Color="Color.Primary" Size="Size.Small">
-                            </MudIconButton>
-                        </td>
-                    </tr>
-                }
-            }
-
-        </tbody>
-    </table>
-
     @if (InstructorsViewModel.CourseForInstructorOverview != null)
     {
         <h3>Courses Taught by Selected Instructor</h3>
