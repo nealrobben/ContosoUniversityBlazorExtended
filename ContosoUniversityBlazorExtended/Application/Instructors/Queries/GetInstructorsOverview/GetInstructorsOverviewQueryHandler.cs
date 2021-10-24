@@ -48,7 +48,8 @@ namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructors
                     .ThenInclude(i => i.Course)
                         .ThenInclude(i => i.Department)
                   .AsNoTracking()
-                  .OrderBy(i => i.LastName)
+                  .Skip((metaData.PageNumber) * metaData.PageSize)
+                  .Take(metaData.PageSize)
                   .ProjectTo<InstructorVM>(_mapper.ConfigurationProvider)
                   .ToListAsync(cancellationToken);
 

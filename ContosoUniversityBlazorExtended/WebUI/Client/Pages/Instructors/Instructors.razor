@@ -47,6 +47,12 @@
         <MudTd DataLabel="Office">@context.OfficeLocation</MudTd>
         <MudTd DataLabel="Courses"></MudTd>
         <MudTd DataLabel="">
+            <MudIconButton OnClick=@(e => InstructorsViewModel.SelectInstructor(context.InstructorID))
+                           Title="Select"
+                           Variant="Variant.Filled"
+                           Icon="fas fa-hand-pointer"
+                           Color="Color.Primary" Size="Size.Small">
+            </MudIconButton>
             <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorEdit(context.InstructorID))"
                            Title="Edit"
                            Variant="Variant.Filled"
