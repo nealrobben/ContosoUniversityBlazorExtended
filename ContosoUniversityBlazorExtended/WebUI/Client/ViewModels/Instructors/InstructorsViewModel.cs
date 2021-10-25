@@ -144,5 +144,13 @@ namespace WebUI.Client.ViewModels.Instructors
 
             return "";
         }
+
+        public string CoursesSelectRowClassFunc(CourseForInstructorVM course, int rowNumber)
+        {
+            if (course?.CourseID == SelectedCourseId)
+                return "mud-theme-primary";
+
+            return "";
+        }
     }
 }

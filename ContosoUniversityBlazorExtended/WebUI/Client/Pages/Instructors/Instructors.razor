@@ -85,84 +85,50 @@
     </PagerContent>
 </MudTable>
 
-@if (InstructorsViewModel.InstructorsOverview == null)
+@if (InstructorsViewModel.CourseForInstructorOverview != null)
 {
-    <div class="d-flex justify-content-center">
-        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
-    </div>
+    <br />
+    <h3>Courses Taught by Selected Instructor</h3>
+
+    <MudTable Items="InstructorsViewModel.CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm"
+              RowClassFunc="@InstructorsViewModel.CoursesSelectRowClassFunc">
+        <HeaderContent>
+            <MudTh></MudTh>
+            <MudTh>Number</MudTh>
+            <MudTh>Title</MudTh>
+            <MudTh>Department</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>
+                <MudIconButton OnClick=@(e => InstructorsViewModel.SelectCourse(context.CourseID))
+                               Title="Select"
+                               Variant="Variant.Filled"
+                               Icon="fas fa-hand-pointer"
+                               Color="Color.Primary" Size="Size.Small">
+                </MudIconButton>
+            </MudTd>
+            <MudTd>@context.CourseID</MudTd>
+            <MudTd>@context.Title</MudTd>
+            <MudTd>@context.DepartmentName</MudTd>
+        </RowTemplate>
+    </MudTable>
 }
-else
+
+@if (InstructorsViewModel.StudentsForCourse != null)
 {
-    @if (InstructorsViewModel.CourseForInstructorOverview != null)
-    {
-        <h3>Courses Taught by Selected Instructor</h3>
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>Number</th>
-                <th>Title</th>
-                <th>Department</th>
-            </tr>
+    <br />
+    <h3>
+        Students Enrolled in Selected Course
+    </h3>
 
-            @foreach (var item in InstructorsViewModel.CourseForInstructorOverview.Courses)
-            {
-                string selectedRow = "";
-                if (InstructorsViewModel.SelectedCourseId.HasValue && item.CourseID == InstructorsViewModel.SelectedCourseId.Value)
-                {
-                    selectedRow = "mud-theme-primary";
-                }
-                <tr class="@selectedRow">
-                    <td>
-                        <MudIconButton OnClick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))
-                                       Title="Select"
-                                       Variant="Variant.Filled"
-                                       Icon="fas fa-hand-pointer"
-                                       Color="Color.Primary" Size="Size.Small">
-                        </MudIconButton>
-                    </td>
-                    <td>
-                        @item.CourseID
-                    </td>
-                    <td>
-                        @item.Title
-                    </td>
-                    <td>
-                        @item.DepartmentName
-                    </td>
-                </tr>
-            }
-
-        </table>
-
-        <MudTable Items="InstructorsViewModel.CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
-            <HeaderContent>
-                <MudTh>Number</MudTh>
-                <MudTh>Title</MudTh>
-                <MudTh>Department</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd>@context.CourseID</MudTd>
-                <MudTd>@context.Title</MudTd>
-                <MudTd>@context.DepartmentName</MudTd>
-            </RowTemplate>
-        </MudTable>
-    }
-
-    @if (InstructorsViewModel.StudentsForCourse != null)
-    {
-        <h3>
-            Students Enrolled in Selected Course
-        </h3>
-
-        <MudTable Items="InstructorsViewModel.StudentsForCourse.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
-            <HeaderContent>
-                <MudTh>Name</MudTh>
-                <MudTh>Grade</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd>@context.StudentName</MudTd>
-                <MudTd>@context.StudentGrade</MudTd>
-            </RowTemplate>
-        </MudTable>
-    }
+    <MudTable Items="InstructorsViewModel.StudentsForCourse.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Grade</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.StudentName</MudTd>
+            <MudTd>@context.StudentGrade</MudTd>
+        </RowTemplate>
+    </MudTable>
 }
