@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Departments\Departments.nl.resx" />
+    <None Include="Localization\DepartmentResources.nl.resx" />
   </ItemGroup>
 
   <ItemGroup>
