@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
@@ -20,8 +21,9 @@ namespace WebUI.Client.ViewModels.Departments
         public bool ErrorVisible { get; set; }
 
         public DepartmentEditViewModel(DepartmentService departmentService,
-            InstructorService instructorService)
-            : base(departmentService)
+            InstructorService instructorService, IStringLocalizer<DepartmentResources> departmentLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            : base(departmentService, departmentLocalizer, generalLocalizer)
         {
             _instructorService = instructorService;
         }

@@ -123,6 +123,15 @@
   <data name="Budget" xml:space="preserve">
     <value>Budget</value>
   </data>
+  <data name="CreateDepartment" xml:space="preserve">
+    <value>Create department</value>
+  </data>
+  <data name="DepartmentDetails" xml:space="preserve">
+    <value>Department details</value>
+  </data>
+  <data name="DepartmentEdit" xml:space="preserve">
+    <value>Department edit</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Departments</value>
   </data>

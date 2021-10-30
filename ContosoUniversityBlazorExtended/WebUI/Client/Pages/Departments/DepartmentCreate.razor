@@ -1,31 +1,33 @@
-﻿
+﻿@inject IStringLocalizer<DepartmentResources> DepartmentLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+
 <MudDialog>
     <DialogContent>
         @if (DepartmentCreateViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col-md-12">
                 <EditForm Model=@DepartmentCreateViewModel.CreateDepartmentCommand OnSubmit=@DepartmentCreateViewModel.FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
-                        <label for="Name">Name</label>
+                        <label for="Name">@DepartmentLocalizer["Name"]</label>
                         <InputText @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.Name class="form-control" id="Name" />
                         <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.Name" />
                     </div>
                     <div class="form-group">
-                        <label for="Budget">Budget</label>
+                        <label for="Budget">@DepartmentLocalizer["Budget"]</label>
                         <InputNumber @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.Budget class="form-control" id="Budget" />
                         <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.Budget" />
                     </div>
                     <div class="form-group">
-                        <label for="StartDate">StartDate</label>
+                        <label for="StartDate">@DepartmentLocalizer["StartDate"]</label>
                         <InputDate @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.StartDate class="form-control" id="StartDate" />
                         <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.StartDate" />
                     </div>
                     <div class="form-group">
-                        <label for="InstructorID">InstructorID</label>
+                        <label for="InstructorID">@DepartmentLocalizer["AdministratorName"]</label>
                         <CustomInputSelect @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
                             @if (DepartmentCreateViewModel.InstructorsLookup != null)
                             {
@@ -38,9 +40,9 @@
                         <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID" />
                     </div>
                     <MudButton ButtonType="ButtonType.Submit"
-                    StartIcon="fas fa-save"
-                    Color="Color.Primary">Create</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="DepartmentCreateViewModel.Cancel">Cancel</MudButton>
+                               StartIcon="fas fa-save"
+                               Color="Color.Primary">@GeneralLocalizer["Create"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="DepartmentCreateViewModel.Cancel">@GeneralLocalizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
         </div>

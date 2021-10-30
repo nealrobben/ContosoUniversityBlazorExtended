@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.Localization;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
@@ -12,8 +13,10 @@ namespace WebUI.Client.ViewModels.Departments
 
         public DepartmentDetailVM Department { get; set; }
 
-        public DepartmentDetailsViewModel(DepartmentService departmentService)
-            : base(departmentService)
+        public DepartmentDetailsViewModel(DepartmentService departmentService, 
+            IStringLocalizer<DepartmentResources> departmentLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            : base(departmentService, departmentLocalizer, generalLocalizer)
         {
         }
 

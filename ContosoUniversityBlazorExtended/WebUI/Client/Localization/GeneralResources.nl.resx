@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AnErrorOccuredDuringSaving" xml:space="preserve">
+    <value>Fout bij opslaan</value>
+  </data>
   <data name="BackToFullList" xml:space="preserve">
     <value>Terug naar overzicht</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuleer</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Bevestig</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Maak aan</value>

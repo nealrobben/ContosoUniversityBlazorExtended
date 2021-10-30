@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.Localization;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Departments;
@@ -17,7 +18,8 @@ namespace WebUI.Client.ViewModels.Departments
         public DepartmentsOverviewVM DepartmentsOverview { get; set; } = new DepartmentsOverviewVM();
 
         public DepartmentsViewModel(DepartmentService departmentService,
-            IDialogService dialogService, ISnackbar snackbar) : base(departmentService)
+            IDialogService dialogService, ISnackbar snackbar, IStringLocalizer<DepartmentResources> departmentLocalizer, 
+            IStringLocalizer<GeneralResources> generalLocalizer) : base(departmentService, departmentLocalizer, generalLocalizer)
         {
             _dialogService = dialogService;
             _snackbar = snackbar;
@@ -32,8 +34,8 @@ namespace WebUI.Client.ViewModels.Departments
 
         public async Task DeleteDepartment(int departmentId, string departmentName)
         {
-            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the department '{departmentName}'?", 
-                yesText: "Delete", cancelText: "Cancel");
+            bool? dialogResult = await _dialogService.ShowMessageBox(_generalLocalizer["Confirm"], $"Are you sure you want to delete the department '{departmentName}'?", 
+                yesText: _generalLocalizer["Delete"], cancelText: _generalLocalizer["Cancel"]);
 
             if (dialogResult == true)
             {
@@ -54,7 +56,7 @@ namespace WebUI.Client.ViewModels.Departments
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall};
 
-            _dialogService.Show<DepartmentDetails>("Department Details", parameters, options);
+            _dialogService.Show<DepartmentDetails>(_departmentLocalizer["DepartmentDetails"], parameters, options);
         }
 
         public async Task OpenDepartmentEdit(int departmentId)
@@ -64,7 +66,7 @@ namespace WebUI.Client.ViewModels.Departments
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
 
-            var dialog = _dialogService.Show<DepartmentEdit>("Department Edit", parameters, options);
+            var dialog = _dialogService.Show<DepartmentEdit>(_departmentLocalizer["DepartmentEdit"], parameters, options);
 
             var result = await dialog.Result;
 
@@ -78,7 +80,7 @@ namespace WebUI.Client.ViewModels.Departments
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
-            var dialog =_dialogService.Show<DepartmentCreate>("Create department", options);
+            var dialog =_dialogService.Show<DepartmentCreate>(_departmentLocalizer["CreateDepartment"], options);
             var result = await dialog.Result;
 
             if(result.Data != null && (bool)result.Data)

@@ -1,4 +1,5 @@
-﻿using WebUI.Client.Services;
+﻿using Microsoft.Extensions.Localization;
+using WebUI.Client.Services;
 
 namespace WebUI.Client.ViewModels.Departments
 {
@@ -6,9 +7,15 @@ namespace WebUI.Client.ViewModels.Departments
     {
         protected readonly DepartmentService _departmentService;
 
-        public DepartmentViewModelBase(DepartmentService departmentService)
+        protected readonly IStringLocalizer<DepartmentResources> _departmentLocalizer;
+        protected readonly IStringLocalizer<GeneralResources> _generalLocalizer;
+
+        public DepartmentViewModelBase(DepartmentService departmentService, IStringLocalizer<DepartmentResources> departmentLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
         {
             _departmentService = departmentService;
+            _departmentLocalizer = departmentLocalizer;
+            _generalLocalizer = generalLocalizer;
         }
     }
 }
