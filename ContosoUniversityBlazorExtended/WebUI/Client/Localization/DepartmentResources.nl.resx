@@ -126,6 +126,12 @@
   <data name="CreateDepartment" xml:space="preserve">
     <value>Maak afdeling aan</value>
   </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Bent u zeker dat u afdeling {0} wil verwijderen?</value>
+  </data>
+  <data name="DeleteFeedback" xml:space="preserve">
+    <value>Afdeling {0} verwijderd</value>
+  </data>
   <data name="DepartmentDetails" xml:space="preserve">
     <value>Afdeling details</value>
   </data>

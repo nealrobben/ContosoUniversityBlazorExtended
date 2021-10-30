@@ -34,7 +34,7 @@ namespace WebUI.Client.ViewModels.Departments
 
         public async Task DeleteDepartment(int departmentId, string departmentName)
         {
-            bool? dialogResult = await _dialogService.ShowMessageBox(_generalLocalizer["Confirm"], $"Are you sure you want to delete the department '{departmentName}'?", 
+            bool? dialogResult = await _dialogService.ShowMessageBox(_generalLocalizer["Confirm"], _departmentLocalizer["DeleteConfirmation", departmentName], 
                 yesText: _generalLocalizer["Delete"], cancelText: _generalLocalizer["Cancel"]);
 
             if (dialogResult == true)
@@ -43,7 +43,7 @@ namespace WebUI.Client.ViewModels.Departments
 
                 if (result.IsSuccessStatusCode)
                 {
-                    _snackbar.Add($"Deleted department {departmentName}", Severity.Success);
+                    _snackbar.Add(_departmentLocalizer["DeleteFeedback", departmentName], Severity.Success);
                     await GetDepartments();
                 }
             }
