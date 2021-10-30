@@ -1,9 +1,10 @@
 ﻿@using WebUI.Shared.Departments.Queries.GetDepartmentsOverview
 @page "/departments"
 @inject IStringLocalizer<Departments> Localizer
+@inject IStringLocalizer<DepartmentResources> Localizer2
 
 <h2>Departments</h2>
-@Localizer["Departments"]
+@Localizer2["Departments"]
 
 <p>
     <MudIconButton OnClick="(e => DepartmentsViewModel.OpenDepartmentCreate())"

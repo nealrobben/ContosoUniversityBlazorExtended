@@ -50,9 +50,7 @@ namespace WebUI.Client
             builder.Services.AddTransient<StudentsViewModel>();
             builder.Services.AddTransient<StudentEditViewModel>();
 
-            builder.Services.AddLocalization();
-
-            builder.Services.AddLocalization();
+            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
 
             var host = builder.Build();
 
