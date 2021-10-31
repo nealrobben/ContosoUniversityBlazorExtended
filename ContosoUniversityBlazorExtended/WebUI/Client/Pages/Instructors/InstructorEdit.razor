@@ -1,32 +1,34 @@
 ﻿@using WebUI.Client.Components
+@inject IStringLocalizer<InstructorResources> InstructorLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
 
 <MudDialog>
     <DialogContent>
         @if (InstructorEditViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col">
                 <form asp-action="Create">
                     <EditForm Model=@InstructorEditViewModel.UpdateInstructorCommand OnSubmit=@InstructorEditViewModel.FormSubmitted>
                         <div class="form-group">
-                            <label for="LastName">LastName</label>
+                            <label for="LastName">@InstructorLocalizer["LastName"]</label>
                             <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.LastName class="form-control" id="LastName" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.LastName" />
                         </div>
                         <div class="form-group">
-                            <label for="FirstName">FirstName</label>
+                            <label for="FirstName">@InstructorLocalizer["FirstName"]</label>
                             <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.FirstName class="form-control" id="FirstName" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.FirstName" />
                         </div>
                         <div class="form-group">
-                            <label for="HireDate">HireDate</label>
+                            <label for="HireDate">@InstructorLocalizer["HireDate"]</label>
                             <InputDate @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.HireDate class="form-control" id="HireDate" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.HireDate" />
                         </div>
                         <div class="form-group">
-                            <label for="OfficeLocation">OfficeLocation</label>
+                            <label for="OfficeLocation">@InstructorLocalizer["OfficeLocation"]</label>
                             <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation class="form-control" id="OfficeLocation" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation" />
                         </div>

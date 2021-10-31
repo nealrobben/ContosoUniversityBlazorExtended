@@ -156,4 +156,7 @@
   <data name="Search" xml:space="preserve">
     <value>Zoek</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Selecteer</value>
+  </data>
 </root>

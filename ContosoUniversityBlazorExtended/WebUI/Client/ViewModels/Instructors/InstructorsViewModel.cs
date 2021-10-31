@@ -48,8 +48,8 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public async Task DeleteInstructor(int instructorId, string name)
         {
-            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the instructor '{name}'?",
-                yesText: "Delete", cancelText: "Cancel");
+            bool? dialogResult = await _dialogService.ShowMessageBox(_generalLocalizer["Confirm"], _instructorLocalizer["DeleteConfirmation", name],
+                yesText: _generalLocalizer["Delete"], cancelText: _generalLocalizer["Cancel"]);
             
             if (dialogResult == true)
             {
@@ -57,7 +57,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
                 if (result.IsSuccessStatusCode)
                 {
-                    _snackbar.Add($"Deleted instructor {name}", Severity.Success);
+                    _snackbar.Add(_instructorLocalizer["DeleteFeedback", name], Severity.Success);
                     await GetInstructors();
                 }
             }
@@ -86,7 +86,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
 
-            _dialogService.Show<InstructorDetails>("Instructor Details", parameters, options);
+            _dialogService.Show<InstructorDetails>(_instructorLocalizer["InstructorDetails"], parameters, options);
         }
 
         public async Task OpenInstructorEdit(int instructorId)
@@ -96,7 +96,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
 
-            var dialog = _dialogService.Show<InstructorEdit>("Instructor Edit", parameters, options);
+            var dialog = _dialogService.Show<InstructorEdit>(_instructorLocalizer["InstructorEdit"], parameters, options);
 
             var result = await dialog.Result;
 
@@ -110,7 +110,7 @@ namespace WebUI.Client.ViewModels.Instructors
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
 
-            var dialog = _dialogService.Show<InstructorCreate>("Create instructor", options);
+            var dialog = _dialogService.Show<InstructorCreate>(_instructorLocalizer["CreateInstructor"], options);
             var result = await dialog.Result;
 
             if (result.Data != null && (bool)result.Data)

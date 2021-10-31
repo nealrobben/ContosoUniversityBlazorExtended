@@ -1,4 +1,6 @@
 ﻿@using WebUI.Client.Components
+@inject IStringLocalizer<InstructorResources> InstructorLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
 
 <MudDialog>
     <DialogContent>
@@ -7,7 +9,7 @@
                 <div class="col">
                     <dl class="row">
                         <dt class="col-sm-4">
-                            LastName
+                            @InstructorLocalizer["LastName"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (InstructorDetailsViewModel.Instructor != null)
@@ -16,7 +18,7 @@
                             }
                         </dd>
                         <dt class="col-sm-4">
-                            FirstName
+                            @InstructorLocalizer["FirstName"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (InstructorDetailsViewModel.Instructor != null)
@@ -25,7 +27,7 @@
                             }
                         </dd>
                         <dt class="col-sm-4">
-                            HireDate
+                            @InstructorLocalizer["HireDate"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (InstructorDetailsViewModel.Instructor != null)
@@ -42,6 +44,6 @@
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Close">@GeneralLocalizer["OK"]</MudButton>
     </DialogActions>
 </MudDialog>

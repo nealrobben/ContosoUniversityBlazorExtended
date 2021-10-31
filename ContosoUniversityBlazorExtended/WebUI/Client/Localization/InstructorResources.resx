@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="String" xml:space="preserve">
-    <value>String1</value>
+  <data name="CoursesTaughtByInstructor" xml:space="preserve">
+    <value>Courses Taught by Selected Instructor</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>String1</value>
+  <data name="CreateInstructor" xml:space="preserve">
+    <value>Create Instructor</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete Instructor {0}?</value>
+  </data>
+  <data name="DeleteFeedback" xml:space="preserve">
+    <value>Removed Instructor {0}</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="HireDate" xml:space="preserve">
+    <value>Hire date</value>
+  </data>
+  <data name="InstructorDetails" xml:space="preserve">
+    <value>Instructor details</value>
+  </data>
+  <data name="InstructorEdit" xml:space="preserve">
+    <value>Edit Instructor</value>
+  </data>
+  <data name="Instructors" xml:space="preserve">
+    <value>Instructors</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="OfficeLocation" xml:space="preserve">
+    <value>Office location</value>
   </data>
 </root>

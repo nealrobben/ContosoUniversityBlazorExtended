@@ -1,55 +1,58 @@
-﻿<MudDialog>
+﻿@inject IStringLocalizer<InstructorResources> InstructorLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+
+<MudDialog>
     <DialogContent>
         @if (InstructorCreateViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
-    <div class="row">
-        <div class="col-md-12">
-            <form asp-action="Create">
-                <EditForm Model=@InstructorCreateViewModel.CreateInstructorCommand OnSubmit=@InstructorCreateViewModel.FormSubmitted>
-                    <div class="form-group">
-                        <label for="LastName">LastName</label>
-                        <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.LastName class="form-control" id="LastName" />
-                        <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.LastName" />
-                    </div>
-                    <div class="form-group">
-                        <label for="FirstName">FirstName</label>
-                        <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
-                        <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.FirstName" />
-                    </div>
-                    <div class="form-group">
-                        <label for="HireDate">HireDate</label>
-                        <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
-                        <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
-                    </div>
-                    <div>
-                        <InputFile id="fileInput" OnChange="InstructorCreateViewModel.UploadFiles" hidden />
-                        <MudButton HtmlTag="label"
-                                   Color="Color.Primary"
-                                   StartIcon="@Icons.Filled.CloudUpload"
-                                   for="fileInput">
-                            Upload Files
-                        </MudButton>
-                        @if (InstructorCreateViewModel.files != null)
-                        {
-                            <MudList>
-                                @foreach (var file in InstructorCreateViewModel.files)
-                                {
-                                    <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
-                                        @file.Name <code>@file.Size bytes</code>
-                                    </MudListItem>
-                                }
-                            </MudList>
-                        }
-                    </div>
-                    <MudButton ButtonType="ButtonType.Submit"
-                               StartIcon="fas fa-save"
-                               Color="Color.Primary">Create</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="InstructorCreateViewModel.Cancel">Cancel</MudButton>
-                </EditForm>
-            </form>
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create">
+                    <EditForm Model=@InstructorCreateViewModel.CreateInstructorCommand OnSubmit=@InstructorCreateViewModel.FormSubmitted>
+                        <div class="form-group">
+                            <label for="LastName">@InstructorLocalizer["LastName"]</label>
+                            <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.LastName class="form-control" id="LastName" />
+                            <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.LastName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="FirstName">@InstructorLocalizer["FirstName"]</label>
+                            <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                            <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.FirstName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="HireDate">@InstructorLocalizer["HireDate"]</label>
+                            <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                            <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
+                        </div>
+                        <div>
+                            <InputFile id="fileInput" OnChange="InstructorCreateViewModel.UploadFiles" hidden />
+                            <MudButton HtmlTag="label"
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Filled.CloudUpload"
+                                       for="fileInput">
+                                Upload Files
+                            </MudButton>
+                            @if (InstructorCreateViewModel.files != null)
+                            {
+                                <MudList>
+                                    @foreach (var file in InstructorCreateViewModel.files)
+                                    {
+                                        <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
+                                            @file.Name <code>@file.Size bytes</code>
+                                        </MudListItem>
+                                    }
+                                </MudList>
+                            }
+                        </div>
+                        <MudButton ButtonType="ButtonType.Submit"
+                                   StartIcon="fas fa-save"
+                                   Color="Color.Primary">@GeneralLocalizer["Create"]</MudButton>
+                        <MudButton Color="Color.Primary" OnClick="InstructorCreateViewModel.Cancel">@GeneralLocalizer["Cancel"]</MudButton>
+                    </EditForm>
+                </form>
+            </div>
         </div>
-    </div>
     </DialogContent>
 </MudDialog>
