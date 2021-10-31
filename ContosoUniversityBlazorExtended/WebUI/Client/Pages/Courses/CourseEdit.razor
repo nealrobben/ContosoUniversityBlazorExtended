@@ -1,31 +1,34 @@
-﻿<MudDialog>
+﻿@inject IStringLocalizer<CourseResources> CourseLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+
+<MudDialog>
     <DialogContent>
         @if (CourseEditViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col-md-12">
                 <EditForm Model=@CourseEditViewModel.UpdateCourseCommand OnSubmit=@CourseEditViewModel.FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
-                        <label for="CourseID">CourseID</label>
+                        <label for="CourseID">@CourseLocalizer["CourseID"]</label>
                         <div>
                             @CourseEditViewModel.UpdateCourseCommand.CourseID
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="Title">Title</label>
+                        <label for="Title">@CourseLocalizer["Title"]</label>
                         <InputText @bind-Value=@CourseEditViewModel.UpdateCourseCommand.Title class="form-control" id="Title" />
                         <ValidationMessage For="() => CourseEditViewModel.UpdateCourseCommand.Title" />
                     </div>
                     <div class="form-group">
-                        <label for="Credits">Credits</label>
+                        <label for="Credits">@CourseLocalizer["Credits"]</label>
                         <InputNumber @bind-Value=CourseEditViewModel.UpdateCourseCommand.Credits class="form-control" id="Credits" />
                         <ValidationMessage For="() => CourseEditViewModel.UpdateCourseCommand.Credits" />
                     </div>
                     <div class="form-group">
-                        <label for="Department">Department</label>
+                        <label for="Department">@CourseLocalizer["Department"]</label>
                         <CustomInputSelect @bind-Value=CourseEditViewModel.UpdateCourseCommand.DepartmentID class="form-control" id="Department">
                             @if (CourseEditViewModel.DepartmentsLookup != null)
                             {
@@ -39,8 +42,8 @@
                     </div>
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
-                               Color="Color.Primary">Save</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="CourseEditViewModel.Cancel">Cancel</MudButton>
+                               Color="Color.Primary">@GeneralLocalizer["Save"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="CourseEditViewModel.Cancel">@GeneralLocalizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
         </div>

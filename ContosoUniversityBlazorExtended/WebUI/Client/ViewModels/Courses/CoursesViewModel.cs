@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.Localization;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Courses;
@@ -16,7 +17,10 @@ namespace WebUI.Client.ViewModels.Courses
         public CoursesOverviewVM CoursesOverview { get; set; } = new CoursesOverviewVM();
 
         public CoursesViewModel(CourseService courseService,
-            IDialogService dialogService, ISnackbar snackbar) : base(courseService)
+            IDialogService dialogService, ISnackbar snackbar,
+            IStringLocalizer<CourseResources> courseLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer) 
+            : base(courseService,courseLocalizer,generalLocalizer)
         {
             _dialogService = dialogService;
             _snackbar = snackbar;
@@ -31,8 +35,8 @@ namespace WebUI.Client.ViewModels.Courses
 
         public async Task DeleteCourse(int courseId, string title)
         {
-            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the course '{title}'?",
-                yesText: "Delete", cancelText: "Cancel");
+            bool? dialogResult = await _dialogService.ShowMessageBox(_generalLocalizer["Confirm"], _courseLocalizer["DeleteConfirmation", title],
+                yesText: _generalLocalizer["Delete"], cancelText: _generalLocalizer["Cancel"]);
 
             if (dialogResult == true)
             {
@@ -40,7 +44,7 @@ namespace WebUI.Client.ViewModels.Courses
 
                 if (result.IsSuccessStatusCode)
                 {
-                    _snackbar.Add($"Deleted course {title}", Severity.Success);
+                    _snackbar.Add(_courseLocalizer["DeleteFeedback", title], Severity.Success);
                     await GetCourses();
                 }
             }
@@ -53,7 +57,7 @@ namespace WebUI.Client.ViewModels.Courses
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
 
-            _dialogService.Show<CourseDetails>("Course Details", parameters, options);
+            _dialogService.Show<CourseDetails>(_courseLocalizer["CourseDetails"], parameters, options);
         }
 
         public async Task OpenCourseEdit(int courseId)
@@ -63,7 +67,7 @@ namespace WebUI.Client.ViewModels.Courses
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
 
-            var dialog = _dialogService.Show<CourseEdit>("Course Edit", parameters, options);
+            var dialog = _dialogService.Show<CourseEdit>(_courseLocalizer["CourseEdit"], parameters, options);
 
             var result = await dialog.Result;
 
@@ -77,7 +81,7 @@ namespace WebUI.Client.ViewModels.Courses
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
-            var dialog = _dialogService.Show<CourseCreate>("Create course", options);
+            var dialog = _dialogService.Show<CourseCreate>(_courseLocalizer["CreateCourse"], options);
             var result = await dialog.Result;
 
             if (result.Data != null && (bool)result.Data)

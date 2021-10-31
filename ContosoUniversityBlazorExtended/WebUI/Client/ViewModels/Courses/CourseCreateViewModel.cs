@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,8 +22,10 @@ namespace WebUI.Client.ViewModels.Courses
         public bool ErrorVisible { get; set; }
 
         public CourseCreateViewModel(CourseService courseService, 
-            DepartmentService departmentService, NavigationManager navManager)
-            :base(courseService)
+            DepartmentService departmentService, NavigationManager navManager, 
+            IStringLocalizer<CourseResources> courseLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            :base(courseService,courseLocalizer,generalLocalizer)
         {
             _departmentService = departmentService;
             _navManager = navManager;

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Localization;
+using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
 
@@ -10,8 +11,10 @@ namespace WebUI.Client.ViewModels.Courses
 
         public CourseDetailVM Course { get; set; }
 
-        public CourseDetailsViewModel(CourseService courseService)
-            : base(courseService)
+        public CourseDetailsViewModel(CourseService courseService,
+            IStringLocalizer<CourseResources> courseLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            : base(courseService,courseLocalizer,generalLocalizer)
         {
         }
 
