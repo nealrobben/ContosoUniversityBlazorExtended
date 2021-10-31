@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.Localization;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Instructors;
@@ -27,8 +28,10 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public InstructorsViewModel(InstructorService instructorService, 
             CourseService courseService, StudentService studentService, 
-            IDialogService dialogService, ISnackbar snackbar)
-            : base(instructorService)
+            IDialogService dialogService, ISnackbar snackbar,
+            IStringLocalizer<InstructorResources> instructorLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            : base(instructorService,instructorLocalizer,generalLocalizer)
         {
             _courseService = courseService;
             _studentService = studentService;

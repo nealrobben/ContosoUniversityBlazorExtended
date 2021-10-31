@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Localization;
+using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
 
@@ -10,8 +11,10 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public InstructorDetailsVM Instructor { get; set; }
 
-        public InstructorDetailsViewModel(InstructorService instructorService)
-            :base(instructorService)
+        public InstructorDetailsViewModel(InstructorService instructorService, 
+            IStringLocalizer<InstructorResources> instructorLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            :base(instructorService, instructorLocalizer, generalLocalizer)
         {
         }
 
