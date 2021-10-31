@@ -1,30 +1,33 @@
-﻿<MudDialog>
+﻿@inject IStringLocalizer<DepartmentResources> DepartmentLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+
+<MudDialog>
     <DialogContent>
         @if (DepartmentEditViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col-md-12">
                 <EditForm Model=@DepartmentEditViewModel.UpdateDepartmentCommand OnSubmit=@DepartmentEditViewModel.FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
-                        <label for="Name">Name</label>
+                        <label for="Name">@DepartmentLocalizer["Name"]</label>
                         <InputText @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Name class="form-control" id="Name" />
                         <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Name" />
                     </div>
                     <div class="form-group">
-                        <label for="Budget">Budget</label>
+                        <label for="Budget">@DepartmentLocalizer["Budget"]</label>
                         <InputNumber @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Budget class="form-control" id="Budget" />
                         <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Budget" />
                     </div>
                     <div class="form-group">
-                        <label for="StartDate">StartDate</label>
+                        <label for="StartDate">@DepartmentLocalizer["StartDate"]</label>
                         <InputDate @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.StartDate class="form-control" id="StartDate" />
                         <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.StartDate" />
                     </div>
                     <div class="form-group">
-                        <label for="InstructorID">InstructorID</label>
+                        <label for="InstructorID">@DepartmentLocalizer["AdministratorName"]</label>
                         <CustomInputSelect @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
                             @if (DepartmentEditViewModel.InstructorsLookup != null)
                             {
@@ -38,8 +41,8 @@
                     </div>
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
-                               Color="Color.Primary">Save</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="DepartmentEditViewModel.Cancel">Cancel</MudButton>
+                               Color="Color.Primary">@GeneralLocalizer["Save"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="DepartmentEditViewModel.Cancel">@GeneralLocalizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
         </div>

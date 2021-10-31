@@ -1,10 +1,12 @@
-﻿
+﻿@inject IStringLocalizer<DepartmentResources> DepartmentLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+
 <MudDialog>
     <DialogContent>
         <div>
             <dl class="row">
                 <dt class="col-sm-4">
-                    Name
+                    @DepartmentLocalizer["Name"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (DepartmentDetailsViewModel.Department != null)
@@ -13,7 +15,7 @@
                     }
                 </dd>
                 <dt class="col-sm-4">
-                    Budget
+                    @DepartmentLocalizer["Budget"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (DepartmentDetailsViewModel.Department != null)
@@ -22,7 +24,7 @@
                     }
                 </dd>
                 <dt class="col-sm-4">
-                    StartDate
+                    @DepartmentLocalizer["StartDate"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (DepartmentDetailsViewModel.Department != null)
@@ -31,7 +33,7 @@
                     }
                 </dd>
                 <dt class="col-sm-4">
-                    AdministratorName
+                    @DepartmentLocalizer["AdministratorName"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (DepartmentDetailsViewModel.Department != null)
@@ -43,6 +45,6 @@
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="DepartmentDetailsViewModel.Close">Ok</MudButton>
+        <MudButton Color="Color.Primary" OnClick="DepartmentDetailsViewModel.Close">@GeneralLocalizer["OK"]</MudButton>
     </DialogActions>
 </MudDialog>

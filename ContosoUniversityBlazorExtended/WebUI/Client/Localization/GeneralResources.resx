@@ -147,6 +147,12 @@
   <data name="NoMatchingRecordsFound" xml:space="preserve">
     <value>No matching records found</value>
   </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
