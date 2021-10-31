@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,10 @@ namespace WebUI.Client.ViewModels.Students
 
         public IList<IBrowserFile> files { get; set; }
 
-        public StudentCreateViewModel(StudentService studentService, FileuploadService fileuploadService)
-            :base(studentService)
+        public StudentCreateViewModel(StudentService studentService, FileuploadService fileuploadService, 
+            IStringLocalizer<StudentResources> studentLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            :base(studentService,studentLocalizer,generalLocalizer)
         {
             files = new List<IBrowserFile>();
             _fileuploadService = fileuploadService;

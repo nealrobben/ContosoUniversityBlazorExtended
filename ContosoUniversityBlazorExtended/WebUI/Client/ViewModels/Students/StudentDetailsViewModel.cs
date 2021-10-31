@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Localization;
+using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Queries.GetStudentDetails;
 
@@ -10,8 +11,10 @@ namespace WebUI.Client.ViewModels.Students
 
         public StudentDetailsVM Student { get; set; }
 
-        public StudentDetailsViewModel(StudentService studentService)
-            : base(studentService)
+        public StudentDetailsViewModel(StudentService studentService,
+            IStringLocalizer<StudentResources> studentLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            : base(studentService,studentLocalizer,generalLocalizer)
         {
         }
 

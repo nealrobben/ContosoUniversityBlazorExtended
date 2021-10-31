@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.Localization;
+using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Pages.Students;
@@ -16,8 +17,10 @@ namespace WebUI.Client.ViewModels.Students
         public StudentsOverviewVM StudentsOverview { get; set; } = new StudentsOverviewVM();
 
         public StudentsViewModel(StudentService studentService, 
-            IDialogService dialogService, ISnackbar snackbar)
-            : base(studentService)
+            IDialogService dialogService, ISnackbar snackbar,
+            IStringLocalizer<StudentResources> studentLocalizer,
+            IStringLocalizer<GeneralResources> generalLocalizer)
+            : base(studentService,studentLocalizer,generalLocalizer)
         {
             _dialogService = dialogService;
             _snackbar = snackbar;
