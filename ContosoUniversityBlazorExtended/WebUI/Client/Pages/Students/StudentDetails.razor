@@ -1,4 +1,7 @@
 ﻿@using WebUI.Client.Components
+@inject IStringLocalizer<StudentResources> StudentLocalizer
+@inject IStringLocalizer<CourseResources> CourseLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
 
 <MudDialog>
     <DialogContent>
@@ -7,7 +10,7 @@
                 <div class="col">
                     <dl>
                         <dt class="col-sm-4">
-                            LastName
+                            @StudentLocalizer["LastName"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (StudentDetailsViewModel.Student != null)
@@ -16,7 +19,7 @@
                             }
                         </dd>
                         <dt class="col-sm-4">
-                            FirstName
+                            @StudentLocalizer["FirstName"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (StudentDetailsViewModel.Student != null)
@@ -25,7 +28,7 @@
                             }
                         </dd>
                         <dt class="col-sm-4">
-                            EnrollmentDate
+                            @StudentLocalizer["EnrollmentDate"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (StudentDetailsViewModel.Student != null)
@@ -34,13 +37,13 @@
                             }
                         </dd>
                         <dt class="col-sm-4">
-                            Enrollments
+                            @StudentLocalizer["Enrollments"]
                         </dt>
                         <dd class="col-sm-8">
                             <table class="table">
                                 <tr>
-                                    <th>Course Title</th>
-                                    <th>Grade</th>
+                                    <th>@CourseLocalizer["Title"]</th>
+                                    <th>@CourseLocalizer["StudentGrade"]</th>
                                 </tr>
                                 @if (StudentDetailsViewModel.Student != null)
                                 {
@@ -67,6 +70,6 @@
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Close">@GeneralLocalizer["OK"]</MudButton>
     </DialogActions>
 </MudDialog>

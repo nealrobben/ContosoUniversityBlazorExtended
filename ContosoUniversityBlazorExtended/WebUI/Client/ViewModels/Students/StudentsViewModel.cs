@@ -35,8 +35,8 @@ namespace WebUI.Client.ViewModels.Students
 
         public async Task DeleteStudent(int studentId, string name)
         {
-            bool? dialogResult = await _dialogService.ShowMessageBox("Confirm", $"Are you sure you want to delete the student '{name}'?",
-                yesText: "Delete", cancelText: "Cancel");
+            bool? dialogResult = await _dialogService.ShowMessageBox(_generalLocalizer["Confirm"], _studentLocalizer["DeleteConfirmation", name],
+                yesText: _generalLocalizer["Delete"], cancelText: _generalLocalizer["Cancel"]);
 
             if (dialogResult == true)
             {
@@ -44,7 +44,7 @@ namespace WebUI.Client.ViewModels.Students
 
                 if (result.IsSuccessStatusCode)
                 {
-                    _snackbar.Add($"Deleted student {name}", Severity.Success);
+                    _snackbar.Add(_studentLocalizer["DeleteFeedback", name], Severity.Success);
                     await GetStudents();
                 }
             }
@@ -68,7 +68,7 @@ namespace WebUI.Client.ViewModels.Students
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
-            _dialogService.Show<StudentDetails>("Student Details", parameters, options);
+            _dialogService.Show<StudentDetails>(_studentLocalizer["StudentDetails"], parameters, options);
         }
 
         public async Task OpenStudentEdit(int studentId)
@@ -78,7 +78,7 @@ namespace WebUI.Client.ViewModels.Students
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
-            var dialog = _dialogService.Show<StudentEdit>("Student Edit", parameters, options);
+            var dialog = _dialogService.Show<StudentEdit>(_studentLocalizer["StudentEdit"], parameters, options);
 
             var result = await dialog.Result;
 
@@ -92,7 +92,7 @@ namespace WebUI.Client.ViewModels.Students
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
-            var dialog = _dialogService.Show<StudentCreate>("Create student", options);
+            var dialog = _dialogService.Show<StudentCreate>(_studentLocalizer["CreateStudent"], options);
             var result = await dialog.Result;
 
             if (result.Data != null && (bool)result.Data)

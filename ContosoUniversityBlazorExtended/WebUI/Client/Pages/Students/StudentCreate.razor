@@ -1,25 +1,28 @@
-﻿<MudDialog>
+﻿@inject IStringLocalizer<StudentResources> StudentLocalizer
+@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+
+<MudDialog>
     <DialogContent>
         @if (StudentCreateViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">An error occurred during saving</MudAlert>
+            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col-md-12">
                 <EditForm Model=@StudentCreateViewModel.CreateStudentCommand OnSubmit=@StudentCreateViewModel.FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
-                        <label for="LastName">LastName</label>
+                        <label for="LastName">@StudentLocalizer["LastName"]</label>
                         <InputText @bind-Value=StudentCreateViewModel.CreateStudentCommand.LastName class="form-control" id="LastName" />
                         <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.LastName" />
                     </div>
                     <div class="form-group">
-                        <label for="FirstName">FirstName</label>
+                        <label for="FirstName">@StudentLocalizer["FirstName"]</label>
                         <InputText @bind-Value=StudentCreateViewModel.CreateStudentCommand.FirstName class="form-control" id="FirstName" />
                         <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.FirstName" />
                     </div>
                     <div class="form-group">
-                        <label for="EnrollmentDate">EnrollmentDate</label>
+                        <label for="EnrollmentDate">@StudentLocalizer["EnrollmentDate"]</label>
                         <InputDate @bind-Value=StudentCreateViewModel.CreateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
                         <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.EnrollmentDate" />
                     </div>
@@ -45,8 +48,8 @@
                     </div>
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
-                               Color="Color.Primary">Create</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="StudentCreateViewModel.Cancel">Cancel</MudButton>
+                               Color="Color.Primary">@GeneralLocalizer["Create"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="StudentCreateViewModel.Cancel">@GeneralLocalizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
         </div>
