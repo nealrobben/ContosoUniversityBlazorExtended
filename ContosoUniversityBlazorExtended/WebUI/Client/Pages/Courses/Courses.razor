@@ -3,7 +3,8 @@
 @inject IStringLocalizer<CourseResources> CourseLocalizer
 @inject IStringLocalizer<GeneralResources> GeneralLocalizer
 
-<h2>Courses</h2>
+<h2>@CourseLocalizer["Courses"]</h2>
+<PageTitle>CU - @CourseLocalizer["Courses"]</PageTitle>
 
 <p>
     <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseCreate())"
