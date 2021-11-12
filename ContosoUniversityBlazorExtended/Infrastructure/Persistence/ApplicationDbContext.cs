@@ -2,7 +2,7 @@
 using ContosoUniversityBlazor.Domain.Common;
 using ContosoUniversityBlazor.Domain.Entities;
 using ContosoUniversityBlazor.Infrastructure.Identity;
-using IdentityServer4.EntityFramework.Options;
+using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
