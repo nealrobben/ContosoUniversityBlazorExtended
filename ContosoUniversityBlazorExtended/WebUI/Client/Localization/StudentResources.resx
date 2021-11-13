@@ -138,6 +138,9 @@
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="StudentBodyStatistics" xml:space="preserve">
+    <value>Student Body Statistics</value>
+  </data>
   <data name="StudentDetails" xml:space="preserve">
     <value>Student details</value>
   </data>
