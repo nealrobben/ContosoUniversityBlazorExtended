@@ -8,6 +8,10 @@
     <MudAppBar>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         Contoso University
+        <MudSpacer />
+        <div class="text-right">
+            <CultureSelector />
+        </div>
     </MudAppBar>
     <MudDrawer Variant="@DrawerVariant.Mini" ClipMode="@DrawerClipMode.Always" @bind-Open="@_drawerOpen">
         <NavMenu />
