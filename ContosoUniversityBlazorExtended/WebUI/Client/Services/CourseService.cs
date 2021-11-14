@@ -9,7 +9,17 @@ using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace WebUI.Client.Services
 {
-    public class CourseService : ServiceBase
+    public interface ICourseService
+    {
+        Task<HttpResponseMessage> CreateAsync(CreateCourseCommand createCommand);
+        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task<CoursesOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
+        Task<CourseDetailVM> GetAsync(string id);
+        Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId);
+        Task<HttpResponseMessage> UpdateAsync(UpdateCourseCommand createCommand);
+    }
+
+    public class CourseService : ServiceBase, ICourseService
     {
         public CourseService(HttpClient http) : base(http)
         {

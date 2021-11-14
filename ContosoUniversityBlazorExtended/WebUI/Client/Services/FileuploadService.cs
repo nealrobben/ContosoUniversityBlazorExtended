@@ -9,7 +9,12 @@ using WebUI.Shared;
 
 namespace WebUI.Client.Services
 {
-    public class FileuploadService : ServiceBase
+    public interface IFileuploadService
+    {
+        Task<string> UploadFile(IBrowserFile file);
+    }
+
+    public class FileuploadService : ServiceBase, IFileuploadService
     {
         const long maxFileSize = 1024 * 1024 * 15;
 

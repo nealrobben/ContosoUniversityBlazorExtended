@@ -9,7 +9,17 @@ using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 
 namespace WebUI.Client.Services
 {
-    public class StudentService : ServiceBase
+    public interface IStudentService
+    {
+        Task<HttpResponseMessage> CreateAsync(CreateStudentCommand createCommand);
+        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task<StudentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
+        Task<StudentDetailsVM> GetAsync(string id);
+        Task<StudentsForCourseVM> GetStudentsForCourse(string courseId);
+        Task<HttpResponseMessage> UpdateAsync(UpdateStudentCommand createCommand);
+    }
+
+    public class StudentService : ServiceBase, IStudentService
     {
         public StudentService(HttpClient http) : base(http)
         {
@@ -19,7 +29,7 @@ namespace WebUI.Client.Services
         {
             var url = "/api/students";
 
-            if(pageNumber != null)
+            if (pageNumber != null)
             {
                 url += $"?pageNumber={pageNumber}";
             }
@@ -40,7 +50,7 @@ namespace WebUI.Client.Services
                     url += $"&sortOrder={sortOrder}";
             }
 
-            if(pageSize != null)
+            if (pageSize != null)
             {
                 if (!url.Contains("?"))
                     url += $"?pageSize={pageSize}";

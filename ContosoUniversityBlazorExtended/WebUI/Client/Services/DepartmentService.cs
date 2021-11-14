@@ -9,7 +9,17 @@ using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.Client.Services
 {
-    public class DepartmentService : ServiceBase
+    public interface IDepartmentService
+    {
+        Task<HttpResponseMessage> CreateAsync(CreateDepartmentCommand createCommand);
+        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task<DepartmentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
+        Task<DepartmentDetailVM> GetAsync(string id);
+        Task<DepartmentsLookupVM> GetLookupAsync();
+        Task<HttpResponseMessage> UpdateAsync(UpdateDepartmentCommand createCommand);
+    }
+
+    public class DepartmentService : ServiceBase, IDepartmentService
     {
         public DepartmentService(HttpClient http) : base(http)
         {

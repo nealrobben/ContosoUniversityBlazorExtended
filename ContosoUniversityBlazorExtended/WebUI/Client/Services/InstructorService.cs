@@ -9,7 +9,17 @@ using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace WebUI.Client.Services
 {
-    public class InstructorService : ServiceBase
+    public interface IInstructorService
+    {
+        Task<HttpResponseMessage> CreateAsync(CreateInstructorCommand createCommand);
+        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task<InstructorsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
+        Task<InstructorDetailsVM> GetAsync(string id);
+        Task<InstructorsLookupVM> GetLookupAsync();
+        Task<HttpResponseMessage> UpdateAsync(UpdateInstructorCommand createCommand);
+    }
+
+    public class InstructorService : ServiceBase, IInstructorService
     {
         public InstructorService(HttpClient http) : base(http)
         {
