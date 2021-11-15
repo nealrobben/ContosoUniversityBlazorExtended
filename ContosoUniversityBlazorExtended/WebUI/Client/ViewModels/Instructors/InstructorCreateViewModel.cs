@@ -21,7 +21,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public IList<IBrowserFile> files { get; set; }
 
-        public InstructorCreateViewModel(InstructorService instructorService, 
+        public InstructorCreateViewModel(IInstructorService instructorService, 
             FileuploadService fileuploadService, IStringLocalizer<InstructorResources> instructorLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             :base(instructorService,instructorLocalizer,generalLocalizer)

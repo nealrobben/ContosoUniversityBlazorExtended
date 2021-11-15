@@ -11,7 +11,7 @@ namespace WebUI.Client.ViewModels.Instructors
 
         public InstructorDetailsVM Instructor { get; set; }
 
-        public InstructorDetailsViewModel(InstructorService instructorService, 
+        public InstructorDetailsViewModel(IInstructorService instructorService, 
             IStringLocalizer<InstructorResources> instructorLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             :base(instructorService, instructorLocalizer, generalLocalizer)

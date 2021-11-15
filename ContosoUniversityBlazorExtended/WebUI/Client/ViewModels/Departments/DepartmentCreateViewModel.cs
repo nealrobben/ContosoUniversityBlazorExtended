@@ -12,7 +12,7 @@ namespace WebUI.Client.ViewModels.Departments
 {
     public class DepartmentCreateViewModel : DepartmentViewModelBase
     {
-        private readonly InstructorService _instructorService;
+        private readonly IInstructorService _instructorService;
         private MudDialogInstance _mudDialog;
 
         public CreateDepartmentCommand CreateDepartmentCommand { get; set; } = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
@@ -21,7 +21,7 @@ namespace WebUI.Client.ViewModels.Departments
         public bool ErrorVisible { get; set; }
 
         public DepartmentCreateViewModel(IDepartmentService departmentService, 
-            InstructorService instructorService, IStringLocalizer<DepartmentResources> departmentLocalizer,
+            IInstructorService instructorService, IStringLocalizer<DepartmentResources> departmentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer) 
             : base(departmentService, departmentLocalizer, generalLocalizer)
         {

@@ -10,7 +10,7 @@ namespace WebUI.Client.ViewModels.Departments
 {
     public class DepartmentEditViewModel : DepartmentViewModelBase
     {
-        private readonly InstructorService _instructorService;
+        private readonly IInstructorService _instructorService;
         private MudDialogInstance _mudDialog;
 
         public UpdateDepartmentCommand UpdateDepartmentCommand { get; set; } = new UpdateDepartmentCommand();
@@ -21,7 +21,7 @@ namespace WebUI.Client.ViewModels.Departments
         public bool ErrorVisible { get; set; }
 
         public DepartmentEditViewModel(IDepartmentService departmentService,
-            InstructorService instructorService, IStringLocalizer<DepartmentResources> departmentLocalizer,
+            IInstructorService instructorService, IStringLocalizer<DepartmentResources> departmentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             : base(departmentService, departmentLocalizer, generalLocalizer)
         {

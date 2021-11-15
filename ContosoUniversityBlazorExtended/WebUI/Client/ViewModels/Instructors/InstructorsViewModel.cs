@@ -26,7 +26,7 @@ namespace WebUI.Client.ViewModels.Instructors
         public int? SelectedInstructorId { get; set; }
         public int? SelectedCourseId { get; set; }
 
-        public InstructorsViewModel(InstructorService instructorService, 
+        public InstructorsViewModel(IInstructorService instructorService, 
             ICourseService courseService, StudentService studentService, 
             IDialogService dialogService, ISnackbar snackbar,
             IStringLocalizer<InstructorResources> instructorLocalizer,

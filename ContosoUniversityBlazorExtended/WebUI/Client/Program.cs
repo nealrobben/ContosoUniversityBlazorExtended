@@ -28,7 +28,7 @@ namespace WebUI.Client
 
             builder.Services.AddScoped<IDepartmentService,DepartmentService>();
             builder.Services.AddScoped<ICourseService, CourseService>();
-            builder.Services.AddScoped<InstructorService>();
+            builder.Services.AddScoped<IInstructorService, InstructorService>();
             builder.Services.AddScoped<StudentService>();
             builder.Services.AddScoped<FileuploadService>();
 
