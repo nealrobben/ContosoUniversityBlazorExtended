@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Linq;
@@ -12,7 +11,6 @@ namespace WebUI.Client.ViewModels.Courses
 {
     public class CourseCreateViewModel : CoursesViewModelBase
     {
-        private readonly NavigationManager _navManager;
         private readonly IDepartmentService _departmentService;
         private MudDialogInstance _mudDialog;
 
@@ -22,13 +20,12 @@ namespace WebUI.Client.ViewModels.Courses
         public bool ErrorVisible { get; set; }
 
         public CourseCreateViewModel(ICourseService courseService, 
-            IDepartmentService departmentService, NavigationManager navManager, 
+            IDepartmentService departmentService,
             IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             :base(courseService,courseLocalizer,generalLocalizer)
         {
             _departmentService = departmentService;
-            _navManager = navManager;
         }
 
         public async Task OnInitializedAsync(MudDialogInstance MudDialog)
