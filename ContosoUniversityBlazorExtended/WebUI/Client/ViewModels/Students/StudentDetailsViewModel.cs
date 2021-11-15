@@ -11,7 +11,7 @@ namespace WebUI.Client.ViewModels.Students
 
         public StudentDetailsVM Student { get; set; }
 
-        public StudentDetailsViewModel(StudentService studentService,
+        public StudentDetailsViewModel(IStudentService studentService,
             IStringLocalizer<StudentResources> studentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             : base(studentService,studentLocalizer,generalLocalizer)

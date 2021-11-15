@@ -16,7 +16,7 @@ namespace WebUI.Client.ViewModels.Students
 
         public StudentsOverviewVM StudentsOverview { get; set; } = new StudentsOverviewVM();
 
-        public StudentsViewModel(StudentService studentService, 
+        public StudentsViewModel(IStudentService studentService, 
             IDialogService dialogService, ISnackbar snackbar,
             IStringLocalizer<StudentResources> studentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)

@@ -20,7 +20,7 @@ namespace WebUI.Client.ViewModels.Students
 
         public IList<IBrowserFile> files { get; set; }
 
-        public StudentEditViewModel(StudentService studentService, FileuploadService fileuploadService,
+        public StudentEditViewModel(IStudentService studentService, FileuploadService fileuploadService,
             IStringLocalizer<StudentResources> studentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             : base(studentService,studentLocalizer,generalLocalizer)
