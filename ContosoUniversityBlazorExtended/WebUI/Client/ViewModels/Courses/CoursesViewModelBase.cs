@@ -5,12 +5,12 @@ namespace WebUI.Client.ViewModels.Courses
 {
     public class CoursesViewModelBase
     {
-        protected readonly CourseService _courseService;
+        protected readonly ICourseService _courseService;
 
         protected readonly IStringLocalizer<CourseResources> _courseLocalizer;
         protected readonly IStringLocalizer<GeneralResources> _generalLocalizer;
 
-        public CoursesViewModelBase(CourseService courseService, IStringLocalizer<CourseResources> courseLocalizer,
+        public CoursesViewModelBase(ICourseService courseService, IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
         {
             _courseService = courseService;

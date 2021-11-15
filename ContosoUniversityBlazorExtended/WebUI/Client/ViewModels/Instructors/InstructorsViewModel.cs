@@ -12,7 +12,7 @@ namespace WebUI.Client.ViewModels.Instructors
 {
     public class InstructorsViewModel : InstructorViewModelBase
     {
-        private readonly CourseService _courseService;
+        private readonly ICourseService _courseService;
         private readonly StudentService _studentService;
         private ISnackbar _snackbar { get; set; }
         private IDialogService _dialogService { get; set; }
@@ -27,7 +27,7 @@ namespace WebUI.Client.ViewModels.Instructors
         public int? SelectedCourseId { get; set; }
 
         public InstructorsViewModel(InstructorService instructorService, 
-            CourseService courseService, StudentService studentService, 
+            ICourseService courseService, StudentService studentService, 
             IDialogService dialogService, ISnackbar snackbar,
             IStringLocalizer<InstructorResources> instructorLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)

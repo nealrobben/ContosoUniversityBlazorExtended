@@ -11,7 +11,7 @@ namespace WebUI.Client.ViewModels.Courses
 
         public CourseDetailVM Course { get; set; }
 
-        public CourseDetailsViewModel(CourseService courseService,
+        public CourseDetailsViewModel(ICourseService courseService,
             IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             : base(courseService,courseLocalizer,generalLocalizer)

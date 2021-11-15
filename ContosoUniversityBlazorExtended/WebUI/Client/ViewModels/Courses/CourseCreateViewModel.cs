@@ -21,7 +21,7 @@ namespace WebUI.Client.ViewModels.Courses
 
         public bool ErrorVisible { get; set; }
 
-        public CourseCreateViewModel(CourseService courseService, 
+        public CourseCreateViewModel(ICourseService courseService, 
             IDepartmentService departmentService, NavigationManager navManager, 
             IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)

@@ -20,7 +20,7 @@ namespace WebUI.Client.ViewModels.Courses
 
         public bool ErrorVisible { get; set; }
 
-        public CourseEditViewModel(CourseService courseService, 
+        public CourseEditViewModel(ICourseService courseService, 
             IDepartmentService departmentService,
             IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)

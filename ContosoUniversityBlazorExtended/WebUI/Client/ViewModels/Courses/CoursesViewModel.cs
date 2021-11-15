@@ -16,7 +16,7 @@ namespace WebUI.Client.ViewModels.Courses
 
         public CoursesOverviewVM CoursesOverview { get; set; } = new CoursesOverviewVM();
 
-        public CoursesViewModel(CourseService courseService,
+        public CoursesViewModel(ICourseService courseService,
             IDialogService dialogService, ISnackbar snackbar,
             IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer) 
