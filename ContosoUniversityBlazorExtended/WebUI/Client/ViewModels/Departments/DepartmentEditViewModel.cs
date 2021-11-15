@@ -20,7 +20,7 @@ namespace WebUI.Client.ViewModels.Departments
 
         public bool ErrorVisible { get; set; }
 
-        public DepartmentEditViewModel(DepartmentService departmentService,
+        public DepartmentEditViewModel(IDepartmentService departmentService,
             InstructorService instructorService, IStringLocalizer<DepartmentResources> departmentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             : base(departmentService, departmentLocalizer, generalLocalizer)

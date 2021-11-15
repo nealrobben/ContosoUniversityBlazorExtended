@@ -17,7 +17,7 @@ namespace WebUI.Client.ViewModels.Departments
 
         public DepartmentsOverviewVM DepartmentsOverview { get; set; } = new DepartmentsOverviewVM();
 
-        public DepartmentsViewModel(DepartmentService departmentService,
+        public DepartmentsViewModel(IDepartmentService departmentService,
             IDialogService dialogService, ISnackbar snackbar, IStringLocalizer<DepartmentResources> departmentLocalizer, 
             IStringLocalizer<GeneralResources> generalLocalizer) : base(departmentService, departmentLocalizer, generalLocalizer)
         {

@@ -13,7 +13,7 @@ namespace WebUI.Client.ViewModels.Departments
 
         public DepartmentDetailVM Department { get; set; }
 
-        public DepartmentDetailsViewModel(DepartmentService departmentService, 
+        public DepartmentDetailsViewModel(IDepartmentService departmentService, 
             IStringLocalizer<DepartmentResources> departmentLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             : base(departmentService, departmentLocalizer, generalLocalizer)

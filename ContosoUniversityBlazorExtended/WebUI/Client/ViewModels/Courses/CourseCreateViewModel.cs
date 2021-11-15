@@ -13,7 +13,7 @@ namespace WebUI.Client.ViewModels.Courses
     public class CourseCreateViewModel : CoursesViewModelBase
     {
         private readonly NavigationManager _navManager;
-        private readonly DepartmentService _departmentService;
+        private readonly IDepartmentService _departmentService;
         private MudDialogInstance _mudDialog;
 
         public CreateCourseCommand CreateCourseCommand = new CreateCourseCommand();
@@ -22,7 +22,7 @@ namespace WebUI.Client.ViewModels.Courses
         public bool ErrorVisible { get; set; }
 
         public CourseCreateViewModel(CourseService courseService, 
-            DepartmentService departmentService, NavigationManager navManager, 
+            IDepartmentService departmentService, NavigationManager navManager, 
             IStringLocalizer<CourseResources> courseLocalizer,
             IStringLocalizer<GeneralResources> generalLocalizer)
             :base(courseService,courseLocalizer,generalLocalizer)
