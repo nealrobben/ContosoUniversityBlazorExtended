@@ -60,22 +60,18 @@ namespace WebUI.Client
 
             var host = builder.Build();
 
-            CultureInfo culture;
-            var js = host.Services.GetRequiredService<IJSRuntime>();
-            var result = await js.InvokeAsync<string>("blazorCulture.get");
-
-            if (result != null)
+            var clientSettingService = host.Services.GetRequiredService<ClientSettingService>();
+            if (clientSettingService != null)
             {
-                culture = new CultureInfo(result);
+                CultureInfo culture;
+                var preference = await clientSettingService.GetSettings();
+                if (preference != null)
+                    culture = new CultureInfo(preference.LanguageCode);
+                else
+                    culture = new CultureInfo("en-US");
+                CultureInfo.DefaultThreadCurrentCulture = culture;
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
             }
-            else
-            {
-                culture = new CultureInfo("en-US");
-                await js.InvokeVoidAsync("blazorCulture.set", "en-US");
-            }
-
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
 
             await host.RunAsync();
         }

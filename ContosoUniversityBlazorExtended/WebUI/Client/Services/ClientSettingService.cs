@@ -1,7 +1,5 @@
 ﻿using Blazored.LocalStorage;
-using Microsoft.JSInterop;
 using MudBlazor;
-using System;
 using System.Threading.Tasks;
 using WebUI.Client.Settings;
 
@@ -11,29 +9,31 @@ namespace WebUI.Client.Services
     {
         private const string clientSettingsKey = "ClientSettings";
 
-        private IJSRuntime _jsRunTime;
         private readonly ILocalStorageService _localStorageService;
 
-        public ClientSettingService(IJSRuntime jsRuntime, ILocalStorageService localStorageService)
+        public ClientSettingService(ILocalStorageService localStorageService)
         {
-            _jsRunTime = jsRuntime;
             _localStorageService = localStorageService;
         }
 
-        public void SetCulture(string name)
+        public async Task SetCulture(string languageCode)
         {
-            var js = (IJSInProcessRuntime)_jsRunTime;
-            js.InvokeVoid("blazorCulture.set", name);
+            var setting = await GetSettings();
+            if (setting != null)
+            {
+                setting.LanguageCode = languageCode;
+                await SetSettings(setting);
+            }
         }
 
         public async Task<bool> ToggleDarkModeAsync()
         {
-            var preference = await GetSettings();
-            if (preference != null)
+            var setting = await GetSettings();
+            if (setting != null)
             {
-                preference.IsDarkMode = !preference.IsDarkMode;
-                await SetPreference(preference);
-                return !preference.IsDarkMode;
+                setting.IsDarkMode = !setting.IsDarkMode;
+                await SetSettings(setting);
+                return !setting.IsDarkMode;
             }
 
             return false;
@@ -56,7 +56,7 @@ namespace WebUI.Client.Services
             return await _localStorageService.GetItemAsync<ClientSetting>(clientSettingsKey) ?? new ClientSetting();
         }
 
-        public async Task SetPreference(ClientSetting setting)
+        public async Task SetSettings(ClientSetting setting)
         {
             await _localStorageService.SetItemAsync(clientSettingsKey, setting);
         }
