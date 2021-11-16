@@ -1,6 +1,7 @@
 ﻿@using  System.Globalization
-@inject IJSRuntime JSRuntime
 @inject NavigationManager Nav
+@inject ClientPreferenceService ClientPreferenceService
+
 
 <MudMenu Icon="@Icons.Material.Outlined.Language" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
     @foreach (var language in supportedCultures)
@@ -26,9 +27,7 @@
     {
         if (CultureInfo.CurrentCulture != culture)
         {
-            var js = (IJSInProcessRuntime)JSRuntime;
-            js.InvokeVoid("blazorCulture.set", culture.Name);
-
+            ClientPreferenceService.SetCulture(culture.Name);
             Nav.NavigateTo(Nav.Uri, forceLoad: true);
         }
     }

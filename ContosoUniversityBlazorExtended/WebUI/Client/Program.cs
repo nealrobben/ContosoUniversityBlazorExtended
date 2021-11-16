@@ -31,6 +31,7 @@ namespace WebUI.Client
             builder.Services.AddScoped<IInstructorService, InstructorService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<FileuploadService>();
+            builder.Services.AddScoped<ClientPreferenceService>();
 
             builder.Services.AddTransient<DepartmentCreateViewModel>();
             builder.Services.AddTransient<DepartmentDetailsViewModel>();

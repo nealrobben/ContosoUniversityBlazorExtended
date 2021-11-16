@@ -171,6 +171,9 @@
   <data name="Select" xml:space="preserve">
     <value>Selecteer</value>
   </data>
+  <data name="ToggleDarkMode" xml:space="preserve">
+    <value>Nachtmodus aan/uit</value>
+  </data>
   <data name="UploadFiles" xml:space="preserve">
     <value>Files uploaden</value>
   </data>
