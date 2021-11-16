@@ -12,6 +12,7 @@ using WebUI.Client.ViewModels.Students;
 using System.Globalization;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
+using Blazored.LocalStorage;
 
 namespace WebUI.Client
 {
@@ -31,7 +32,7 @@ namespace WebUI.Client
             builder.Services.AddScoped<IInstructorService, InstructorService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<FileuploadService>();
-            builder.Services.AddScoped<ClientPreferenceService>();
+            builder.Services.AddScoped<ClientSettingService>();
 
             builder.Services.AddTransient<DepartmentCreateViewModel>();
             builder.Services.AddTransient<DepartmentDetailsViewModel>();
@@ -54,6 +55,8 @@ namespace WebUI.Client
             builder.Services.AddTransient<StudentEditViewModel>();
 
             builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
+
+            builder.Services.AddBlazoredLocalStorage();
 
             var host = builder.Build();
 

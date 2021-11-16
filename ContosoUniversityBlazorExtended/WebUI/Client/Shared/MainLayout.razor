@@ -1,6 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using Client.Settings
+@inherits LayoutComponentBase
 @inject IStringLocalizer<GeneralResources> GeneralLocalizer
-@inject ClientPreferenceService ClientPreferenceService
+@inject ClientSettingService ClientSettingService
 
 <MudThemeProvider Theme="_currentTheme" />
 <MudDialogProvider />
@@ -30,9 +31,9 @@
     bool _drawerOpen = true;
     MudTheme _currentTheme;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _currentTheme = Themes.DefaultTheme;
+        _currentTheme = await ClientSettingService.GetCurrentThemeAsync();
     }
 
     void DrawerToggle()
@@ -40,9 +41,9 @@
         _drawerOpen = !_drawerOpen;
     }
 
-    void ToggleDarkMode()
+    private async Task ToggleDarkMode()
     {
-        var isDarkMode = ClientPreferenceService.ToggleDarkMode();
+        bool isDarkMode = await ClientSettingService.ToggleDarkModeAsync();
         _currentTheme = isDarkMode
             ? Themes.DefaultTheme: Themes.DarkTheme;
     }

@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace WebUI.Client
+namespace WebUI.Client.Settings
 {
     public static class Themes
     {
