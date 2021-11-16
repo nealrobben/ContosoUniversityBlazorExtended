@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System;
 
 namespace WebUI.Client.Services
 {
@@ -20,11 +21,12 @@ namespace WebUI.Client.Services
         public bool ToggleDarkMode()
         {
             var js = (IJSInProcessRuntime)_jsRunTime;
-            var isDarkMode = js.Invoke<string>("blazorDarkMode.get");
-            //js.InvokeVoid("blazorDarkMode.set", !isDarkMode);
+            var darkModeValue = js.Invoke<string>("blazorDarkMode.get");
+            var darkMode = string.Equals(darkModeValue, "true") ? true : false;
 
-            return false;
-            //return !isDarkMode;
+            js.InvokeVoid("blazorDarkMode.set", !darkMode);
+
+            return !darkMode;
         }
     }
 }
