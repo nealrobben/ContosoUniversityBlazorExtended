@@ -17,20 +17,18 @@ namespace ContosoUniversityBlazor.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
         {
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("ContosoUniversityBlazorDb"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
-
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseInMemoryDatabase("ContosoUniversityBlazorDb"));
+            //}
+            //else
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseSqlServer(
+            //            configuration.GetConnectionString("DefaultConnection"),
+            //            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            //}
 
                 services.AddDefaultIdentity<ApplicationUser>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();

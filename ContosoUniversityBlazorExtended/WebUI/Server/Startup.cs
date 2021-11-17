@@ -2,6 +2,7 @@ using ContosoUniversityBlazor.Application;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
 using ContosoUniversityBlazor.Infrastructure;
 using ContosoUniversityBlazor.Infrastructure.Persistence;
+using ContosoUniversityBlazor.Persistence;
 using ContosoUniversityBlazor.WebUI.Filters;
 using ContosoUniversityBlazor.WebUI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -37,7 +38,7 @@ namespace WebUI.Server
             services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
+                .AddDbContextCheck<SchoolContext>();
 
             services.AddControllersWithViews(options =>
                 options.Filters.Add(new ApiExceptionFilter()));

@@ -1,6 +1,5 @@
 ﻿using ContosoUniversityBlazor.Application.Common.Interfaces;
 using ContosoUniversityBlazor.Domain.Common;
-using ContosoUniversityBlazor.Domain.Entities;
 using ContosoUniversityBlazor.Infrastructure.Identity;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ContosoUniversityBlazor.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
