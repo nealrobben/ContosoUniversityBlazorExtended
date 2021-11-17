@@ -43,8 +43,18 @@ namespace ContosoUniversityBlazor.Infrastructure
 
             services.AddSingleton<IProfilePictureService, ProfilePictureService>();
 
-            services.AddDbContext<SchoolContext>(options => 
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            {
+                services.AddDbContext<SchoolContext>(options =>
+                    options.UseInMemoryDatabase("ContosoUniversityBlazorDb"));
+            }
+            else
+            {
+                services.AddDbContext<SchoolContext>(options =>
+                    options.UseSqlServer(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(SchoolContext).Assembly.FullName)));
+            }
 
             services.AddScoped<ISchoolContext>(provider => provider.GetService<SchoolContext>());
 
