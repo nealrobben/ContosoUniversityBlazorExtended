@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Server.Extensions;
 
 namespace WebUI.Server
 {
@@ -15,7 +17,25 @@ namespace WebUI.Server
         public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+            await MigrateDatabase(host);
 
+            try
+            {
+                Log.Information("Application Starting.");
+                await host.RunAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "The Application failed to start.");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        private static async Task MigrateDatabase(IHost host)
+        {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -36,12 +56,11 @@ namespace WebUI.Server
 
                 }
             }
-
-            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
