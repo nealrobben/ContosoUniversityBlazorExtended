@@ -14,5 +14,10 @@
                 return LastName + ", " + FirstMidName;
             }
         }
+
+        public override string ToString()
+        {
+            return FullName;
+        }
     }
 }

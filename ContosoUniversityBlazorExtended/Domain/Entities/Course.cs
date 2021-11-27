@@ -18,5 +18,10 @@ namespace ContosoUniversityBlazor.Domain.Entities
         public Department Department { get; set; }
         public ICollection<Enrollment> Enrollments { get; set; }
         public ICollection<CourseAssignment> CourseAssignments { get; set; }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }
