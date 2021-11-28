@@ -1,12 +1,11 @@
-﻿@inject IStringLocalizer<CourseResources> CourseLocalizer
-@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+﻿@inject IStringLocalizer<CourseDetails> Localizer
 
 <MudDialog>
     <DialogContent>
         <div>
             <dl class="row">
                 <dt class="col-sm-4">
-                    @CourseLocalizer["Title"]
+                    @Localizer["Title"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (CourseDetailsViewModel.Course != null)
@@ -15,7 +14,7 @@
                     }
                 </dd>
                 <dt class="col-sm-4">
-                    @CourseLocalizer["Credits"]
+                    @Localizer["Credits"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (CourseDetailsViewModel.Course != null)
@@ -24,7 +23,7 @@
                     }
                 </dd>
                 <dt class="col-sm-4">
-                    @CourseLocalizer["Department"]
+                    @Localizer["Department"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (CourseDetailsViewModel.Course != null)
@@ -36,6 +35,6 @@
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Close">@GeneralLocalizer["OK"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Close">@Localizer["OK"]</MudButton>
     </DialogActions>
 </MudDialog>
