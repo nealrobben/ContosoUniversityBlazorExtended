@@ -10,7 +10,6 @@ using WebUI.Client.ViewModels.Departments;
 using WebUI.Client.ViewModels.Instructors;
 using WebUI.Client.ViewModels.Students;
 using System.Globalization;
-using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
 using Blazored.LocalStorage;
 
@@ -27,13 +26,32 @@ namespace WebUI.Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddMudServices();
 
-            builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+            RegisterServices(builder);
+            RegisterViewModels(builder);
+
+            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
+
+            builder.Services.AddBlazoredLocalStorage();
+
+            var host = builder.Build();
+
+            await SetCulture(host);
+
+            await host.RunAsync();
+        }
+
+        private static void RegisterServices(WebAssemblyHostBuilder builder)
+        {
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<ICourseService, CourseService>();
             builder.Services.AddScoped<IInstructorService, InstructorService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<FileuploadService>();
             builder.Services.AddScoped<ClientSettingService>();
+        }
 
+        private static void RegisterViewModels(WebAssemblyHostBuilder builder)
+        {
             builder.Services.AddTransient<DepartmentCreateViewModel>();
             builder.Services.AddTransient<DepartmentDetailsViewModel>();
             builder.Services.AddTransient<DepartmentsViewModel>();
@@ -53,13 +71,10 @@ namespace WebUI.Client
             builder.Services.AddTransient<StudentDetailsViewModel>();
             builder.Services.AddTransient<StudentsViewModel>();
             builder.Services.AddTransient<StudentEditViewModel>();
+        }
 
-            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
-
-            builder.Services.AddBlazoredLocalStorage();
-
-            var host = builder.Build();
-
+        private static async Task SetCulture(WebAssemblyHost host)
+        {
             var clientSettingService = host.Services.GetRequiredService<ClientSettingService>();
             if (clientSettingService != null)
             {
@@ -72,8 +87,6 @@ namespace WebUI.Client
                 CultureInfo.DefaultThreadCurrentCulture = culture;
                 CultureInfo.DefaultThreadCurrentUICulture = culture;
             }
-
-            await host.RunAsync();
         }
     }
 }
