@@ -30,4 +30,11 @@
     <ProjectReference Include="..\Shared\WebUI.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Localization\Pages\Courses\" />
+    <Folder Include="Localization\Pages\Instructors\" />
+    <Folder Include="Localization\Pages\Home\" />
+    <Folder Include="Localization\Pages\Students\" />
+  </ItemGroup>
+
 </Project>
