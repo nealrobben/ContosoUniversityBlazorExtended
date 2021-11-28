@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Localization\Pages\Instructors\" />
-    <Folder Include="Localization\Pages\Home\" />
     <Folder Include="Localization\Pages\Students\" />
   </ItemGroup>
 

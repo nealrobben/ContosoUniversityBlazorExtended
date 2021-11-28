@@ -1,10 +1,9 @@
 ﻿@page "/about"
-@inject IStringLocalizer<StudentResources> StudentLocalizer
-@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+@inject IStringLocalizer<About> Localizer
 
 <PageTitle>CU - About</PageTitle>
 
-<h2>@StudentLocalizer["StudentBodyStatistics"]</h2>
+<h2>@Localizer["StudentBodyStatistics"]</h2>
 
 @if (aboutInfo == null)
 {
@@ -15,15 +14,15 @@
 else
 {
     <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
-        <MudTabPanel Text="@GeneralLocalizer["List"]">
+        <MudTabPanel Text="@Localizer["List"]">
             <MudText>
                 <table class="table">
                     <tr>
                         <th>
-                            @StudentLocalizer["EnrollmentDate"]
+                            @Localizer["EnrollmentDate"]
                         </th>
                         <th>
-                            @StudentLocalizer["Students"]
+                            @Localizer["Students"]
                         </th>
                     </tr>
 
@@ -45,7 +44,7 @@ else
                 </table>
             </MudText>
         </MudTabPanel>
-        <MudTabPanel Text="@GeneralLocalizer["Chart"]">
+        <MudTabPanel Text="@Localizer["Chart"]">
             <MudText>
                 <MudChart ChartType="ChartType.Line" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%"></MudChart>
             </MudText>
