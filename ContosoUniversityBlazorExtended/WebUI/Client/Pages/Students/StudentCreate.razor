@@ -2,41 +2,41 @@
 
 <MudDialog>
     <DialogContent>
-        @if (StudentCreateViewModel.ErrorVisible)
+        @if (ErrorVisible)
         {
             <MudAlert Severity="Severity.Error">@Localizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col-md-12">
-                <EditForm Model=@StudentCreateViewModel.CreateStudentCommand OnSubmit=@StudentCreateViewModel.FormSubmitted>
+                <EditForm Model=@CreateStudentCommand OnSubmit=@FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
                         <label for="LastName">@Localizer["LastName"]</label>
-                        <InputText @bind-Value=StudentCreateViewModel.CreateStudentCommand.LastName class="form-control" id="LastName" />
-                        <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.LastName" />
+                        <InputText @bind-Value=CreateStudentCommand.LastName class="form-control" id="LastName" />
+                        <ValidationMessage For="() => CreateStudentCommand.LastName" />
                     </div>
                     <div class="form-group">
                         <label for="FirstName">@Localizer["FirstName"]</label>
-                        <InputText @bind-Value=StudentCreateViewModel.CreateStudentCommand.FirstName class="form-control" id="FirstName" />
-                        <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.FirstName" />
+                        <InputText @bind-Value=CreateStudentCommand.FirstName class="form-control" id="FirstName" />
+                        <ValidationMessage For="() => CreateStudentCommand.FirstName" />
                     </div>
                     <div class="form-group">
                         <label for="EnrollmentDate">@Localizer["EnrollmentDate"]</label>
-                        <InputDate @bind-Value=StudentCreateViewModel.CreateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
-                        <ValidationMessage For="() => StudentCreateViewModel.CreateStudentCommand.EnrollmentDate" />
+                        <InputDate @bind-Value=CreateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
+                        <ValidationMessage For="() => CreateStudentCommand.EnrollmentDate" />
                     </div>
                     <div>
-                        <InputFile id="fileInput" OnChange="StudentCreateViewModel.UploadFiles" hidden />
+                        <InputFile id="fileInput" OnChange="UploadFiles" hidden />
                         <MudButton HtmlTag="label"
                                    Color="Color.Primary"
                                    StartIcon="@Icons.Filled.CloudUpload"
                                    for="fileInput">
                             @Localizer["UploadFiles"]
                         </MudButton>
-                        @if (StudentCreateViewModel.files != null)
+                        @if (files != null)
                         {
                             <MudList>
-                                @foreach (var file in StudentCreateViewModel.files)
+                                @foreach (var file in files)
                                 {
                                     <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
                                         @file.Name <code>@file.Size bytes</code>
@@ -48,7 +48,7 @@
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
                                Color="Color.Primary">@Localizer["Create"]</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="StudentCreateViewModel.Cancel">@Localizer["Cancel"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="Cancel">@Localizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
         </div>
