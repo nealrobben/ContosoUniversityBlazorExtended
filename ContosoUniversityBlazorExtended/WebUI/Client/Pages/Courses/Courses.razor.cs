@@ -1,20 +1,120 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
-using WebUI.Client.ViewModels.Courses;
+using System.Threading.Tasks;
+using WebUI.Client.Extensions;
+using WebUI.Client.Services;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace WebUI.Client.Pages.Courses
 {
     public partial class Courses
     {
-        [Inject]
-        public CoursesViewModel CoursesViewModel { get; set; }
-
         private MudTable<CourseVM> table;
 
-        protected override void OnAfterRender(bool firstRender)
+        [Inject]
+        public IDialogService DialogService { get; set; }
+
+        [Inject]
+        public ISnackbar Snackbar { get; set; }
+
+        [Inject]
+        public ICourseService CourseService { get; set; }
+
+        [Inject]
+        public IStringLocalizer<Courses> Localizer { get; set; }
+
+        public MudTable<CourseVM> Table { get; set; }
+
+        public CoursesOverviewVM CoursesOverview { get; set; } = new CoursesOverviewVM();
+
+        protected override void OnInitialized()
         {
-            CoursesViewModel.Table = table;
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            Snackbar.Configuration.ClearAfterNavigation = true;
+        }
+
+        private async Task GetCourses()
+        {
+            await Table.ReloadServerData();
+        }
+
+        public async Task DeleteCourse(int courseId, string title)
+        {
+            bool? dialogResult = await DialogService.ShowMessageBox(Localizer["Confirm"], Localizer["DeleteConfirmation", title],
+                yesText: Localizer["Delete"], cancelText: Localizer["Cancel"]);
+
+            if (dialogResult == true)
+            {
+                var result = await CourseService.DeleteAsync(courseId.ToString());
+
+                if (result.IsSuccessStatusCode)
+                {
+                    Snackbar.Add(Localizer["DeleteFeedback", title], Severity.Success);
+                    await GetCourses();
+                }
+            }
+        }
+
+        public void OpenCourseDetails(int courseId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("CourseId", courseId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
+
+            DialogService.Show<CourseDetails>(Localizer["CourseDetails"], parameters, options);
+        }
+
+        public async Task OpenCourseEdit(int courseId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("CourseId", courseId.ToString());
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
+
+            var dialog = DialogService.Show<CourseEdit>(Localizer["CourseEdit"], parameters, options);
+
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                await GetCourses();
+            }
+        }
+
+        public async Task OpenCourseCreate()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+            var dialog = DialogService.Show<CourseCreate>(Localizer["CreateCourse"], options);
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                await GetCourses();
+            }
+        }
+
+        public async Task Filter()
+        {
+            await GetCourses();
+        }
+
+        public async Task BackToFullList()
+        {
+            CoursesOverview.MetaData.SearchString = "";
+            await GetCourses();
+        }
+
+        public async Task<TableData<CourseVM>> ServerReload(TableState state)
+        {
+            var searchString = CoursesOverview?.MetaData.SearchString ?? "";
+            var sortString = state.GetSortString();
+
+            var result = await CourseService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
+
+            return new TableData<CourseVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Courses };
         }
     }
 }

@@ -53,7 +53,6 @@ namespace WebUI.Client
         {
             builder.Services.AddTransient<CourseCreateViewModel>();
             builder.Services.AddTransient<CourseDetailsViewModel>();
-            builder.Services.AddTransient<CoursesViewModel>();
             builder.Services.AddTransient<CourseEditViewModel>();
 
             builder.Services.AddTransient<InstructorCreateViewModel>();

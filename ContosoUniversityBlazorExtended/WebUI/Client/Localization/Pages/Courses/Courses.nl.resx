@@ -120,17 +120,38 @@
   <data name="BackToFullList" xml:space="preserve">
     <value>Terug naar lijst</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuleer</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Bevestig</value>
+  </data>
+  <data name="CourseDetails" xml:space="preserve">
+    <value>Cursus details</value>
+  </data>
+  <data name="CourseEdit" xml:space="preserve">
+    <value>Wijzig cursus</value>
+  </data>
   <data name="CourseID" xml:space="preserve">
     <value>Cursus ID</value>
   </data>
   <data name="Courses" xml:space="preserve">
     <value>Cursussen</value>
   </data>
+  <data name="CreateCourse" xml:space="preserve">
+    <value>Maak cursus aan</value>
+  </data>
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Verwijder</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Bent u zeker dat u cursus {0} wil verwijderen?</value>
+  </data>
+  <data name="DeleteFeedback" xml:space="preserve">
+    <value>Cursus {0} verwijderd</value>
   </data>
   <data name="Department" xml:space="preserve">
     <value>Afdeling</value>

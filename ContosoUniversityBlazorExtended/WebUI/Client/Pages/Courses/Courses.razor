@@ -1,12 +1,11 @@
 ﻿@using WebUI.Shared.Courses.Queries.GetCoursesOverview
 @page "/courses"
-@inject IStringLocalizer<Courses> Localizer
 
 <h2>@Localizer["Courses"]</h2>
 <PageTitle>CU - @Localizer["Courses"]</PageTitle>
 
 <p>
-    <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseCreate())"
+    <MudIconButton OnClick="(e => OpenCourseCreate())"
                    Title="@Localizer["Create"]"
                    Variant="Variant.Filled"
                    Icon="fas fa-plus-circle"
@@ -14,20 +13,20 @@
     </MudIconButton>
 </p>
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<CourseVM>>>(CoursesViewModel.ServerReload))"
-          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table">
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CourseVM>>>(ServerReload))"
+          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="Table">
     <ToolBarContent>
         <MudText Typo="Typo.h6">@Localizer["Courses"]</MudText>
         <MudSpacer />
-        <MudTextField T="string" Placeholder="@Localizer["Search"]" Adornment="Adornment.Start" @bind-Value="@CoursesViewModel.CoursesOverview.MetaData.SearchString"
+        <MudTextField T="string" Placeholder="@Localizer["Search"]" Adornment="Adornment.Start" @bind-Value="@CoursesOverview.MetaData.SearchString"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        <MudIconButton OnClick="CoursesViewModel.Filter"
+        <MudIconButton OnClick="Filter"
                        Title="@Localizer["Search"]"
                        Variant="Variant.Filled"
                        Icon="fas fa-search"
                        Color="Color.Primary">
         </MudIconButton>
-        <MudIconButton OnClick="CoursesViewModel.BackToFullList"
+        <MudIconButton OnClick="BackToFullList"
                        Title="@Localizer["BackToFullList"]"
                        Variant="Variant.Filled"
                        Icon="fas fa-list"
@@ -47,19 +46,19 @@
         <MudTd DataLabel="StartDate">@context.Credits</MudTd>
         <MudTd DataLabel="AdministratorName">@context.DepartmentName</MudTd>
         <MudTd DataLabel="">
-            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseEdit(context.CourseID))"
+            <MudIconButton OnClick="(e => OpenCourseEdit(context.CourseID))"
                            Title="@Localizer["Edit"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-edit"
                            Color="Color.Primary" Size="Size.Small">
             </MudIconButton>
-            <MudIconButton OnClick="(e => CoursesViewModel.OpenCourseDetails(context.CourseID))"
+            <MudIconButton OnClick="(e => OpenCourseDetails(context.CourseID))"
                            Title="@Localizer["Details"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-eye"
                            Color="Color.Primary" Size="Size.Small">
             </MudIconButton>
-            <MudIconButton OnClick=@(e => CoursesViewModel.DeleteCourse(context.CourseID, $"{context.Title}"))
+            <MudIconButton OnClick=@(e => DeleteCourse(context.CourseID, $"{context.Title}"))
                            Title="@Localizer["Delete"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-trash-alt"
