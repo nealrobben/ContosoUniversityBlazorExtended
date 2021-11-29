@@ -123,9 +123,6 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuleer</value>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Maak aan</value>
-  </data>
   <data name="FirstName" xml:space="preserve">
     <value>Voornaam</value>
   </data>
@@ -135,7 +132,13 @@
   <data name="LastName" xml:space="preserve">
     <value>Achternaam</value>
   </data>
+  <data name="OfficeLocation" xml:space="preserve">
+    <value>Kantoorlocatie</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Opslaan</value>
+  </data>
   <data name="UploadFiles" xml:space="preserve">
-    <value>Upload bestanden</value>
+    <value>Bestanden uploaden</value>
   </data>
 </root>

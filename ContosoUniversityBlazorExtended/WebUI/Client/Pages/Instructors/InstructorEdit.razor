@@ -1,34 +1,33 @@
 ﻿@using WebUI.Client.Components
-@inject IStringLocalizer<InstructorResources> InstructorLocalizer
-@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+@inject IStringLocalizer<InstructorEdit> Localizer
 
 <MudDialog>
     <DialogContent>
         @if (InstructorEditViewModel.ErrorVisible)
         {
-            <MudAlert Severity="Severity.Error">@GeneralLocalizer["AnErrorOccuredDuringSaving"]</MudAlert>
+            <MudAlert Severity="Severity.Error">@Localizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col">
                 <form asp-action="Create">
                     <EditForm Model=@InstructorEditViewModel.UpdateInstructorCommand OnSubmit=@InstructorEditViewModel.FormSubmitted>
                         <div class="form-group">
-                            <label for="LastName">@InstructorLocalizer["LastName"]</label>
+                            <label for="LastName">@Localizer["LastName"]</label>
                             <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.LastName class="form-control" id="LastName" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.LastName" />
                         </div>
                         <div class="form-group">
-                            <label for="FirstName">@InstructorLocalizer["FirstName"]</label>
+                            <label for="FirstName">@Localizer["FirstName"]</label>
                             <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.FirstName class="form-control" id="FirstName" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.FirstName" />
                         </div>
                         <div class="form-group">
-                            <label for="HireDate">@InstructorLocalizer["HireDate"]</label>
+                            <label for="HireDate">@Localizer["HireDate"]</label>
                             <InputDate @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.HireDate class="form-control" id="HireDate" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.HireDate" />
                         </div>
                         <div class="form-group">
-                            <label for="OfficeLocation">@InstructorLocalizer["OfficeLocation"]</label>
+                            <label for="OfficeLocation">@Localizer["OfficeLocation"]</label>
                             <InputText @bind-Value=InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation class="form-control" id="OfficeLocation" />
                             <ValidationMessage For="() => InstructorEditViewModel.UpdateInstructorCommand.OfficeLocation" />
                         </div>
@@ -38,7 +37,7 @@
                                        Color="Color.Primary"
                                        StartIcon="@Icons.Filled.CloudUpload"
                                        for="fileInput">
-                                @GeneralLocalizer["UploadFiles"]
+                                @Localizer["UploadFiles"]
                             </MudButton>
                             @if (InstructorEditViewModel.files != null)
                             {
@@ -54,8 +53,8 @@
                         </div>
                         <MudButton ButtonType="ButtonType.Submit"
                                    StartIcon="fas fa-save"
-                                   Color="Color.Primary">@GeneralLocalizer["Save"]</MudButton>
-                        <MudButton Color="Color.Primary" OnClick="InstructorEditViewModel.Cancel">@GeneralLocalizer["Cancel"]</MudButton>
+                                   Color="Color.Primary">@Localizer["Save"]</MudButton>
+                        <MudButton Color="Color.Primary" OnClick="InstructorEditViewModel.Cancel">@Localizer["Cancel"]</MudButton>
                     </EditForm>
                 </form>
             </div>
