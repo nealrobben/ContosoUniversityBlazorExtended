@@ -1,24 +1,67 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using System.Threading.Tasks;
-using WebUI.Client.ViewModels.Courses;
+using WebUI.Client.Services;
+using WebUI.Shared.Courses.Commands.UpdateCourse;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 
 namespace WebUI.Client.Pages.Courses
 {
     public partial class CourseEdit
     {
-        [Parameter]
-        public string CourseId { get; set; }
+        [Inject]
+        public ICourseService CourseService { get; set; }
 
         [Inject]
-        public CourseEditViewModel CourseEditViewModel { get; set; }
+        public IDepartmentService DepartmentService { get; set; }
+
+        [Parameter]
+        public string CourseId { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        public UpdateCourseCommand UpdateCourseCommand { get; set; } = new UpdateCourseCommand();
+
+        public DepartmentsLookupVM DepartmentsLookup { get; set; }
+
+        public bool ErrorVisible { get; set; }
+
+        protected override async Task OnParametersSetAsync()
         {
-            await CourseEditViewModel.OnInitializedAsync(CourseId, MudDialog);
+            var course = await CourseService.GetAsync(CourseId);
+
+            UpdateCourseCommand.CourseID = course.CourseID;
+            UpdateCourseCommand.Credits = course.Credits;
+            UpdateCourseCommand.DepartmentID = course.DepartmentID;
+            UpdateCourseCommand.Title = course.Title;
+
+            DepartmentsLookup = await DepartmentService.GetLookupAsync();
+        }
+
+        public async Task FormSubmitted(EditContext editContext)
+        {
+            bool formIsValid = editContext.Validate();
+
+            if (formIsValid)
+            {
+                var result = await CourseService.UpdateAsync(UpdateCourseCommand);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    MudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
+                }
+            }
+        }
+
+        public void Cancel()
+        {
+            MudDialog.Cancel();
         }
     }
 }
