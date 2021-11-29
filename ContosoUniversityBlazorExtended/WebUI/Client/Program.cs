@@ -51,7 +51,6 @@ namespace WebUI.Client
 
         private static void RegisterViewModels(WebAssemblyHostBuilder builder)
         {
-            builder.Services.AddTransient<CourseCreateViewModel>();
             builder.Services.AddTransient<CourseDetailsViewModel>();
             builder.Services.AddTransient<CourseEditViewModel>();
 

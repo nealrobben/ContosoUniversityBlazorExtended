@@ -10,8 +10,6 @@ namespace WebUI.Client.Pages.Courses
 {
     public partial class Courses
     {
-        private MudTable<CourseVM> table;
-
         [Inject]
         public IDialogService DialogService { get; set; }
 
