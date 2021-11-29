@@ -52,7 +52,6 @@ namespace WebUI.Client
 
         private static void RegisterViewModels(WebAssemblyHostBuilder builder)
         {
-            builder.Services.AddTransient<DepartmentCreateViewModel>();
             builder.Services.AddTransient<DepartmentDetailsViewModel>();
             builder.Services.AddTransient<DepartmentEditViewModel>();
 

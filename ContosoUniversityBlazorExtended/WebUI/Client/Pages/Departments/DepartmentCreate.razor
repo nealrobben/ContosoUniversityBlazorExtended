@@ -1,49 +1,47 @@
-﻿@inject IStringLocalizer<DepartmentResources> DepartmentLocalizer
-@inject IStringLocalizer<GeneralResources> GeneralLocalizer
-@inject IStringLocalizer<DepartmentCreate> Localizer
+﻿@inject IStringLocalizer<DepartmentCreate> Localizer
 
 <MudDialog>
     <DialogContent>
-        @if (DepartmentCreateViewModel.ErrorVisible)
+        @if (ErrorVisible)
         {
             <MudAlert Severity="Severity.Error">@Localizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col-md-12">
-                <EditForm Model=@DepartmentCreateViewModel.CreateDepartmentCommand OnSubmit=@DepartmentCreateViewModel.FormSubmitted>
+                <EditForm Model=@CreateDepartmentCommand OnSubmit=@FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
                         <label for="Name">@Localizer["Name"]</label>
-                        <InputText @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.Name class="form-control" id="Name" />
-                        <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.Name" />
+                        <InputText @bind-Value=CreateDepartmentCommand.Name class="form-control" id="Name" />
+                        <ValidationMessage For="() => CreateDepartmentCommand.Name" />
                     </div>
                     <div class="form-group">
                         <label for="Budget">@Localizer["Budget"]</label>
-                        <InputNumber @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.Budget class="form-control" id="Budget" />
-                        <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.Budget" />
+                        <InputNumber @bind-Value=CreateDepartmentCommand.Budget class="form-control" id="Budget" />
+                        <ValidationMessage For="() => CreateDepartmentCommand.Budget" />
                     </div>
                     <div class="form-group">
                         <label for="StartDate">@Localizer["StartDate"]</label>
-                        <InputDate @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.StartDate class="form-control" id="StartDate" />
-                        <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.StartDate" />
+                        <InputDate @bind-Value=CreateDepartmentCommand.StartDate class="form-control" id="StartDate" />
+                        <ValidationMessage For="() => CreateDepartmentCommand.StartDate" />
                     </div>
                     <div class="form-group">
                         <label for="InstructorID">@Localizer["AdministratorName"]</label>
-                        <CustomInputSelect @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
-                            @if (DepartmentCreateViewModel.InstructorsLookup != null)
+                        <CustomInputSelect @bind-Value=CreateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                            @if (InstructorsLookup != null)
                             {
-                                @foreach (var instructor in DepartmentCreateViewModel.InstructorsLookup.Instructors)
+                                @foreach (var instructor in InstructorsLookup.Instructors)
                                 {
                                     <option value="@instructor.ID">@instructor.FullName</option>
                                 }
                             }
                         </CustomInputSelect>
-                        <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID" />
+                        <ValidationMessage For="() => CreateDepartmentCommand.InstructorID" />
                     </div>
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
                                Color="Color.Primary">@Localizer["Create"]</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="DepartmentCreateViewModel.Cancel">@Localizer["Cancel"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="Cancel">@Localizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
         </div>

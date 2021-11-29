@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{A7923089-B350-40A5-9C8A-8AEEE0FE0FB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI.Client.Test", "WebUI.Client.Test\WebUI.Client.Test.csproj", "{5A1C60EF-4EF2-4196-8B1E-BDF2928C8897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI.Client.Test", "WebUI.Client.Test\WebUI.Client.Test.csproj", "{5A1C60EF-4EF2-4196-8B1E-BDF2928C8897}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
