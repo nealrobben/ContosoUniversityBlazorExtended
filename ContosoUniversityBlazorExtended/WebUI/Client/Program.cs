@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Client.ViewModels.Courses;
-using WebUI.Client.ViewModels.Departments;
 using WebUI.Client.ViewModels.Instructors;
 using WebUI.Client.ViewModels.Students;
 using System.Globalization;
@@ -52,8 +51,6 @@ namespace WebUI.Client
 
         private static void RegisterViewModels(WebAssemblyHostBuilder builder)
         {
-            builder.Services.AddTransient<DepartmentEditViewModel>();
-
             builder.Services.AddTransient<CourseCreateViewModel>();
             builder.Services.AddTransient<CourseDetailsViewModel>();
             builder.Services.AddTransient<CoursesViewModel>();

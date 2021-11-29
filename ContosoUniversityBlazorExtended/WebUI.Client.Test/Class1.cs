@@ -1,6 +1,5 @@
 ﻿using Bunit;
 using WebUI.Client.Pages.Departments;
-using WebUI.Client.ViewModels.Departments;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using WebUI.Client.Services;
@@ -18,7 +17,6 @@ namespace WebUI.Client.Test
             //Assert.Equal(1, 1);
 
             using var ctx = new TestContext();
-            ctx.Services.AddScoped<DepartmentDetailsViewModel>();
             ctx.Services.AddScoped<IDepartmentService>(x => A.Fake<IDepartmentService>());
             ctx.Services.AddScoped<IStringLocalizer<DepartmentResources>>(x => A.Fake<IStringLocalizer<DepartmentResources>>());
             ctx.Services.AddScoped<IStringLocalizer<GeneralResources>>(x => A.Fake<IStringLocalizer<GeneralResources>>());
