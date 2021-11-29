@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Threading.Tasks;
-using WebUI.Client.ViewModels.Courses;
+using WebUI.Client.Services;
+using WebUI.Shared.Courses.Queries.GetCourseDetails;
 
 namespace WebUI.Client.Pages.Courses
 {
     public partial class CourseDetails
     {
         [Inject]
-        public CourseDetailsViewModel CourseDetailsViewModel { get; set; }
+        public IStringLocalizer<CourseDetails> Localizer { get; set; }
+
+        [Inject]
+        public ICourseService CourseService { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
@@ -16,9 +21,11 @@ namespace WebUI.Client.Pages.Courses
         [Parameter]
         public int CourseId { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        public CourseDetailVM Course { get; set; }
+
+        protected override async Task OnParametersSetAsync()
         {
-            await CourseDetailsViewModel.OnInitializedAsync(CourseId.ToString());
+            Course = await CourseService.GetAsync(CourseId.ToString());
         }
 
         public void Close()
