@@ -1,24 +1,32 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Threading.Tasks;
-using WebUI.Client.ViewModels.Departments;
+using WebUI.Client.Services;
+using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 
 namespace WebUI.Client.Pages.Departments
 {
     public partial class DepartmentDetails
     {
-        [Inject]
-        public DepartmentDetailsViewModel DepartmentDetailsViewModel { get; set; }
-
         [CascadingParameter] 
         MudDialogInstance MudDialog { get; set; }
+
+        [Inject]
+        private IDepartmentService DepartmentService { get; set; }
+
+        public DepartmentDetailVM Department { get; set; }
 
         [Parameter] 
         public int DepartmentId { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        protected async override Task OnParametersSetAsync()
         {
-            await DepartmentDetailsViewModel.OnInitializedAsync(MudDialog, DepartmentId.ToString());
+            Department = await DepartmentService.GetAsync(DepartmentId.ToString());
+        }
+
+        public void Close()
+        {
+            MudDialog.Cancel();
         }
     }
 }
