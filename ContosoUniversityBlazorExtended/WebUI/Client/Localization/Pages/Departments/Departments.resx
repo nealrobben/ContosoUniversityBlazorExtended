@@ -126,11 +126,32 @@
   <data name="Budget" xml:space="preserve">
     <value>Budget</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CreateDepartment" xml:space="preserve">
+    <value>Create department</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete the department {0}?</value>
+  </data>
+  <data name="DeleteFeedback" xml:space="preserve">
+    <value>Deleted department {0}</value>
+  </data>
+  <data name="DepartmentDetails" xml:space="preserve">
+    <value>Department details</value>
+  </data>
+  <data name="DepartmentEdit" xml:space="preserve">
+    <value>Department edit</value>
   </data>
   <data name="Departments" xml:space="preserve">
     <value>Departments</value>

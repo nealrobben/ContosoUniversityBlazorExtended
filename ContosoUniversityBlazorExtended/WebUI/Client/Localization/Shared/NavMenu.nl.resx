@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Courses" xml:space="preserve">
-    <value>Courses</value>
+    <value>Cursussen</value>
   </data>
   <data name="Departments" xml:space="preserve">
-    <value>Departments</value>
+    <value>Afdelingen</value>
   </data>
   <data name="Instructors" xml:space="preserve">
-    <value>Instructors</value>
+    <value>Lectoren</value>
   </data>
   <data name="Students" xml:space="preserve">
-    <value>Students</value>
+    <value>Studenten</value>
   </data>
 </root>

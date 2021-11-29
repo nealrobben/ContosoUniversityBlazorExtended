@@ -54,7 +54,6 @@ namespace WebUI.Client
         {
             builder.Services.AddTransient<DepartmentCreateViewModel>();
             builder.Services.AddTransient<DepartmentDetailsViewModel>();
-            builder.Services.AddTransient<DepartmentsViewModel>();
             builder.Services.AddTransient<DepartmentEditViewModel>();
 
             builder.Services.AddTransient<CourseCreateViewModel>();

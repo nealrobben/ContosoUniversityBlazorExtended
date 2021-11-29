@@ -126,11 +126,32 @@
   <data name="Budget" xml:space="preserve">
     <value>Budget</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuleer</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Bevestig</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Maak aan</value>
   </data>
+  <data name="CreateDepartment" xml:space="preserve">
+    <value>Maak afdeling aan</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Verwijder</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Bent u zeker dat u afdeling {0} wil verwijderen?</value>
+  </data>
+  <data name="DeleteFeedback" xml:space="preserve">
+    <value>Afdeling {0} verwijderd</value>
+  </data>
+  <data name="DepartmentDetails" xml:space="preserve">
+    <value>Afdeling details</value>
+  </data>
+  <data name="DepartmentEdit" xml:space="preserve">
+    <value>Wijzig afdeling</value>
   </data>
   <data name="Departments" xml:space="preserve">
     <value>Afdelingen</value>
