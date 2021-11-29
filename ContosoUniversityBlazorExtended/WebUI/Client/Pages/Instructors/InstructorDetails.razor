@@ -1,5 +1,4 @@
 ﻿@using WebUI.Client.Components
-@inject IStringLocalizer<InstructorDetails> Localizer
 
 <MudDialog>
     <DialogContent>
@@ -11,33 +10,33 @@
                             @Localizer["LastName"]
                         </dt>
                         <dd class="col-sm-8">
-                            @if (InstructorDetailsViewModel.Instructor != null)
+                            @if (Instructor != null)
                             {
-                                @InstructorDetailsViewModel.Instructor.LastName
+                                @Instructor.LastName
                             }
                         </dd>
                         <dt class="col-sm-4">
                             @Localizer["FirstName"]
                         </dt>
                         <dd class="col-sm-8">
-                            @if (InstructorDetailsViewModel.Instructor != null)
+                            @if (Instructor != null)
                             {
-                                @InstructorDetailsViewModel.Instructor.FirstName
+                                @Instructor.FirstName
                             }
                         </dd>
                         <dt class="col-sm-4">
                             @Localizer["HireDate"]
                         </dt>
                         <dd class="col-sm-8">
-                            @if (InstructorDetailsViewModel.Instructor != null)
+                            @if (Instructor != null)
                             {
-                                @InstructorDetailsViewModel.Instructor.HireDate.ToShortDateString()
+                                @Instructor.HireDate.ToShortDateString()
                             }
                         </dd>
                     </dl>
                 </div>
                 <div class="col">
-                    <ProfilePicture FileName="@InstructorDetailsViewModel?.Instructor?.ProfilePictureName" />
+                    <ProfilePicture FileName="@Instructor?.ProfilePictureName" />
                 </div>
             </div>
         </div>
