@@ -1,22 +1,18 @@
-﻿@inject IStringLocalizer<StudentResources> StudentLocalizer
-@inject IStringLocalizer<CourseResources> CourseLocalizer
-@inject IStringLocalizer<InstructorResources> InstructorLocalizer
-@inject IStringLocalizer<DepartmentResources> DepartmentLocalizer
-@inject IStringLocalizer<GeneralResources> GeneralLocalizer
+﻿@inject IStringLocalizer<StudentResources> Localizer
 
 <MudNavMenu>
-    <MudNavLink Match="NavLinkMatch.All" href="" Icon="fas fa-home">@GeneralLocalizer["Home"]</MudNavLink>
-    <MudNavLink Match="NavLinkMatch.All" href="about" Icon="fas fa-info-circle">@GeneralLocalizer["About"]</MudNavLink>
-    <MudTooltip Text="@StudentLocalizer["Students"]">
-        <MudNavLink Match="NavLinkMatch.All" href="students" Icon="fas fa-user-graduate">@StudentLocalizer["Students"]</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" href="" Icon="fas fa-home">@Localizer["Home"]</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.All" href="about" Icon="fas fa-info-circle">@Localizer["About"]</MudNavLink>
+    <MudTooltip Text="@Localizer["Students"]">
+        <MudNavLink Match="NavLinkMatch.All" href="students" Icon="fas fa-user-graduate">@Localizer["Students"]</MudNavLink>
     </MudTooltip>
-    <MudTooltip Text="@CourseLocalizer["Courses"]">
-        <MudNavLink Match="NavLinkMatch.All" href="courses" Icon="fas fa-book">@CourseLocalizer["Courses"]</MudNavLink>
+    <MudTooltip Text="@Localizer["Courses"]">
+        <MudNavLink Match="NavLinkMatch.All" href="courses" Icon="fas fa-book">@Localizer["Courses"]</MudNavLink>
     </MudTooltip>
-    <MudTooltip Text="@InstructorLocalizer["Instructors"]">
-        <MudNavLink Match="NavLinkMatch.All" href="instructors" Icon="fas fa-chalkboard-teacher">@InstructorLocalizer["Instructors"]</MudNavLink>
+    <MudTooltip Text="@Localizer["Instructors"]">
+        <MudNavLink Match="NavLinkMatch.All" href="instructors" Icon="fas fa-chalkboard-teacher">@Localizer["Instructors"]</MudNavLink>
     </MudTooltip>
-    <MudTooltip Text="@DepartmentLocalizer["Departments"]">
-        <MudNavLink Match="NavLinkMatch.All" href="departments" Icon="fas fa-building">@DepartmentLocalizer["Departments"]</MudNavLink>
+    <MudTooltip Text="@Localizer["Departments"]">
+        <MudNavLink Match="NavLinkMatch.All" href="departments" Icon="fas fa-building">@Localizer["Departments"]</MudNavLink>
     </MudTooltip>
 </MudNavMenu>
