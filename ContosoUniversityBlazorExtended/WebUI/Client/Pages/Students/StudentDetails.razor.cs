@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Threading.Tasks;
-using WebUI.Client.ViewModels.Students;
+using WebUI.Client.Services;
+using WebUI.Shared.Students.Queries.GetStudentDetails;
 
 namespace WebUI.Client.Pages.Students
 {
     public partial class StudentDetails
     {
         [Inject]
-        public StudentDetailsViewModel StudentDetailsViewModel { get; set; }
+        public IStudentService StudentService { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
@@ -16,9 +17,11 @@ namespace WebUI.Client.Pages.Students
         [Parameter]
         public int StudentId { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        public StudentDetailsVM Student { get; set; }
+
+        protected override async Task OnParametersSetAsync()
         {
-            await StudentDetailsViewModel.OnInitializedAsync(StudentId.ToString());
+            Student = await StudentService.GetAsync(StudentId.ToString());
         }
 
         public void Close()
