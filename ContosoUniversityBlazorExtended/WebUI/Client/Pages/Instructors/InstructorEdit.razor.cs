@@ -1,24 +1,81 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using WebUI.Client.ViewModels.Instructors;
+using WebUI.Client.Services;
+using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 
 namespace WebUI.Client.Pages.Instructors
 {
     public partial class InstructorEdit
     {
-        [Parameter]
-        public string InstructorId { get; set; }
+        [Inject]
+        public FileuploadService _fileuploadService { get; set; }
 
         [Inject]
-        public InstructorEditViewModel InstructorEditViewModel { get; set; }
+        public IInstructorService InstructorService { get; set; }
+
+        [Parameter]
+        public string InstructorId { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        public UpdateInstructorCommand UpdateInstructorCommand = new UpdateInstructorCommand();
+
+        public bool ErrorVisible { get; set; }
+
+        public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
+
+        protected override async Task OnParametersSetAsync()
         {
-            await InstructorEditViewModel.OnInitializedAsync(InstructorId, MudDialog);
+            var instructor = await InstructorService.GetAsync(InstructorId);
+
+            UpdateInstructorCommand.InstructorID = instructor.InstructorID;
+            UpdateInstructorCommand.FirstName = instructor.FirstName;
+            UpdateInstructorCommand.LastName = instructor.LastName;
+            UpdateInstructorCommand.HireDate = instructor.HireDate;
+            UpdateInstructorCommand.OfficeLocation = instructor.OfficeLocation;
+            UpdateInstructorCommand.ProfilePictureName = instructor.ProfilePictureName;
+        }
+
+        public async Task FormSubmitted(EditContext editContext)
+        {
+            bool formIsValid = editContext.Validate();
+
+            if (formIsValid)
+            {
+                if (files.Any())
+                {
+                    UpdateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                }
+
+                var result = await InstructorService.UpdateAsync(UpdateInstructorCommand);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    MudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    ErrorVisible = true;
+                }
+            }
+        }
+
+        public void Cancel()
+        {
+            MudDialog.Cancel();
+        }
+
+        public void UploadFiles(InputFileChangeEventArgs e)
+        {
+            foreach (var file in e.GetMultipleFiles())
+            {
+                files.Add(file);
+            }
         }
     }
 }
