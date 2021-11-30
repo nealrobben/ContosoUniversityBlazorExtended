@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Client.ViewModels.Instructors;
-using WebUI.Client.ViewModels.Students;
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
 using Blazored.LocalStorage;
@@ -51,8 +50,6 @@ namespace WebUI.Client
         private static void RegisterViewModels(WebAssemblyHostBuilder builder)
         {
             builder.Services.AddTransient<InstructorsViewModel>();
-
-            builder.Services.AddTransient<StudentsViewModel>();
         }
 
         private static async Task SetCulture(WebAssemblyHost host)

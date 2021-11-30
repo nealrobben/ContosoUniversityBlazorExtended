@@ -120,11 +120,26 @@
   <data name="BackToFullList" xml:space="preserve">
     <value>Back to full list</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CreateStudent" xml:space="preserve">
+    <value>Create student</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete Student {0}?</value>
+  </data>
+  <data name="DeleteFeedback" xml:space="preserve">
+    <value>Student {0} deleted</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
@@ -149,6 +164,12 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="StudentDetails" xml:space="preserve">
+    <value>Student details</value>
+  </data>
+  <data name="StudentEdit" xml:space="preserve">
+    <value>Student Edit</value>
   </data>
   <data name="Students" xml:space="preserve">
     <value>Students</value>
