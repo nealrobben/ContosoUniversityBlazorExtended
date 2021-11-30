@@ -1,43 +1,42 @@
 ﻿@using WebUI.Client.Components
-@inject IStringLocalizer<StudentEdit> Localizer
 
 <MudDialog>
     <DialogContent>
-        @if (StudentEditViewModel.ErrorVisible)
+        @if (ErrorVisible)
         {
             <MudAlert Severity="Severity.Error">@Localizer["AnErrorOccuredDuringSaving"]</MudAlert>
         }
         <div class="row">
             <div class="col">
-                <EditForm Model=@StudentEditViewModel.UpdateStudentCommand OnSubmit=@StudentEditViewModel.FormSubmitted>
+                <EditForm Model=@UpdateStudentCommand OnSubmit=@FormSubmitted>
                     <DataAnnotationsValidator />
                     <div class="form-group">
                         <label for="LastName">@Localizer["LastName"]</label>
-                        <InputText @bind-Value=StudentEditViewModel.UpdateStudentCommand.LastName class="form-control" id="LastName" />
-                        <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.LastName" />
+                        <InputText @bind-Value=UpdateStudentCommand.LastName class="form-control" id="LastName" />
+                        <ValidationMessage For="() => UpdateStudentCommand.LastName" />
                     </div>
                     <div class="form-group">
                         <label for="FirstName">@Localizer["FirstName"]</label>
-                        <InputText @bind-Value=StudentEditViewModel.UpdateStudentCommand.FirstName class="form-control" id="FirstName" />
-                        <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.FirstName" />
+                        <InputText @bind-Value=UpdateStudentCommand.FirstName class="form-control" id="FirstName" />
+                        <ValidationMessage For="() => UpdateStudentCommand.FirstName" />
                     </div>
                     <div class="form-group">
                         <label for="EnrollmentDate">@Localizer["EnrollmentDate"]</label>
-                        <InputDate @bind-Value=StudentEditViewModel.UpdateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
-                        <ValidationMessage For="() => StudentEditViewModel.UpdateStudentCommand.EnrollmentDate" />
+                        <InputDate @bind-Value=UpdateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
+                        <ValidationMessage For="() => UpdateStudentCommand.EnrollmentDate" />
                     </div>
                     <div>
-                        <InputFile id="fileInput" OnChange="StudentEditViewModel.UploadFiles" hidden />
+                        <InputFile id="fileInput" OnChange="UploadFiles" hidden />
                         <MudButton HtmlTag="label"
                                    Color="Color.Primary"
                                    StartIcon="@Icons.Filled.CloudUpload"
                                    for="fileInput">
                             @Localizer["UploadFiles"]
                         </MudButton>
-                        @if (StudentEditViewModel.files != null)
+                        @if (files != null)
                         {
                             <MudList>
-                                @foreach (var file in StudentEditViewModel.files)
+                                @foreach (var file in files)
                                 {
                                     <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
                                         @file.Name <code>@file.Size bytes</code>
@@ -49,11 +48,11 @@
                     <MudButton ButtonType="ButtonType.Submit"
                                StartIcon="fas fa-save"
                                Color="Color.Primary">@Localizer["Save"]</MudButton>
-                    <MudButton Color="Color.Primary" OnClick="StudentEditViewModel.Cancel">@Localizer["Cancel"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="Cancel">@Localizer["Cancel"]</MudButton>
                 </EditForm>
             </div>
             <div class="col">
-                <ProfilePicture FileName="@StudentEditViewModel?.UpdateStudentCommand?.ProfilePictureName" />
+                <ProfilePicture FileName="@UpdateStudentCommand?.ProfilePictureName" />
             </div>
         </div>
     </DialogContent>

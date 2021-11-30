@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace WebUI.Client.Pages.Instructors
     {
         [Inject]
         public FileuploadService _fileuploadService { get; set; }
+
+        [Inject]
+        public IStringLocalizer<InstructorEdit> Localizer { get; set; }
 
         [Inject]
         public IInstructorService InstructorService { get; set; }

@@ -53,7 +53,6 @@ namespace WebUI.Client
             builder.Services.AddTransient<InstructorsViewModel>();
 
             builder.Services.AddTransient<StudentsViewModel>();
-            builder.Services.AddTransient<StudentEditViewModel>();
         }
 
         private static async Task SetCulture(WebAssemblyHost host)
