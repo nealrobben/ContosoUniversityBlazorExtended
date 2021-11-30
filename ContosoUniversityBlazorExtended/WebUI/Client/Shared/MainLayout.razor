@@ -1,7 +1,7 @@
 ﻿@using Client.Settings
 @inherits LayoutComponentBase
-@inject IStringLocalizer<GeneralResources> GeneralLocalizer
 @inject ClientSettingService ClientSettingService
+@inject IStringLocalizer<MainLayout> Localizer
 
 <MudThemeProvider Theme="_currentTheme" />
 <MudDialogProvider />
@@ -13,7 +13,7 @@
         Contoso University
         <MudSpacer />
         <CultureSelector />
-        <MudTooltip Text="@GeneralLocalizer["ToggleDarkMode"]">
+        <MudTooltip Text="@Localizer["ToggleDarkMode"]">
             <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Inherit" OnClick="@((e) => ToggleDarkMode())" />
         </MudTooltip>
     </MudAppBar>
