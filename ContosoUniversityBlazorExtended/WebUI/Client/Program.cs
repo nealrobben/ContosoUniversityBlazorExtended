@@ -5,7 +5,6 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
-using WebUI.Client.ViewModels.Instructors;
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
 using Blazored.LocalStorage;
@@ -24,7 +23,6 @@ namespace WebUI.Client
             builder.Services.AddMudServices();
 
             RegisterServices(builder);
-            RegisterViewModels(builder);
 
             builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
 
@@ -45,11 +43,6 @@ namespace WebUI.Client
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<FileuploadService>();
             builder.Services.AddScoped<ClientSettingService>();
-        }
-
-        private static void RegisterViewModels(WebAssemblyHostBuilder builder)
-        {
-            builder.Services.AddTransient<InstructorsViewModel>();
         }
 
         private static async Task SetCulture(WebAssemblyHost host)

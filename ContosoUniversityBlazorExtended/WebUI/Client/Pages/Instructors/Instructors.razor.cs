@@ -1,20 +1,157 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
-using WebUI.Client.ViewModels.Instructors;
+using System.Threading.Tasks;
+using WebUI.Client.Extensions;
+using WebUI.Client.Services;
+using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
+using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 
 namespace WebUI.Client.Pages.Instructors
 {
     public partial class Instructors
     {
         [Inject]
-        public InstructorsViewModel InstructorsViewModel { get; set; }
+        public IStringLocalizer<Instructors> Localizer { get; set; }
 
-        private MudTable<InstructorVM> table;
+        [Inject]
+        public ICourseService CourseService { get; set; }
 
-        protected override void OnAfterRender(bool firstRender)
+        [Inject]
+        public IInstructorService InstructorService { get; set; }
+
+        [Inject]
+        public IStudentService StudentService { get; set; }
+
+        [Inject]
+        public ISnackbar _snackbar { get; set; }
+
+        [Inject]
+        public IDialogService _dialogService { get; set; }
+
+        private MudTable<InstructorVM> Table;
+
+        public InstructorsOverviewVM InstructorsOverview { get; set; } = new InstructorsOverviewVM();
+        public CoursesForInstructorOverviewVM CourseForInstructorOverview { get; set; }
+        public StudentsForCourseVM StudentsForCourse { get; set; }
+
+        public int? SelectedInstructorId { get; set; }
+        public int? SelectedCourseId { get; set; }
+
+        private async Task GetInstructors()
         {
-            InstructorsViewModel.Table = table;
+            await Table.ReloadServerData();
+        }
+
+        public async Task DeleteInstructor(int instructorId, string name)
+        {
+            bool? dialogResult = await _dialogService.ShowMessageBox(Localizer["Confirm"], Localizer["DeleteConfirmation", name],
+                yesText: Localizer["Delete"], cancelText: Localizer["Cancel"]);
+
+            if (dialogResult == true)
+            {
+                var result = await InstructorService.DeleteAsync(instructorId.ToString());
+
+                if (result.IsSuccessStatusCode)
+                {
+                    _snackbar.Add(Localizer["DeleteFeedback", name], Severity.Success);
+                    await GetInstructors();
+                }
+            }
+        }
+
+        public async Task SelectInstructor(int instructorId)
+        {
+            SelectedInstructorId = instructorId;
+            SelectedCourseId = null;
+            StudentsForCourse = null;
+
+            CourseForInstructorOverview = await CourseService.GetCoursesForInstructor(instructorId.ToString());
+        }
+
+        public async Task SelectCourse(int courseId)
+        {
+            SelectedCourseId = courseId;
+
+            StudentsForCourse = await StudentService.GetStudentsForCourse(courseId.ToString());
+        }
+
+        public void OpenInstructorDetails(int instructorId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("InstructorId", instructorId);
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
+
+            _dialogService.Show<InstructorDetails>(Localizer["InstructorDetails"], parameters, options);
+        }
+
+        public async Task OpenInstructorEdit(int instructorId)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("InstructorId", instructorId.ToString());
+
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
+
+            var dialog = _dialogService.Show<InstructorEdit>(Localizer["InstructorEdit"], parameters, options);
+
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                await GetInstructors();
+            }
+        }
+
+        public async Task OpenCreateInstructor()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
+
+            var dialog = _dialogService.Show<InstructorCreate>(Localizer["CreateInstructor"], options);
+            var result = await dialog.Result;
+
+            if (result.Data != null && (bool)result.Data)
+            {
+                await GetInstructors();
+            }
+        }
+
+        public async Task Filter()
+        {
+            await GetInstructors();
+        }
+
+        public async Task BackToFullList()
+        {
+            InstructorsOverview.MetaData.SearchString = "";
+            await GetInstructors();
+        }
+
+        public async Task<TableData<InstructorVM>> ServerReload(TableState state)
+        {
+            var searchString = InstructorsOverview?.MetaData.SearchString ?? "";
+            var sortString = state.GetSortString();
+
+            var result = await InstructorService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
+
+            return new TableData<InstructorVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Instructors };
+        }
+
+        public string InstructorsSelectRowClassFunc(InstructorVM instructor, int rowNumber)
+        {
+            if (instructor?.InstructorID == SelectedInstructorId)
+                return "mud-theme-primary";
+
+            return "";
+        }
+
+        public string CoursesSelectRowClassFunc(CourseForInstructorVM course, int rowNumber)
+        {
+            if (course?.CourseID == SelectedCourseId)
+                return "mud-theme-primary";
+
+            return "";
         }
     }
 }

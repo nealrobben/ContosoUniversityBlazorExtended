@@ -1,12 +1,11 @@
 ﻿@using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
 @page "/instructors"
-@inject IStringLocalizer<Instructors> Localizer
 
 <h2>@Localizer["Instructors"]</h2>
 <PageTitle>CU - @Localizer["Instructors"]</PageTitle>
 
 <p>
-    <MudIconButton OnClick="(e => InstructorsViewModel.OpenCreateInstructor())"
+    <MudIconButton OnClick="(e => OpenCreateInstructor())"
                    Title="@Localizer["Create"]"
                    Variant="Variant.Filled"
                    Icon="fas fa-plus-circle"
@@ -14,20 +13,20 @@
     </MudIconButton>
 </p>
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<InstructorVM>>>(InstructorsViewModel.ServerReload))"
-          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="table" RowClassFunc="@InstructorsViewModel.InstructorsSelectRowClassFunc">
+<MudTable ServerData="@(new Func<TableState, Task<TableData<InstructorVM>>>(ServerReload))"
+          Dense="true" Hover="true" FixedFooter="true" Height="500px" @ref="Table" RowClassFunc="@InstructorsSelectRowClassFunc">
     <ToolBarContent>
         <MudText Typo="Typo.h6">@Localizer["Instructors"]</MudText>
         <MudSpacer />
-        <MudTextField T="string" Placeholder="@Localizer["Search"]" Adornment="Adornment.Start" @bind-Value="@InstructorsViewModel.InstructorsOverview.MetaData.SearchString"
+        <MudTextField T="string" Placeholder="@Localizer["Search"]" Adornment="Adornment.Start" @bind-Value="@InstructorsOverview.MetaData.SearchString"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        <MudIconButton OnClick="InstructorsViewModel.Filter"
+        <MudIconButton OnClick="Filter"
                        Title="@Localizer["Search"]"
                        Variant="Variant.Filled"
                        Icon="fas fa-search"
                        Color="Color.Primary">
         </MudIconButton>
-        <MudIconButton OnClick="InstructorsViewModel.BackToFullList"
+        <MudIconButton OnClick="BackToFullList"
                        Title="@Localizer["BackToFullList"]"
                        Variant="Variant.Filled"
                        Icon="fas fa-list"
@@ -49,26 +48,26 @@
         <MudTd DataLabel="Office">@context.OfficeLocation</MudTd>
         <MudTd DataLabel="Courses"></MudTd>
         <MudTd DataLabel="">
-            <MudIconButton OnClick=@(e => InstructorsViewModel.SelectInstructor(context.InstructorID))
+            <MudIconButton OnClick=@(e => SelectInstructor(context.InstructorID))
                            Title="@Localizer["Select"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-hand-pointer"
                            Color="Color.Primary" Size="Size.Small">
             </MudIconButton>
-            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorEdit(context.InstructorID))"
+            <MudIconButton OnClick="(e => OpenInstructorEdit(context.InstructorID))"
                            Title="@Localizer["Edit"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-edit"
                            Color="Color.Primary" Size="Size.Small">
             </MudIconButton>
-            <MudIconButton OnClick="(e => InstructorsViewModel.OpenInstructorDetails(context.InstructorID))"
+            <MudIconButton OnClick="(e => OpenInstructorDetails(context.InstructorID))"
                            Title="@Localizer["Details"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-eye"
                            Color="Color.Primary" Size="Size.Small">
             </MudIconButton>
             <MudIconButton OnClick=@(e =>
-                InstructorsViewModel.DeleteInstructor(context.InstructorID, $"{context.FirstName} {context.LastName}"))
+                DeleteInstructor(context.InstructorID, $"{context.FirstName} {context.LastName}"))
                            Title="@Localizer["Delete"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-trash-alt"
@@ -87,13 +86,13 @@
     </PagerContent>
 </MudTable>
 
-@if (InstructorsViewModel.CourseForInstructorOverview != null)
+@if (CourseForInstructorOverview != null)
 {
     <br />
     <h3>@Localizer["CoursesTaughtByInstructor"]</h3>
 
-    <MudTable Items="InstructorsViewModel.CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm"
-              RowClassFunc="@InstructorsViewModel.CoursesSelectRowClassFunc">
+    <MudTable Items="CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm"
+              RowClassFunc="@CoursesSelectRowClassFunc">
         <HeaderContent>
             <MudTh></MudTh>
             <MudTh>@Localizer["CourseID"]</MudTh>
@@ -102,7 +101,7 @@
         </HeaderContent>
         <RowTemplate>
             <MudTd>
-                <MudIconButton OnClick=@(e => InstructorsViewModel.SelectCourse(context.CourseID))
+                <MudIconButton OnClick=@(e => SelectCourse(context.CourseID))
                                Title="@Localizer["Select"]"
                                Variant="Variant.Filled"
                                Icon="fas fa-hand-pointer"
@@ -116,14 +115,14 @@
     </MudTable>
 }
 
-@if (InstructorsViewModel.StudentsForCourse != null)
+@if (StudentsForCourse != null)
 {
     <br />
     <h3>
         @Localizer["StudentsEnrolledInCourse"]
     </h3>
 
-    <MudTable Items="InstructorsViewModel.StudentsForCourse.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
+    <MudTable Items="StudentsForCourse.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
             <MudTh>@Localizer["StudentName"]</MudTh>
             <MudTh>@Localizer["StudentGrade"]</MudTh>
