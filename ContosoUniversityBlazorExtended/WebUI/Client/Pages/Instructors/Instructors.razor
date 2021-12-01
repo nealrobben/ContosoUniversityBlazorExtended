@@ -87,26 +87,7 @@
 </MudTable>
 
 <br />
-<CoursesForInstructor SelectedInstructorId="@SelectedInstructorId" OnCourseSelected="OnCourseSelected"></CoursesForInstructor>
-
-@*@if (StudentsForCourse != null)
-{
-    <br />
-    <h3>
-        @Localizer["StudentsEnrolledInCourse"]
-    </h3>
-
-    <MudTable Items="StudentsForCourse.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
-        <HeaderContent>
-            <MudTh>@Localizer["StudentName"]</MudTh>
-            <MudTh>@Localizer["StudentGrade"]</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd>@context.StudentName</MudTd>
-            <MudTd>@context.StudentGrade</MudTd>
-        </RowTemplate>
-    </MudTable>
-}*@
+<CoursesForInstructor SelectedInstructorId="@SelectedInstructorId" SelectedCourseId="@SelectedCourseId" OnCourseSelected="OnCourseSelected"></CoursesForInstructor>
 
 <br />
 <StudentsForCourse SelectedCourseId="@SelectedCourseId"></StudentsForCourse>

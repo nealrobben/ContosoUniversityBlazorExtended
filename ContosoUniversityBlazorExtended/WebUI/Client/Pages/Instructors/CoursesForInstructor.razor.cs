@@ -17,10 +17,11 @@ namespace WebUI.Client.Pages.Instructors
         [Parameter]
         public int? SelectedInstructorId { get; set; }
 
+        [Parameter]
+        public int? SelectedCourseId { get; set; }
+
         [Parameter] 
         public EventCallback<int> OnCourseSelected { get; set; }
-
-        public int? SelectedCourseId { get; set; }
 
         public CoursesForInstructorOverviewVM CourseForInstructorOverview { get; set; } = new CoursesForInstructorOverviewVM();
 
