@@ -1,6 +1,6 @@
-﻿    <h3>
-        @Localizer["StudentsEnrolledInCourse"]
-    </h3>
+﻿@if(SelectedCourseId != null)
+{
+    <h3>@Localizer["StudentsEnrolledInCourse"]</h3>
 
     <MudTable Items="StudentsForCourseVM.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
@@ -11,4 +11,5 @@
             <MudTd>@context.StudentName</MudTd>
             <MudTd>@context.StudentGrade</MudTd>
         </RowTemplate>
-    </MudTable>
+    </MudTable>   
+}

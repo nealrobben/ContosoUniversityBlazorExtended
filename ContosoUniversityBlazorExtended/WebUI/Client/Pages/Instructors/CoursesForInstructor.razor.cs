@@ -17,6 +17,9 @@ namespace WebUI.Client.Pages.Instructors
         [Parameter]
         public int? SelectedInstructorId { get; set; }
 
+        [Parameter] 
+        public EventCallback<int> OnCourseSelected { get; set; }
+
         public int? SelectedCourseId { get; set; }
 
         public CoursesForInstructorOverviewVM CourseForInstructorOverview { get; set; } = new CoursesForInstructorOverviewVM();
@@ -25,11 +28,6 @@ namespace WebUI.Client.Pages.Instructors
         {
             if(SelectedInstructorId != null)
                 CourseForInstructorOverview = await CourseService.GetCoursesForInstructor(SelectedInstructorId.ToString());
-        }
-
-        public async Task SelectCourse(int courseId)
-        {
-            //TODO
         }
 
         public string CoursesSelectRowClassFunc(CourseForInstructorVM course, int rowNumber)

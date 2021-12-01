@@ -87,9 +87,9 @@
 </MudTable>
 
 <br />
-<CoursesForInstructor SelectedInstructorId="@SelectedInstructorId"></CoursesForInstructor>
+<CoursesForInstructor SelectedInstructorId="@SelectedInstructorId" OnCourseSelected="OnCourseSelected"></CoursesForInstructor>
 
-@if (StudentsForCourse != null)
+@*@if (StudentsForCourse != null)
 {
     <br />
     <h3>
@@ -106,4 +106,7 @@
             <MudTd>@context.StudentGrade</MudTd>
         </RowTemplate>
     </MudTable>
-}
+}*@
+
+<br />
+<StudentsForCourse SelectedCourseId="@SelectedCourseId"></StudentsForCourse>

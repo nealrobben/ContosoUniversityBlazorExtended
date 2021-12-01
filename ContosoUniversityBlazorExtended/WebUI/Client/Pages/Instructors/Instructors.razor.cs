@@ -4,9 +4,7 @@ using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Services;
-using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
-using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 
 namespace WebUI.Client.Pages.Instructors
 {
@@ -33,8 +31,6 @@ namespace WebUI.Client.Pages.Instructors
         private MudTable<InstructorVM> Table;
 
         public InstructorsOverviewVM InstructorsOverview { get; set; } = new InstructorsOverviewVM();
-        public CoursesForInstructorOverviewVM CourseForInstructorOverview { get; set; }
-        public StudentsForCourseVM StudentsForCourse { get; set; }
 
         public int? SelectedInstructorId { get; set; }
         public int? SelectedCourseId { get; set; }
@@ -61,20 +57,15 @@ namespace WebUI.Client.Pages.Instructors
             }
         }
 
-        public async Task SelectInstructor(int instructorId)
+        public void SelectInstructor(int instructorId)
         {
             SelectedInstructorId = instructorId;
             SelectedCourseId = null;
-            StudentsForCourse = null;
-
-            CourseForInstructorOverview = await CourseService.GetCoursesForInstructor(instructorId.ToString());
         }
 
-        public async Task SelectCourse(int courseId)
+        public void OnCourseSelected(int courseId)
         {
             SelectedCourseId = courseId;
-
-            StudentsForCourse = await StudentService.GetStudentsForCourse(courseId.ToString());
         }
 
         public void OpenInstructorDetails(int instructorId)
@@ -141,14 +132,6 @@ namespace WebUI.Client.Pages.Instructors
         public string InstructorsSelectRowClassFunc(InstructorVM instructor, int rowNumber)
         {
             if (instructor?.InstructorID == SelectedInstructorId)
-                return "mud-theme-primary";
-
-            return "";
-        }
-
-        public string CoursesSelectRowClassFunc(CourseForInstructorVM course, int rowNumber)
-        {
-            if (course?.CourseID == SelectedCourseId)
                 return "mud-theme-primary";
 
             return "";
