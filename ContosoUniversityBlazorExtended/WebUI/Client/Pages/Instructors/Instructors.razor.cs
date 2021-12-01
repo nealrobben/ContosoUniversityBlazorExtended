@@ -14,13 +14,7 @@ namespace WebUI.Client.Pages.Instructors
         public IStringLocalizer<Instructors> Localizer { get; set; }
 
         [Inject]
-        public ICourseService CourseService { get; set; }
-
-        [Inject]
         public IInstructorService InstructorService { get; set; }
-
-        [Inject]
-        public IStudentService StudentService { get; set; }
 
         [Inject]
         public ISnackbar _snackbar { get; set; }
