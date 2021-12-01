@@ -1,0 +1,28 @@
+﻿
+@if(SelectedInstructorId != null)
+{
+     <h3>@Localizer["CoursesTaughtByInstructor"]</h3>
+
+    <MudTable Items="CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm"
+              RowClassFunc="@CoursesSelectRowClassFunc">
+        <HeaderContent>
+            <MudTh></MudTh>
+            <MudTh>@Localizer["CourseID"]</MudTh>
+            <MudTh>@Localizer["Title"]</MudTh>
+            <MudTh>@Localizer["Department"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>
+                <MudIconButton OnClick=@(e => SelectCourse(context.CourseID))
+                               Title="@Localizer["Select"]"
+                               Variant="Variant.Filled"
+                               Icon="fas fa-hand-pointer"
+                               Color="Color.Primary" Size="Size.Small">
+                </MudIconButton>
+            </MudTd>
+            <MudTd>@context.CourseID</MudTd>
+            <MudTd>@context.Title</MudTd>
+            <MudTd>@context.DepartmentName</MudTd>
+        </RowTemplate>
+    </MudTable>   
+}

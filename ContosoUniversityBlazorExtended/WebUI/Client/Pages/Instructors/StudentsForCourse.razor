@@ -1,0 +1,14 @@
+﻿    <h3>
+        @Localizer["StudentsEnrolledInCourse"]
+    </h3>
+
+    <MudTable Items="StudentsForCourseVM.Students" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm">
+        <HeaderContent>
+            <MudTh>@Localizer["StudentName"]</MudTh>
+            <MudTh>@Localizer["StudentGrade"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.StudentName</MudTd>
+            <MudTd>@context.StudentGrade</MudTd>
+        </RowTemplate>
+    </MudTable>
