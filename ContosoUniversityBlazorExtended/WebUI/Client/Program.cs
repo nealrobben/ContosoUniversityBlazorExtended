@@ -8,6 +8,8 @@ using WebUI.Client.Services;
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
 using Blazored.LocalStorage;
+using WebUI.Shared.Departments.Validators;
+using FluentValidation;
 
 namespace WebUI.Client
 {
@@ -27,6 +29,7 @@ namespace WebUI.Client
             builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
 
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateDepartmentValidator>();
 
             var host = builder.Build();
 
