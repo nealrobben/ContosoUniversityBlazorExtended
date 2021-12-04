@@ -42,7 +42,7 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Budget">@context.Budget</MudTd>
+        <MudTd DataLabel="Budget">@context.Budget.ToString("N2")</MudTd>
         <MudTd DataLabel="StartDate">@context.StartDate.ToShortDateString()</MudTd>
         <MudTd DataLabel="AdministratorName">@context.AdministratorName</MudTd>
         <MudTd DataLabel="">

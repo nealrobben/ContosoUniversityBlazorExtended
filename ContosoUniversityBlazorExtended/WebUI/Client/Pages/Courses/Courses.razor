@@ -42,9 +42,9 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.CourseID</MudTd>
-        <MudTd DataLabel="Budget">@context.Title</MudTd>
-        <MudTd DataLabel="StartDate">@context.Credits</MudTd>
-        <MudTd DataLabel="AdministratorName">@context.DepartmentName</MudTd>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Credits">@context.Credits</MudTd>
+        <MudTd DataLabel="DepartmentName">@context.DepartmentName</MudTd>
         <MudTd DataLabel="">
             <MudIconButton OnClick="(e => OpenCourseEdit(context.CourseID))"
                            Title="@Localizer["Edit"]"
