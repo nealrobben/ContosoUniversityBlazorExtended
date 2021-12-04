@@ -42,7 +42,7 @@
     <RowTemplate>
         <MudTd DataLabel="Last Name">@context.LastName</MudTd>
         <MudTd DataLabel="First Name">@context.FirstName</MudTd>
-        <MudTd DataLabel="Enrollment Date">@context.EnrollmentDate</MudTd>
+        <MudTd DataLabel="Enrollment Date">@context.EnrollmentDate.ToShortDateString()</MudTd>
         <MudTd DataLabel="">
             <MudIconButton OnClick="(e => OpenStudentEdit(context.StudentID))"
                            Title="@Localizer["Edit"]"

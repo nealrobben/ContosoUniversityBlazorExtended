@@ -44,7 +44,7 @@
     <RowTemplate>
         <MudTd DataLabel="LastName">@context.LastName</MudTd>
         <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
-        <MudTd DataLabel="HireDate">@context.HireDate</MudTd>
+        <MudTd DataLabel="HireDate">@context.HireDate.ToShortDateString()</MudTd>
         <MudTd DataLabel="Office">@context.OfficeLocation</MudTd>
         <MudTd DataLabel="Courses"></MudTd>
         <MudTd DataLabel="">
