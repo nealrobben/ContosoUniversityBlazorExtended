@@ -10,6 +10,7 @@
             <div class="col">
                 <form asp-action="Create">
                     <EditForm Model=@UpdateInstructorCommand OnSubmit=@FormSubmitted>
+                        <FluentValidationValidator DisableAssemblyScanning="true" />
                         <div class="form-group">
                             <label for="LastName">@Localizer["LastName"]</label>
                             <InputText @bind-Value=UpdateInstructorCommand.LastName class="form-control" id="LastName" />

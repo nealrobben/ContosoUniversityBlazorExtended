@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <EditForm Model=@UpdateCourseCommand OnSubmit=@FormSubmitted>
-                    <DataAnnotationsValidator />
+                    <FluentValidationValidator DisableAssemblyScanning="true" />
                     <div class="form-group">
                         <label for="CourseID">@Localizer["CourseID"]</label>
                         <div>
