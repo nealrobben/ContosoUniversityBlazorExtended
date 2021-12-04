@@ -7,8 +7,8 @@ namespace WebUI.Shared.Students.Validators
     {
         public CreateStudentValidator()
         {
-            RuleFor(p => p.FirstName).NotEmpty();
-            RuleFor(p => p.LastName).NotEmpty();
+            RuleFor(p => p.FirstName).NotEmpty().MaximumLength(50);
+            RuleFor(p => p.LastName).NotEmpty().MaximumLength(50);
             RuleFor(p => p.EnrollmentDate).NotEmpty();
         }
     }
