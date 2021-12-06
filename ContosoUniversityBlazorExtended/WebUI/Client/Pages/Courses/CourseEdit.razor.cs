@@ -46,13 +46,12 @@ namespace WebUI.Client.Pages.Courses
 
             if (formIsValid)
             {
-                var result = await CourseService.UpdateAsync(UpdateCourseCommand);
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await CourseService.UpdateAsync(UpdateCourseCommand);
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (System.Exception)
                 {
                     ErrorVisible = true;
                 }

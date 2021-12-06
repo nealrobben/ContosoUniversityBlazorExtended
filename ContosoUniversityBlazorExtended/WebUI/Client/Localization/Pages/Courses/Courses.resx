@@ -150,6 +150,9 @@
   <data name="DeleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete the course {0}?</value>
   </data>
+  <data name="DeleteErrorFeedback" xml:space="preserve">
+    <value>Error while deleting course {0}</value>
+  </data>
   <data name="DeleteFeedback" xml:space="preserve">
     <value>Deleted course {0}</value>
   </data>

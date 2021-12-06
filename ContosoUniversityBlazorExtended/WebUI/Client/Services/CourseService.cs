@@ -11,12 +11,12 @@ namespace WebUI.Client.Services
 {
     public interface ICourseService
     {
-        Task<HttpResponseMessage> CreateAsync(CreateCourseCommand createCommand);
-        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task CreateAsync(CreateCourseCommand createCommand);
+        Task DeleteAsync(string id);
         Task<CoursesOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
         Task<CourseDetailVM> GetAsync(string id);
         Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId);
-        Task<HttpResponseMessage> UpdateAsync(UpdateCourseCommand createCommand);
+        Task UpdateAsync(UpdateCourseCommand createCommand);
     }
 
     public class CourseService : ServiceBase, ICourseService
@@ -66,19 +66,25 @@ namespace WebUI.Client.Services
             return await _http.GetFromJsonAsync<CourseDetailVM>($"/api/courses/{id}");
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            return await _http.DeleteAsync($"/api/courses/{id}");
+            var result = await _http.DeleteAsync($"/api/courses/{id}");
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> CreateAsync(CreateCourseCommand createCommand)
+        public async Task CreateAsync(CreateCourseCommand createCommand)
         {
-            return await _http.PostAsJsonAsync($"/api/courses", createCommand);
+            var result = await _http.PostAsJsonAsync($"/api/courses", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> UpdateAsync(UpdateCourseCommand createCommand)
+        public async Task UpdateAsync(UpdateCourseCommand createCommand)
         {
-            return await _http.PutAsJsonAsync($"/api/courses", createCommand);
+            var result = await _http.PutAsJsonAsync($"/api/courses", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
         public async Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId)

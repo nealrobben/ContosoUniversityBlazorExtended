@@ -44,12 +44,16 @@ namespace WebUI.Client.Pages.Courses
 
             if (dialogResult == true)
             {
-                var result = await CourseService.DeleteAsync(courseId.ToString());
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await CourseService.DeleteAsync(courseId.ToString());
+
                     Snackbar.Add(Localizer["DeleteFeedback", title], Severity.Success);
                     await GetCourses();
+                }
+                catch (System.Exception)
+                {
+                    Snackbar.Add(Localizer["DeleteErrorFeedback", title], Severity.Success);
                 }
             }
         }
