@@ -21,7 +21,7 @@ namespace WebUI.Client.Services
 
     public class InstructorService : ServiceBase, IInstructorService
     {
-        private const string _instructorsEndpoint = "/api/instructors";
+        private const string _instructorsEndpoint = $"{apiBase}/instructors";
 
         public InstructorService(HttpClient http) : base(http)
         {

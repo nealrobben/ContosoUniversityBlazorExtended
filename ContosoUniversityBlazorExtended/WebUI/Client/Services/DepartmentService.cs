@@ -21,7 +21,7 @@ namespace WebUI.Client.Services
 
     public class DepartmentService : ServiceBase, IDepartmentService
     {
-        private const string _departmentsEndoint = "/api/departments";
+        private const string _departmentsEndoint = $"{apiBase}/departments";
 
         public DepartmentService(HttpClient http) : base(http)
         {

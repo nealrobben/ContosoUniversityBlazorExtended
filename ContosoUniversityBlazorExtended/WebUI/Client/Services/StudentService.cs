@@ -21,7 +21,7 @@ namespace WebUI.Client.Services
 
     public class StudentService : ServiceBase, IStudentService
     {
-        private const string _studentsEndpoint = "/api/students";
+        private const string _studentsEndpoint = $"{apiBase}/students";
 
         public StudentService(HttpClient http) : base(http)
         {
