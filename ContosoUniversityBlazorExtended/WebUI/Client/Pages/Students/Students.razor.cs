@@ -44,12 +44,16 @@ namespace WebUI.Client.Pages.Students
 
             if (dialogResult == true)
             {
-                var result = await StudentService.DeleteAsync(studentId.ToString());
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await StudentService.DeleteAsync(studentId.ToString());
+
                     _snackbar.Add(Localizer["DeleteFeedback", name], Severity.Success);
                     await GetStudents();
+                }
+                catch (System.Exception)
+                {
+                    _snackbar.Add(Localizer["DeleteErrorFeedback", name], Severity.Error);
                 }
             }
         }

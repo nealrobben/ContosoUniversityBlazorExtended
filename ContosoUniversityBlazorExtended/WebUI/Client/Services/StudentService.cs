@@ -11,12 +11,12 @@ namespace WebUI.Client.Services
 {
     public interface IStudentService
     {
-        Task<HttpResponseMessage> CreateAsync(CreateStudentCommand createCommand);
-        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task CreateAsync(CreateStudentCommand createCommand);
+        Task DeleteAsync(string id);
         Task<StudentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
         Task<StudentDetailsVM> GetAsync(string id);
         Task<StudentsForCourseVM> GetStudentsForCourse(string courseId);
-        Task<HttpResponseMessage> UpdateAsync(UpdateStudentCommand createCommand);
+        Task UpdateAsync(UpdateStudentCommand createCommand);
     }
 
     public class StudentService : ServiceBase, IStudentService
@@ -66,19 +66,25 @@ namespace WebUI.Client.Services
             return await _http.GetFromJsonAsync<StudentDetailsVM>($"/api/students/{id}");
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            return await _http.DeleteAsync($"/api/students/{id}");
+            var result = await _http.DeleteAsync($"/api/students/{id}");
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> CreateAsync(CreateStudentCommand createCommand)
+        public async Task CreateAsync(CreateStudentCommand createCommand)
         {
-            return await _http.PostAsJsonAsync($"/api/students", createCommand);
+            var result = await _http.PostAsJsonAsync($"/api/students", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> UpdateAsync(UpdateStudentCommand createCommand)
+        public async Task UpdateAsync(UpdateStudentCommand createCommand)
         {
-            return await _http.PutAsJsonAsync($"/api/students", createCommand);
+            var result = await _http.PutAsJsonAsync($"/api/students", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
         public async Task<StudentsForCourseVM> GetStudentsForCourse(string courseId)

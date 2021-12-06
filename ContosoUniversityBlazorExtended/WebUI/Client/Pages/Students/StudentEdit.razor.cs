@@ -50,18 +50,17 @@ namespace WebUI.Client.Pages.Students
 
             if (formIsValid)
             {
-                if (files.Any())
+                try
                 {
-                    UpdateStudentCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
-                }
+                    if (files.Any())
+                    {
+                        UpdateStudentCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                    }
 
-                var result = await StudentService.UpdateAsync(UpdateStudentCommand);
-
-                if (result.IsSuccessStatusCode)
-                {
+                    await StudentService.UpdateAsync(UpdateStudentCommand);
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (System.Exception)
                 {
                     ErrorVisible = true;
                 }

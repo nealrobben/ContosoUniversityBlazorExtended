@@ -33,19 +33,19 @@ namespace WebUI.Client.Pages.Students
 
             if (formIsValid)
             {
-                if (files.Any())
+                try
                 {
-                    CreateStudentCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
-                }
+                    if (files.Any())
+                    {
+                        CreateStudentCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                    }
 
-                var result = await StudentService.CreateAsync(CreateStudentCommand);
+                    await StudentService.CreateAsync(CreateStudentCommand);
 
-                if (result.IsSuccessStatusCode)
-                {
                     CreateStudentCommand = new CreateStudentCommand();
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (Exception)
                 {
                     ErrorVisible = true;
                 }
