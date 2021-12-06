@@ -10,6 +10,7 @@
             <div class="col-md-12">
                 <EditForm Model=@CreateDepartmentCommand OnSubmit=@FormSubmitted>
                     <FluentValidationValidator DisableAssemblyScanning="true" />
+                    <CustomValidation @ref="_customValidation" />
                     <div class="form-group">
                         <label for="Name">@Localizer["Name"]</label>
                         <InputText @bind-Value=CreateDepartmentCommand.Name class="form-control" id="Name" />

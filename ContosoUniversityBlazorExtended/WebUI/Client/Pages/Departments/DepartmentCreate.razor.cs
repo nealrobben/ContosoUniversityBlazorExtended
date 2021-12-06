@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
+using WebUI.Client.Shared;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 
@@ -21,6 +22,8 @@ namespace WebUI.Client.Pages.Departments
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
+        private CustomValidation _customValidation;
+
         public CreateDepartmentCommand CreateDepartmentCommand { get; set; } = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
         public InstructorsLookupVM InstructorsLookup { get; set; }
 
@@ -34,6 +37,7 @@ namespace WebUI.Client.Pages.Departments
 
         public async Task FormSubmitted(EditContext editContext)
         {
+            _customValidation.ClearErrors();
             ErrorVisible = false;
             bool formIsValid = editContext.Validate();
 
