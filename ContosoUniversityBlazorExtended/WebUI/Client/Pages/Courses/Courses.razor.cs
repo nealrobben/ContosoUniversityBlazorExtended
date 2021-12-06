@@ -53,7 +53,7 @@ namespace WebUI.Client.Pages.Courses
                 }
                 catch (System.Exception)
                 {
-                    Snackbar.Add(Localizer["DeleteErrorFeedback", title], Severity.Success);
+                    Snackbar.Add(Localizer["DeleteErrorFeedback", title], Severity.Error);
                 }
             }
         }

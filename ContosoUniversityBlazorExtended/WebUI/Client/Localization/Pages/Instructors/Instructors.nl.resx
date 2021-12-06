@@ -147,6 +147,9 @@
   <data name="DeleteConfirmation" xml:space="preserve">
     <value>Bent u zeker dat u Lector {0} wil verwijderen?</value>
   </data>
+  <data name="DeleteErrorFeedback" xml:space="preserve">
+    <value>Fout bij verwijderen lector {0}</value>
+  </data>
   <data name="DeleteFeedback" xml:space="preserve">
     <value>Intructor {0} verwijderd</value>
   </data>

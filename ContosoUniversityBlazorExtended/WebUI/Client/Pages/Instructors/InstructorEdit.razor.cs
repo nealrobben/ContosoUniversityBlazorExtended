@@ -51,18 +51,17 @@ namespace WebUI.Client.Pages.Instructors
 
             if (formIsValid)
             {
-                if (files.Any())
+                try
                 {
-                    UpdateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
-                }
+                    if (files.Any())
+                    {
+                        UpdateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                    }
 
-                var result = await InstructorService.UpdateAsync(UpdateInstructorCommand);
-
-                if (result.IsSuccessStatusCode)
-                {
+                    await InstructorService.UpdateAsync(UpdateInstructorCommand);
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (System.Exception)
                 {
                     ErrorVisible = true;
                 }

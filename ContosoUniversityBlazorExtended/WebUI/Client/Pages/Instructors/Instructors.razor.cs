@@ -41,12 +41,16 @@ namespace WebUI.Client.Pages.Instructors
 
             if (dialogResult == true)
             {
-                var result = await InstructorService.DeleteAsync(instructorId.ToString());
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await InstructorService.DeleteAsync(instructorId.ToString());
+
                     _snackbar.Add(Localizer["DeleteFeedback", name], Severity.Success);
                     await GetInstructors();
+                }
+                catch (System.Exception)
+                {
+                    _snackbar.Add(Localizer["DeleteErrorFeedback", name], Severity.Error);
                 }
             }
         }

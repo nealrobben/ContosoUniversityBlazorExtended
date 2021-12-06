@@ -11,12 +11,12 @@ namespace WebUI.Client.Services
 {
     public interface IInstructorService
     {
-        Task<HttpResponseMessage> CreateAsync(CreateInstructorCommand createCommand);
-        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task CreateAsync(CreateInstructorCommand createCommand);
+        Task DeleteAsync(string id);
         Task<InstructorsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
         Task<InstructorDetailsVM> GetAsync(string id);
         Task<InstructorsLookupVM> GetLookupAsync();
-        Task<HttpResponseMessage> UpdateAsync(UpdateInstructorCommand createCommand);
+        Task UpdateAsync(UpdateInstructorCommand createCommand);
     }
 
     public class InstructorService : ServiceBase, IInstructorService
@@ -66,19 +66,25 @@ namespace WebUI.Client.Services
             return await _http.GetFromJsonAsync<InstructorDetailsVM>($"/api/instructors/{id}");
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            return await _http.DeleteAsync($"/api/instructors/{id}");
+            var result = await _http.DeleteAsync($"/api/instructors/{id}");
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> CreateAsync(CreateInstructorCommand createCommand)
+        public async Task CreateAsync(CreateInstructorCommand createCommand)
         {
-            return await _http.PostAsJsonAsync($"/api/instructors", createCommand);
+            var result = await _http.PostAsJsonAsync($"/api/instructors", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> UpdateAsync(UpdateInstructorCommand createCommand)
+        public async Task UpdateAsync(UpdateInstructorCommand createCommand)
         {
-            return await _http.PutAsJsonAsync($"/api/instructors", createCommand);
+            var result = await _http.PutAsJsonAsync($"/api/instructors", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
         public async Task<InstructorsLookupVM> GetLookupAsync()

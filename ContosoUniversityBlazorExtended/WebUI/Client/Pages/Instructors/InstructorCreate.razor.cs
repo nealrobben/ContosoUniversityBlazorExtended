@@ -38,19 +38,19 @@ namespace WebUI.Client.Pages.Instructors
 
             if (formIsValid)
             {
-                if (files.Any())
+                try
                 {
-                    CreateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
-                }
+                    if (files.Any())
+                    {
+                        CreateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                    }
 
-                var result = await InstructorService.CreateAsync(CreateInstructorCommand);
+                    await InstructorService.CreateAsync(CreateInstructorCommand);
 
-                if (result.IsSuccessStatusCode)
-                {
                     CreateInstructorCommand = new CreateInstructorCommand();
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (Exception)
                 {
                     ErrorVisible = true;
                 }
