@@ -43,14 +43,14 @@ namespace WebUI.Client.Pages.Departments
 
             if (formIsValid)
             {
-                var result = await DepartmentService.CreateAsync(CreateDepartmentCommand);
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await DepartmentService.CreateAsync(CreateDepartmentCommand);
+
                     CreateDepartmentCommand = new CreateDepartmentCommand();
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (Exception)
                 {
                     ErrorVisible = true;
                 }

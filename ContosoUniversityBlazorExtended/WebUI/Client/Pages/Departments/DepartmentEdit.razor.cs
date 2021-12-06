@@ -47,13 +47,12 @@ namespace WebUI.Client.Pages.Departments
 
             if (formIsValid)
             {
-                var result = await DepartmentService.UpdateAsync(UpdateDepartmentCommand);
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await DepartmentService.UpdateAsync(UpdateDepartmentCommand);
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                else
+                catch (System.Exception)
                 {
                     ErrorVisible = true;
                 }

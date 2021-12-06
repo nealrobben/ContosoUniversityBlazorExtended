@@ -144,6 +144,9 @@
   <data name="DeleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete the department {0}?</value>
   </data>
+  <data name="DeleteErrorFeedback" xml:space="preserve">
+    <value>Problem while deleting department {0}</value>
+  </data>
   <data name="DeleteFeedback" xml:space="preserve">
     <value>Deleted department {0}</value>
   </data>

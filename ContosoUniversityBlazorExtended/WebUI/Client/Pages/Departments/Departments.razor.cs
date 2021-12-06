@@ -44,12 +44,16 @@ namespace WebUI.Client.Pages.Departments
 
             if (dialogResult == true)
             {
-                var result = await DepartmentService.DeleteAsync(departmentId.ToString());
-
-                if (result.IsSuccessStatusCode)
+                try
                 {
+                    await DepartmentService.DeleteAsync(departmentId.ToString());
+
                     SnackBar.Add(Localizer["DeleteFeedback", departmentName], Severity.Success);
                     await GetDepartments();
+                }
+                catch (System.Exception)
+                {
+                    SnackBar.Add(Localizer["DeleteErrorFeedback", departmentName], Severity.Error);
                 }
             }
         }

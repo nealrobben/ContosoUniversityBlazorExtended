@@ -11,12 +11,12 @@ namespace WebUI.Client.Services
 {
     public interface IDepartmentService
     {
-        Task<HttpResponseMessage> CreateAsync(CreateDepartmentCommand createCommand);
-        Task<HttpResponseMessage> DeleteAsync(string id);
+        Task CreateAsync(CreateDepartmentCommand createCommand);
+        Task DeleteAsync(string id);
         Task<DepartmentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
         Task<DepartmentDetailVM> GetAsync(string id);
         Task<DepartmentsLookupVM> GetLookupAsync();
-        Task<HttpResponseMessage> UpdateAsync(UpdateDepartmentCommand createCommand);
+        Task UpdateAsync(UpdateDepartmentCommand createCommand);
     }
 
     public class DepartmentService : ServiceBase, IDepartmentService
@@ -66,19 +66,25 @@ namespace WebUI.Client.Services
             return await _http.GetFromJsonAsync<DepartmentDetailVM>($"/api/departments/{id}");
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            return await _http.DeleteAsync($"/api/departments/{id}");
+            var result = await _http.DeleteAsync($"/api/departments/{id}");
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> CreateAsync(CreateDepartmentCommand createCommand)
+        public async Task CreateAsync(CreateDepartmentCommand createCommand)
         {
-            return await _http.PostAsJsonAsync($"/api/departments", createCommand);
+            var result = await _http.PostAsJsonAsync($"/api/departments", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> UpdateAsync(UpdateDepartmentCommand createCommand)
+        public async Task UpdateAsync(UpdateDepartmentCommand createCommand)
         {
-            return await _http.PutAsJsonAsync($"/api/departments", createCommand);
+            var result = await _http.PutAsJsonAsync($"/api/departments", createCommand);
+
+            result.EnsureSuccessStatusCode();
         }
 
         public async Task<DepartmentsLookupVM> GetLookupAsync()
