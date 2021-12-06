@@ -21,13 +21,15 @@ namespace WebUI.Client.Services
 
     public class InstructorService : ServiceBase, IInstructorService
     {
+        private const string _instructorsEndpoint = "/api/instructors";
+
         public InstructorService(HttpClient http) : base(http)
         {
         }
 
         public async Task<InstructorsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            var url = "/api/instructors";
+            var url = _instructorsEndpoint;
 
             if (pageNumber != null)
             {
@@ -63,33 +65,33 @@ namespace WebUI.Client.Services
 
         public async Task<InstructorDetailsVM> GetAsync(string id)
         {
-            return await _http.GetFromJsonAsync<InstructorDetailsVM>($"/api/instructors/{id}");
+            return await _http.GetFromJsonAsync<InstructorDetailsVM>($"{_instructorsEndpoint}/{id}");
         }
 
         public async Task DeleteAsync(string id)
         {
-            var result = await _http.DeleteAsync($"/api/instructors/{id}");
+            var result = await _http.DeleteAsync($"{_instructorsEndpoint}/{id}");
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task CreateAsync(CreateInstructorCommand createCommand)
         {
-            var result = await _http.PostAsJsonAsync($"/api/instructors", createCommand);
+            var result = await _http.PostAsJsonAsync(_instructorsEndpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(UpdateInstructorCommand createCommand)
         {
-            var result = await _http.PutAsJsonAsync($"/api/instructors", createCommand);
+            var result = await _http.PutAsJsonAsync(_instructorsEndpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task<InstructorsLookupVM> GetLookupAsync()
         {
-            return await _http.GetFromJsonAsync<InstructorsLookupVM>("/api/instructors/lookup");
+            return await _http.GetFromJsonAsync<InstructorsLookupVM>($"{_instructorsEndpoint}/lookup");
         }
     }
 }

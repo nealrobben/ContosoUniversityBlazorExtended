@@ -21,13 +21,15 @@ namespace WebUI.Client.Services
 
     public class StudentService : ServiceBase, IStudentService
     {
+        private const string _studentsEndpoint = "/api/students";
+
         public StudentService(HttpClient http) : base(http)
         {
         }
 
         public async Task<StudentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            var url = "/api/students";
+            var url = _studentsEndpoint;
 
             if (pageNumber != null)
             {
@@ -63,33 +65,33 @@ namespace WebUI.Client.Services
 
         public async Task<StudentDetailsVM> GetAsync(string id)
         {
-            return await _http.GetFromJsonAsync<StudentDetailsVM>($"/api/students/{id}");
+            return await _http.GetFromJsonAsync<StudentDetailsVM>($"{_studentsEndpoint}/{id}");
         }
 
         public async Task DeleteAsync(string id)
         {
-            var result = await _http.DeleteAsync($"/api/students/{id}");
+            var result = await _http.DeleteAsync($"{_studentsEndpoint}/{id}");
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task CreateAsync(CreateStudentCommand createCommand)
         {
-            var result = await _http.PostAsJsonAsync($"/api/students", createCommand);
+            var result = await _http.PostAsJsonAsync(_studentsEndpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(UpdateStudentCommand createCommand)
         {
-            var result = await _http.PutAsJsonAsync($"/api/students", createCommand);
+            var result = await _http.PutAsJsonAsync(_studentsEndpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task<StudentsForCourseVM> GetStudentsForCourse(string courseId)
         {
-            return await _http.GetFromJsonAsync<StudentsForCourseVM>($"/api/students/bycourse/{courseId}");
+            return await _http.GetFromJsonAsync<StudentsForCourseVM>($"{_studentsEndpoint}/bycourse/{courseId}");
         }
     }
 }
