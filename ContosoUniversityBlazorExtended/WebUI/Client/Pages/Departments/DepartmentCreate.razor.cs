@@ -50,7 +50,11 @@ namespace WebUI.Client.Pages.Departments
                     CreateDepartmentCommand = new CreateDepartmentCommand();
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                catch (Exception)
+                //catch (ApiException ex)
+                //{
+
+                //}
+                catch (Exception e)
                 {
                     ErrorVisible = true;
                 }
