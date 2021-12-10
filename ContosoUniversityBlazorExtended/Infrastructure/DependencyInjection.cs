@@ -16,7 +16,16 @@ namespace ContosoUniversityBlazor.Infrastructure
         {
             services.AddTransient<IDateTime, DateTimeService>();
 
-            services.AddSingleton<IProfilePictureService, ProfilePictureService>();
+            var useAzureStorageForProfilePictures = configuration.GetValue<bool>("UseAzureStorageForProfilePictures");
+
+            if(useAzureStorageForProfilePictures)
+            {
+                services.AddSingleton<IProfilePictureService, AzureProfilePictureService>();
+            }
+            else
+            {
+                services.AddSingleton<IProfilePictureService, LocalProfilePictureService>();
+            }
 
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {

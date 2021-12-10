@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ProfilePictureService : IProfilePictureService
+    public class LocalProfilePictureService : IProfilePictureService
     {
         private readonly string _path;
 
-        public ProfilePictureService(IWebHostEnvironment env)
+        public LocalProfilePictureService(IWebHostEnvironment env)
         {
             _path = Path.Combine(env.ContentRootPath, "Img", "ProfilePictures");
         }
