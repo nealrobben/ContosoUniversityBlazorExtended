@@ -33,62 +33,39 @@ namespace Infrastructure.Services
 
         public async void DeleteImageFile(string name)
         {
-            try
-            {
-                var blobServiceClient = new BlobServiceClient(ConnectionString);
-                var containerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
+            var blobServiceClient = new BlobServiceClient(ConnectionString);
+            var containerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
 
-                var blobClient = containerClient.GetBlobClient(name);
+            var blobClient = containerClient.GetBlobClient(name);
 
-                await blobClient.DeleteIfExistsAsync();
-            }
-            catch (System.Exception ex)
-            {
-                var test = ex.Message;
-            }
+            await blobClient.DeleteIfExistsAsync();
         }
 
         public async Task<byte[]> GetImageFile(string fullName)
         {
-            try
+            var fileName = Path.GetFileName(fullName);
+
+            var blobServiceClient = new BlobServiceClient(ConnectionString);
+            var containerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
+
+            var blobClient = containerClient.GetBlobClient(fileName);
+
+            using (var ms = new MemoryStream())
             {
-                var fileName = Path.GetFileName(fullName);
-
-                var blobServiceClient = new BlobServiceClient(ConnectionString);
-                var containerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
-
-                var blobClient = containerClient.GetBlobClient(fileName);
-
-                using (var ms = new MemoryStream())
-                {
-                    await blobClient.DownloadToAsync(ms);
-                    return ms.ToArray();
-                }
+                await blobClient.DownloadToAsync(ms);
+                return ms.ToArray();
             }
-            catch (System.Exception ex)
-            {
-                var test = ex.Message;
-            }
-
-            return new byte[] { };
         }
 
         public async Task WriteImageFile(string name, MemoryStream ms)
         {
-            try
-            {
-                var blobServiceClient = new BlobServiceClient(ConnectionString);
-                var containerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
+            var blobServiceClient = new BlobServiceClient(ConnectionString);
+            var containerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
 
-                var blobClient = containerClient.GetBlobClient(name);
+            var blobClient = containerClient.GetBlobClient(name);
 
-                ms.Position = 0;
-                await blobClient.UploadAsync(ms, true);
-            }
-            catch (System.Exception ex)
-            {
-                var test = ex.Message;
-            }
+            ms.Position = 0;
+            await blobClient.UploadAsync(ms, true);
         }
     }
 }
