@@ -17,7 +17,7 @@ namespace WebUI.Client.Pages.Instructors
         public IInstructorService InstructorService { get; set; }
 
         [Inject]
-        public ISnackbar _snackbar { get; set; }
+        public ISnackbar SnackBar { get; set; }
 
         [Inject]
         public IDialogService _dialogService { get; set; }
@@ -28,6 +28,12 @@ namespace WebUI.Client.Pages.Instructors
 
         public int? SelectedInstructorId { get; set; }
         public int? SelectedCourseId { get; set; }
+
+        protected override void OnInitialized()
+        {
+            SnackBar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            SnackBar.Configuration.ClearAfterNavigation = true;
+        }
 
         private async Task GetInstructors()
         {
@@ -45,12 +51,12 @@ namespace WebUI.Client.Pages.Instructors
                 {
                     await InstructorService.DeleteAsync(instructorId.ToString());
 
-                    _snackbar.Add(Localizer["DeleteFeedback", name], Severity.Success);
+                    SnackBar.Add(Localizer["DeleteFeedback", name], Severity.Success);
                     await GetInstructors();
                 }
                 catch (System.Exception)
                 {
-                    _snackbar.Add(Localizer["DeleteErrorFeedback", name], Severity.Error);
+                    SnackBar.Add(Localizer["DeleteErrorFeedback", name], Severity.Error);
                 }
             }
         }
