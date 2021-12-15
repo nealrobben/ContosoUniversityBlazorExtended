@@ -7,7 +7,7 @@ using WebUI.Shared.Students.Commands.CreateStudent;
 
 namespace ContosoUniversityBlazor.Application.Students.Commands.CreateStudent
 {
-    public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand>
+    public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,int>
     {
         private readonly ISchoolContext _context;
 
@@ -16,19 +16,21 @@ namespace ContosoUniversityBlazor.Application.Students.Commands.CreateStudent
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
         {
-            _context.Students.Add(new Student 
+            var newStudent = new Student
             {
                 FirstMidName = request.FirstName,
                 LastName = request.LastName,
                 EnrollmentDate = request.EnrollmentDate,
                 ProfilePictureName = request.ProfilePictureName
-            });
+            };
+
+            _context.Students.Add(newStudent);
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return newStudent.ID;
         }
     }
 }

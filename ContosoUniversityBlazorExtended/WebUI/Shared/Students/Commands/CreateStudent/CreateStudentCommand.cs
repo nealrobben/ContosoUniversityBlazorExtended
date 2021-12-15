@@ -3,7 +3,7 @@ using System;
 
 namespace WebUI.Shared.Students.Commands.CreateStudent
 {
-    public class CreateStudentCommand : IRequest
+    public class CreateStudentCommand : IRequest<int>
     {
         public string LastName { get; set; }
 

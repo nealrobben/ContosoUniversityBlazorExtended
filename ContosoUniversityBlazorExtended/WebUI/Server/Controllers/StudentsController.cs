@@ -23,7 +23,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetStudent")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<StudentDetailsVM>> Get(string id)
@@ -31,6 +31,18 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             var vm = await Mediator.Send(new GetStudentDetailsQuery(int.Parse(id)));
 
             return Ok(vm);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Create([FromBody] CreateStudentCommand command)
+        {
+            var studentId = await Mediator.Send(command);
+
+            var result = await Mediator.Send(new GetStudentDetailsQuery(studentId));
+
+            return CreatedAtRoute("GetStudent", new { id = studentId.ToString() }, result);
         }
 
         [HttpDelete("{id}")]
@@ -49,16 +61,6 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             var vm = await Mediator.Send(new GetStudentsForCourseQuery(int.Parse(id)));
 
             return Ok(vm);
-        }
-
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Create([FromBody] CreateStudentCommand command)
-        {
-            await Mediator.Send(command);
-
-            return NoContent();
         }
 
         [HttpPut]
