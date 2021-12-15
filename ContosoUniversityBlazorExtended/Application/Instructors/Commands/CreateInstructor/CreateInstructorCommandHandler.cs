@@ -7,7 +7,7 @@ using WebUI.Shared.Instructors.Commands.CreateInstructor;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstructor
 {
-    public class CreateInstructorCommandHandler : IRequestHandler<CreateInstructorCommand>
+    public class CreateInstructorCommandHandler : IRequestHandler<CreateInstructorCommand,int>
     {
         private readonly ISchoolContext _context;
 
@@ -16,19 +16,20 @@ namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstruc
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateInstructorCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateInstructorCommand request, CancellationToken cancellationToken)
         {
-            _context.Instructors.Add(new Instructor
+            var newInstructor = new Instructor
             {
                 FirstMidName = request.FirstName,
                 LastName = request.LastName,
                 HireDate = request.HireDate,
                 ProfilePictureName = request.ProfilePictureName
-            });
+            };
+            _context.Instructors.Add(newInstructor);
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return newInstructor.ID;
         }
     }
 }

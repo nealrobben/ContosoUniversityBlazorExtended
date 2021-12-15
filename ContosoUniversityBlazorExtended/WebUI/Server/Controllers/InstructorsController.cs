@@ -23,7 +23,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetInstructor")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<InstructorDetailsVM>> Get(string id)
@@ -33,12 +33,16 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("lookup")]
-        public async Task<ActionResult<InstructorsLookupVM>> GetLookup()
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Create([FromBody] CreateInstructorCommand command)
         {
-            var vm = await Mediator.Send(new GetInstructorLookupQuery());
+            var instructorId = await Mediator.Send(command);
 
-            return Ok(vm);
+            var result = await Mediator.Send(new GetInstructorDetailsQuery(instructorId));
+
+            return CreatedAtRoute("GetInstructor", new { id = instructorId.ToString() }, result);
         }
 
         [HttpDelete("{id}")]
@@ -51,16 +55,6 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Create([FromBody] CreateInstructorCommand command)
-        {
-            await Mediator.Send(command);
-
-            return NoContent();
-        }
-
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
@@ -69,6 +63,14 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             await Mediator.Send(command);
 
             return NoContent();
+        }
+
+        [HttpGet("lookup")]
+        public async Task<ActionResult<InstructorsLookupVM>> GetLookup()
+        {
+            var vm = await Mediator.Send(new GetInstructorLookupQuery());
+
+            return Ok(vm);
         }
     }
 }
