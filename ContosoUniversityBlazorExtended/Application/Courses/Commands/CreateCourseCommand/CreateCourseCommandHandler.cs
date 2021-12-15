@@ -7,7 +7,7 @@ using WebUI.Shared.Courses.Commands.CreateCourse;
 
 namespace ContosoUniversityBlazor.Application.Courses.Commands.CreateCourse
 {
-    public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand>
+    public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand,int>
     {
         private readonly ISchoolContext _context;
 
@@ -16,7 +16,7 @@ namespace ContosoUniversityBlazor.Application.Courses.Commands.CreateCourse
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
         {
             var course = new Course
             {
@@ -29,7 +29,7 @@ namespace ContosoUniversityBlazor.Application.Courses.Commands.CreateCourse
             _context.Courses.Add(course);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return course.CourseID;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCourse")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CourseDetailVM>> Get(string id)
@@ -32,12 +32,16 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("byinstructor/{id}")]
-        public async Task<ActionResult<CoursesForInstructorOverviewVM>> ByInstructor(string id)
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Create([FromBody] CreateCourseCommand command)
         {
-            var vm = await Mediator.Send(new GetCoursesForInstructorQuery(int.Parse(id)));
+            var courseID = await Mediator.Send(command);
 
-            return Ok(vm);
+            var result = await Mediator.Send(new GetCourseDetailsQuery(courseID));
+
+            return CreatedAtRoute("GetCourse", new { id = courseID.ToString() }, result);
         }
 
         [HttpDelete("{id}")]
@@ -50,16 +54,6 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Create([FromBody] CreateCourseCommand command)
-        {
-            await Mediator.Send(command);
-
-            return NoContent();
-        }
-
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
@@ -68,6 +62,14 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             await Mediator.Send(command);
 
             return NoContent();
+        }
+
+        [HttpGet("byinstructor/{id}")]
+        public async Task<ActionResult<CoursesForInstructorOverviewVM>> ByInstructor(string id)
+        {
+            var vm = await Mediator.Send(new GetCoursesForInstructorQuery(int.Parse(id)));
+
+            return Ok(vm);
         }
     }
 }

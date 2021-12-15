@@ -2,7 +2,7 @@
 
 namespace WebUI.Shared.Courses.Commands.CreateCourse
 {
-    public class CreateCourseCommand : IRequest
+    public class CreateCourseCommand : IRequest<int>
     {
         public int CourseID { get; set; }
 
