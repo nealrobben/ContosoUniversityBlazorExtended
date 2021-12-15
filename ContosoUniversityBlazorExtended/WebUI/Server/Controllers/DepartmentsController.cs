@@ -23,7 +23,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetDepartment")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DepartmentDetailVM>> Get(string id)
@@ -33,12 +33,15 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return Ok(vm);
         }
 
-        [HttpGet("lookup")]
-        public async Task<ActionResult<DepartmentsLookupVM>> GetLookup()
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Create([FromBody] CreateDepartmentCommand command)
         {
-            var vm = await Mediator.Send(new GetDepartmentsLookupQuery());
+            var departmentID = await Mediator.Send(command);
+            var result = await Mediator.Send(new GetDepartmentDetailsQuery(departmentID));
 
-            return Ok(vm);
+            return CreatedAtRoute("GetDepartment", new { id = departmentID.ToString() }, result);
         }
 
         [HttpDelete("{id}")]
@@ -51,16 +54,6 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Create([FromBody] CreateDepartmentCommand command)
-        {
-            await Mediator.Send(command);
-
-            return NoContent();
-        }
-
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
@@ -69,6 +62,14 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
             await Mediator.Send(command);
 
             return NoContent();
+        }
+
+        [HttpGet("lookup")]
+        public async Task<ActionResult<DepartmentsLookupVM>> GetLookup()
+        {
+            var vm = await Mediator.Send(new GetDepartmentsLookupQuery());
+
+            return Ok(vm);
         }
     }
 }

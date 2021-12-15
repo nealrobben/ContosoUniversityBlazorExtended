@@ -7,7 +7,7 @@ using WebUI.Shared.Departments.Commands.CreateDepartment;
 
 namespace ContosoUniversityBlazor.Application.Departments.Commands.CreateDepartment
 {
-    public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand>
+    public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, int>
     {
         private readonly ISchoolContext _context;
 
@@ -16,19 +16,21 @@ namespace ContosoUniversityBlazor.Application.Departments.Commands.CreateDepartm
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
         {
-            _context.Departments.Add(new Department
+            var newDepartment = new Department
             {
                 Name = request.Name,
                 Budget = request.Budget,
                 StartDate = request.StartDate,
                 InstructorID = request.InstructorID
-            });
+            };
+
+            _context.Departments.Add(newDepartment);
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return newDepartment.DepartmentID;
         }
     }
 }

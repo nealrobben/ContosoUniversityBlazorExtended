@@ -3,7 +3,7 @@ using System;
 
 namespace WebUI.Shared.Departments.Commands.CreateDepartment
 {
-    public class CreateDepartmentCommand : IRequest
+    public class CreateDepartmentCommand : IRequest<int>
     {
         public string Name { get; set; }
 
