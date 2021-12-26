@@ -22,8 +22,4 @@
     <ProjectReference Include="..\WebUI\Client\WebUI.Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Students\" />
-  </ItemGroup>
-
 </Project>
