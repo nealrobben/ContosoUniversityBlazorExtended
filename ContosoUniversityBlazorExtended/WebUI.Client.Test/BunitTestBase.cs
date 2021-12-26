@@ -1,4 +1,5 @@
 ﻿using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
 namespace WebUI.Client.Test
@@ -16,6 +17,8 @@ namespace WebUI.Client.Test
                 options.SnackbarConfiguration.ShowTransitionDuration = 0;
                 options.SnackbarConfiguration.HideTransitionDuration = 0;
             });
+
+            Context.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
         }
     }
 }

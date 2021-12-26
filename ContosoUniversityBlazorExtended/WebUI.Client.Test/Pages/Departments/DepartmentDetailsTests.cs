@@ -15,14 +15,19 @@ namespace WebUI.Client.Test.Pages.Departments
     public class DepartmentDetailsTests : BunitTestBase
     {
         [Fact]
-        public async Task DepartmentDetails()
+        public async Task DepartmentDetails_DisplayDetailsCorrectly()
         {
+            var departmentDetailVM = new DepartmentDetailVM
+            {
+                Name = "TestDepartment",
+                Budget = 123,
+                StartDate = new DateTime(2021, 3, 1),
+                AdministratorName = "Admin"
+            };
+            
             var fakeDepartmentService = A.Fake<IDepartmentService>();
-            A.CallTo(() => fakeDepartmentService.GetAsync(A<string>.Ignored)).Returns(new DepartmentDetailVM { Name = "TestDepartment", 
-                Budget = 123, StartDate = new DateTime(2021,3,1), AdministratorName = "Admin" });
-
+            A.CallTo(() => fakeDepartmentService.GetAsync(A<string>.Ignored)).Returns(departmentDetailVM);
             Context.Services.AddScoped<IDepartmentService>(x => fakeDepartmentService);
-            Context.Services.AddScoped<IStringLocalizer<DepartmentDetails>>(x => A.Fake<IStringLocalizer<DepartmentDetails>>());
 
             var comp = Context.RenderComponent<MudDialogProvider>();
             Assert.Empty(comp.Markup.Trim());
@@ -41,6 +46,16 @@ namespace WebUI.Client.Test.Pages.Departments
             Assert.NotEmpty(comp.Markup.Trim());
 
             comp.Find("h6").TrimmedText().Should().Be(title);
+
+            comp.FindAll("dt")[0].TrimmedText().Should().Be("Name");
+            comp.FindAll("dt")[1].TrimmedText().Should().Be("Budget");
+            comp.FindAll("dt")[2].TrimmedText().Should().Be("Start date");
+            comp.FindAll("dt")[3].TrimmedText().Should().Be("Administrator");
+
+            comp.FindAll("dd")[0].TrimmedText().Should().Be(departmentDetailVM.Name);
+            comp.FindAll("dd")[1].TrimmedText().Should().Be(departmentDetailVM.Budget.ToString("F"));
+            comp.FindAll("dd")[2].TrimmedText().Should().Be(departmentDetailVM.StartDate.ToShortDateString());
+            comp.FindAll("dd")[3].TrimmedText().Should().Be(departmentDetailVM.AdministratorName);
         }
     }
 }
