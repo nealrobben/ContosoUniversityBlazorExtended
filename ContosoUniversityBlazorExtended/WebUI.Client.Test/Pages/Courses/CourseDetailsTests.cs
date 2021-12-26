@@ -3,11 +3,6 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebUI.Client.Pages.Courses;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
@@ -43,7 +38,7 @@ namespace WebUI.Client.Test.Pages.Courses
             var parameters = new DialogParameters();
             parameters.Add("CourseId", 1);
 
-            var title = "Department Details";
+            var title = "Course Details";
             await comp.InvokeAsync(() => dialogReference = service?.Show<CourseDetails>(title, parameters));
             Assert.NotNull(dialogReference);
 
