@@ -66,5 +66,47 @@ namespace WebUI.Client.Test.Pages.Students
             row.Cells[0].TrimmedText().Should().Be(enrollment.CourseTitle);
             row.Cells[1].TrimmedText().Should().Be(enrollment.Grade.ToString());
         }
+
+        [Fact]
+        public async Task StudentDetails_WhenOkButtonClicked_PopupCloses()
+        {
+            var studentDetailsVM = new StudentDetailsVM
+            {
+                StudentID = 1,
+                LastName = "Lastname",
+                FirstName = "Firstname",
+                EnrollmentDate = new DateTime(2021, 3, 1)
+            };
+
+            var enrollment = new StudentDetailsEnrollmentVM
+            {
+                CourseTitle = "My title",
+                Grade = ContosoUniversityBlazor.Domain.Enums.Grade.A
+            };
+            studentDetailsVM.Enrollments.Add(enrollment);
+
+            var fakeStudentService = A.Fake<IStudentService>();
+            A.CallTo(() => fakeStudentService.GetAsync(A<string>.Ignored)).Returns(studentDetailsVM);
+            Context.Services.AddScoped(x => fakeStudentService);
+
+            var comp = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(comp.Markup.Trim());
+
+            var service = Context.Services.GetService<IDialogService>() as DialogService;
+            Assert.NotNull(service);
+            IDialogReference? dialogReference = null;
+
+            var parameters = new DialogParameters();
+            parameters.Add("StudentId", 1);
+
+            var title = "Student Details";
+            await comp.InvokeAsync(() => dialogReference = service?.Show<StudentDetails>(title, parameters));
+            Assert.NotNull(dialogReference);
+
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("button").Click();
+            comp.Markup.Trim().Should().BeEmpty();
+        }
     }
 }

@@ -56,5 +56,40 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.FindAll("dd")[2].TrimmedText().Should().Be(departmentDetailVM.StartDate.ToShortDateString());
             comp.FindAll("dd")[3].TrimmedText().Should().Be(departmentDetailVM.AdministratorName);
         }
+
+        [Fact]
+        public async Task DepartmentDetails_WhenOkButtonClicked_PopupCloses()
+        {
+            var departmentDetailVM = new DepartmentDetailVM
+            {
+                Name = "TestDepartment",
+                Budget = 123,
+                StartDate = new DateTime(2021, 3, 1),
+                AdministratorName = "Admin"
+            };
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetAsync(A<string>.Ignored)).Returns(departmentDetailVM);
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var comp = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(comp.Markup.Trim());
+
+            var service = Context.Services.GetService<IDialogService>() as DialogService;
+            Assert.NotNull(service);
+            IDialogReference? dialogReference = null;
+
+            var parameters = new DialogParameters();
+            parameters.Add("DepartmentId", 1);
+
+            var title = "Department Details";
+            await comp.InvokeAsync(() => dialogReference = service?.Show<DepartmentDetails>(title, parameters));
+            Assert.NotNull(dialogReference);
+
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("button").Click();
+            comp.Markup.Trim().Should().BeEmpty();
+        }
     }
 }
