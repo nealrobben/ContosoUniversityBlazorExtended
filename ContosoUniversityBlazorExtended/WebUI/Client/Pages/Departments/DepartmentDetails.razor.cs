@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
@@ -13,6 +14,9 @@ namespace WebUI.Client.Pages.Departments
 
         [Inject]
         private IDepartmentService DepartmentService { get; set; }
+
+        [Inject]
+        private IStringLocalizer<DepartmentDetails> Localizer { get; set; }
 
         public DepartmentDetailVM Department { get; set; }
 

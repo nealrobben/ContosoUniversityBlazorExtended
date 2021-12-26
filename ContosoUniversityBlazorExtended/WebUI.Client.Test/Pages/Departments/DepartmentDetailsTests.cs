@@ -7,26 +7,40 @@ using FakeItEasy;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
+using FluentAssertions;
+using WebUI.Client.Test.Extensions;
 
 namespace WebUI.Client.Test.Pages.Departments
 {
-    public class DepartmentDetailsTests
+    public class DepartmentDetailsTests : BunitTestBase
     {
         [Fact]
-        public void Test1()
+        public async Task DepartmentDetails()
         {
-            using var ctx = new TestContext();
-
             var fakeDepartmentService = A.Fake<IDepartmentService>();
-            A.CallTo(() => fakeDepartmentService.GetAsync(A<string>.Ignored)).Returns(new DepartmentDetailVM { Name = "TestDepartment" });
+            A.CallTo(() => fakeDepartmentService.GetAsync(A<string>.Ignored)).Returns(new DepartmentDetailVM { Name = "TestDepartment", 
+                Budget = 123, StartDate = new DateTime(2021,3,1), AdministratorName = "Admin" });
 
-            ctx.Services.AddScoped<IDepartmentService>(x => fakeDepartmentService);
-            ctx.Services.AddScoped<IStringLocalizer<DepartmentDetails>>(x => A.Fake<IStringLocalizer<DepartmentDetails>>());
-            ctx.Services.AddScoped<IDialogService>(x => A.Fake<IDialogService>());
+            Context.Services.AddScoped<IDepartmentService>(x => fakeDepartmentService);
+            Context.Services.AddScoped<IStringLocalizer<DepartmentDetails>>(x => A.Fake<IStringLocalizer<DepartmentDetails>>());
 
-            var cut = ctx.RenderComponent<DepartmentDetails>(parameters => parameters.Add(p => p.DepartmentId, 1));
+            var comp = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(comp.Markup.Trim());
 
-            Assert.NotNull(cut);
+            var service = Context.Services.GetService<IDialogService>() as DialogService;
+            Assert.NotNull(service);
+            IDialogReference? dialogReference = null;
+
+            var parameters = new DialogParameters();
+            parameters.Add("DepartmentId", 1);
+
+            var title = "Department Details";
+            await comp.InvokeAsync(() => dialogReference = service?.Show<DepartmentDetails>(title, parameters));
+            Assert.NotNull(dialogReference);
+
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("h6").TrimmedText().Should().Be(title);
         }
     }
 }
