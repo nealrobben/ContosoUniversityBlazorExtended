@@ -91,8 +91,6 @@ namespace WebUI.Client.Test.Pages.Departments
 
             Assert.NotEmpty(comp.Markup.Trim());
 
-            var dialog = dialogReference?.Dialog as DepartmentCreate;
-
             comp.Find("#Name").Change("My name");
             comp.Find("#Budget").Change("123");
             comp.Find("#StartDate").Change("1/3/2021");
@@ -191,8 +189,6 @@ namespace WebUI.Client.Test.Pages.Departments
             Assert.NotNull(dialogReference);
 
             Assert.NotEmpty(comp.Markup.Trim());
-
-            var dialog = dialogReference?.Dialog as DepartmentCreate;
 
             comp.Find("#StartDate").Change("");
 
