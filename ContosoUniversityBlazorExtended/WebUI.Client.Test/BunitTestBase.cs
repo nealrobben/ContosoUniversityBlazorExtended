@@ -1,6 +1,8 @@
 ﻿using Bunit;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
+using WebUI.Shared.Departments.Validators;
 
 namespace WebUI.Client.Test
 {
@@ -19,6 +21,8 @@ namespace WebUI.Client.Test
             });
 
             Context.Services.AddLocalization(opts => { opts.ResourcesPath = "Localization"; });
+
+            Context.Services.AddValidatorsFromAssemblyContaining<CreateDepartmentValidator>();
         }
     }
 }
