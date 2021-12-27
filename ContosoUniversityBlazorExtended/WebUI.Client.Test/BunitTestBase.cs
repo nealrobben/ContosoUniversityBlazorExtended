@@ -14,6 +14,8 @@ namespace WebUI.Client.Test
         {
             Context = new TestContext();
 
+            Context.JSInterop.Mode = JSRuntimeMode.Loose;
+
             Context.Services.AddMudServices(options =>
             {
                 options.SnackbarConfiguration.ShowTransitionDuration = 0;
