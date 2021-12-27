@@ -40,6 +40,7 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.FindAll("input")[0].Id.Should().Be("Name");
             comp.FindAll("input")[1].Id.Should().Be("Budget");
             comp.FindAll("input")[2].Id.Should().Be("StartDate");
+            comp.FindAll("select")[0].Id.Should().Be("InstructorID");
         }
 
         [Fact]
@@ -92,11 +93,10 @@ namespace WebUI.Client.Test.Pages.Departments
 
             var dialog = dialogReference?.Dialog as DepartmentCreate;
 
-            dialog.Should().NotBeNull();
-            dialog.CreateDepartmentCommand.Name = "My name";
-            dialog.CreateDepartmentCommand.Budget = 123;
-            dialog.CreateDepartmentCommand.StartDate = new DateTime(2021, 3, 1);
-            dialog.CreateDepartmentCommand.InstructorID = 1;
+            comp.Find("#Name").Change("My name");
+            comp.Find("#Budget").Change("123");
+            comp.Find("#StartDate").Change("1/3/2021");
+            comp.Find("#InstructorID").Change("1");
 
             comp.Find("button[type='submit']").Click();
             comp.Markup.Trim().Should().BeEmpty();
@@ -124,13 +124,10 @@ namespace WebUI.Client.Test.Pages.Departments
 
             Assert.NotEmpty(comp.Markup.Trim());
 
-            var dialog = dialogReference?.Dialog as DepartmentCreate;
-
-            dialog.Should().NotBeNull();
-            dialog.CreateDepartmentCommand.Name = "My name";
-            dialog.CreateDepartmentCommand.Budget = 123;
-            dialog.CreateDepartmentCommand.StartDate = new DateTime(2021, 3, 1);
-            dialog.CreateDepartmentCommand.InstructorID = 1;
+            comp.Find("#Name").Change("My name");
+            comp.Find("#Budget").Change("123");
+            comp.Find("#StartDate").Change("1/3/2021");
+            comp.Find("#InstructorID").Change("1");
 
             comp.Find("button[type='submit']").Click();
 
@@ -162,11 +159,10 @@ namespace WebUI.Client.Test.Pages.Departments
 
             var dialog = dialogReference?.Dialog as DepartmentCreate;
 
-            dialog.Should().NotBeNull();
-            dialog.CreateDepartmentCommand.Name = "My name";
-            dialog.CreateDepartmentCommand.Budget = 123;
-            dialog.CreateDepartmentCommand.StartDate = new DateTime(2021, 3, 1);
-            dialog.CreateDepartmentCommand.InstructorID = 1;
+            comp.Find("#Name").Change("My name");
+            comp.Find("#Budget").Change("123");
+            comp.Find("#StartDate").Change("1/3/2021");
+            comp.Find("#InstructorID").Change("1");
 
             comp.Find("button[type='submit']").Click();
 
@@ -174,6 +170,39 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.Find("div.mud-alert-message").TrimmedText().Should().Be("An error occured during saving");
         }
 
-        //TODO: add unit test for failed validation
+        [Fact]
+        public async Task DepartmentCreate_WhenValidationFails_ShowErrorMessagesForFields()
+        {
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var comp = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(comp.Markup.Trim());
+
+            var service = Context.Services.GetService<IDialogService>() as DialogService;
+            Assert.NotNull(service);
+            IDialogReference? dialogReference = null;
+
+            var title = "Create Department";
+            await comp.InvokeAsync(() => dialogReference = service?.Show<DepartmentCreate>(title));
+            Assert.NotNull(dialogReference);
+
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            var dialog = dialogReference?.Dialog as DepartmentCreate;
+
+            comp.Find("#StartDate").Change("");
+
+            comp.Find("button[type='submit']").Click();
+
+            comp.FindAll("div.validation-message")[0].TrimmedText().Should().Be("'Name' must not be empty.");
+            comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("'Budget' must not be empty.");
+            comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("'Budget' must be greater than '0'.");
+            comp.FindAll("div.validation-message")[3].TrimmedText().Should().Be("The StartDate field must be a date.");
+            comp.FindAll("div.validation-message")[4].TrimmedText().Should().Be("'Instructor ID' must not be empty.");
+        }
     }
 }
