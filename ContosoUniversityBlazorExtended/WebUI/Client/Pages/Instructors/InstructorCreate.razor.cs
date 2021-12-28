@@ -31,11 +31,6 @@ namespace WebUI.Client.Pages.Instructors
 
         public bool ErrorVisible { get; set; }
 
-        protected override async Task OnInitializedAsync()
-        {
-            var test = "";
-        }
-
         public async Task FormSubmitted(EditContext editContext)
         {
             ErrorVisible = false;
