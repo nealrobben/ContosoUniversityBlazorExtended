@@ -13,7 +13,7 @@ namespace WebUI.Client.Pages.Instructors
     public partial class InstructorEdit
     {
         [Inject]
-        public FileuploadService _fileuploadService { get; set; }
+        public IFileuploadService _fileuploadService { get; set; }
 
         [Inject]
         public IStringLocalizer<InstructorEdit> Localizer { get; set; }

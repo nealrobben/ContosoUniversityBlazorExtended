@@ -17,7 +17,7 @@ namespace WebUI.Client.Pages.Instructors
         public IStringLocalizer<InstructorCreate> Localizer { get; set; }
 
         [Inject]
-        public FileuploadService _fileuploadService { get; set; }
+        public IFileuploadService FileUploadService { get; set; }
 
         [Inject]
         public IInstructorService InstructorService { get; set; }
@@ -31,6 +31,11 @@ namespace WebUI.Client.Pages.Instructors
 
         public bool ErrorVisible { get; set; }
 
+        protected override async Task OnInitializedAsync()
+        {
+            var test = "";
+        }
+
         public async Task FormSubmitted(EditContext editContext)
         {
             ErrorVisible = false;
@@ -42,7 +47,7 @@ namespace WebUI.Client.Pages.Instructors
                 {
                     if (files.Any())
                     {
-                        CreateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                        CreateInstructorCommand.ProfilePictureName = await FileUploadService.UploadFile(files.First());
                     }
 
                     await InstructorService.CreateAsync(CreateInstructorCommand);

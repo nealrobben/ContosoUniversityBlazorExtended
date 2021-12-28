@@ -13,7 +13,7 @@ namespace WebUI.Client.Pages.Students
     public partial class StudentCreate
     {
         [Inject]
-        public FileuploadService _fileuploadService { get; set; }
+        public IFileuploadService _fileuploadService { get; set; }
 
         [Inject]
         public IStudentService StudentService { get; set; }
