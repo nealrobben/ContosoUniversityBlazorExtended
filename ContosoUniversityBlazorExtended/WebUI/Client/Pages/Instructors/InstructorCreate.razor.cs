@@ -27,9 +27,9 @@ namespace WebUI.Client.Pages.Instructors
 
         public CreateInstructorCommand CreateInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
 
-        public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
-
         public bool ErrorVisible { get; set; }
+
+        public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
 
         public async Task FormSubmitted(EditContext editContext)
         {

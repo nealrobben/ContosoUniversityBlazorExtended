@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Client.Pages.Instructors;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Commands.CreateStudent;
 
@@ -13,7 +15,10 @@ namespace WebUI.Client.Pages.Students
     public partial class StudentCreate
     {
         [Inject]
-        public IFileuploadService _fileuploadService { get; set; }
+        public IStringLocalizer<InstructorCreate> Localizer { get; set; }
+
+        [Inject]
+        public IFileuploadService FileUploadService { get; set; }
 
         [Inject]
         public IStudentService StudentService { get; set; }
@@ -29,6 +34,7 @@ namespace WebUI.Client.Pages.Students
 
         public async Task FormSubmitted(EditContext editContext)
         {
+            ErrorVisible = false;
             bool formIsValid = editContext.Validate();
 
             if (formIsValid)
@@ -37,7 +43,7 @@ namespace WebUI.Client.Pages.Students
                 {
                     if (files.Any())
                     {
-                        CreateStudentCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                        CreateStudentCommand.ProfilePictureName = await FileUploadService.UploadFile(files.First());
                     }
 
                     await StudentService.CreateAsync(CreateStudentCommand);
