@@ -25,7 +25,7 @@ namespace WebUI.Client.Pages.Instructors
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        public CreateInstructorCommand CreateInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
+        public CreateInstructorCommand CreateInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.Now.Date };
 
         public bool ErrorVisible { get; set; }
 

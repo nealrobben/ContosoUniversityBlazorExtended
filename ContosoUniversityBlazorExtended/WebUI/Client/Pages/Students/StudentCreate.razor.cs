@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebUI.Client.Pages.Instructors;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Commands.CreateStudent;
 
@@ -15,7 +14,7 @@ namespace WebUI.Client.Pages.Students
     public partial class StudentCreate
     {
         [Inject]
-        public IStringLocalizer<InstructorCreate> Localizer { get; set; }
+        public IStringLocalizer<StudentCreate> Localizer { get; set; }
 
         [Inject]
         public IFileuploadService FileUploadService { get; set; }
@@ -26,7 +25,7 @@ namespace WebUI.Client.Pages.Students
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        public CreateStudentCommand CreateStudentCommand { get; set; } = new CreateStudentCommand { EnrollmentDate = DateTime.Now };
+        public CreateStudentCommand CreateStudentCommand { get; set; } = new CreateStudentCommand { EnrollmentDate = DateTime.Now.Date };
 
         public bool ErrorVisible { get; set; }
 

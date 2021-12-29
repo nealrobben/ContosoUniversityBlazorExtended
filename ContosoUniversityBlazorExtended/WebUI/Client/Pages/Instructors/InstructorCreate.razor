@@ -6,50 +6,48 @@
         }
         <div class="row">
             <div class="col-md-12">
-                <form asp-action="Create">
-                    <EditForm Model=@CreateInstructorCommand OnSubmit=@FormSubmitted>
-                        <FluentValidationValidator DisableAssemblyScanning="true" />
-                        <div class="form-group">
-                            <label for="LastName">@Localizer["LastName"]</label>
-                            <InputText @bind-Value=CreateInstructorCommand.LastName class="form-control" id="LastName" />
-                            <ValidationMessage For="() => CreateInstructorCommand.LastName" />
-                        </div>
-                        <div class="form-group">
-                            <label for="FirstName">@Localizer["FirstName"]</label>
-                            <InputText @bind-Value=CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
-                            <ValidationMessage For="() => CreateInstructorCommand.FirstName" />
-                        </div>
-                        <div class="form-group">
-                            <label for="HireDate">@Localizer["HireDate"]</label>
-                            <InputDate @bind-Value=CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
-                            <ValidationMessage For="() => CreateInstructorCommand.HireDate" />
-                        </div>
-                        <div>
-                            <InputFile id="fileInput" OnChange="UploadFiles" hidden />
-                            <MudButton HtmlTag="label"
-                                       Color="Color.Primary"
-                                       StartIcon="@Icons.Filled.CloudUpload"
-                                       for="fileInput">
-                                @Localizer["UploadFiles"]
-                            </MudButton>
-                            @if (files != null)
-                            {
-                                <MudList>
-                                    @foreach (var file in files)
-                                    {
-                                        <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
-                                            @file.Name <code>@file.Size bytes</code>
-                                        </MudListItem>
-                                    }
-                                </MudList>
-                            }
-                        </div>
-                        <MudButton ButtonType="ButtonType.Submit"
-                                   StartIcon="fas fa-save"
-                                   Color="Color.Primary">@Localizer["Create"]</MudButton>
-                        <MudButton Color="Color.Primary" OnClick="Cancel">@Localizer["Cancel"]</MudButton>
-                    </EditForm>
-                </form>
+                <EditForm Model=@CreateInstructorCommand OnSubmit=@FormSubmitted>
+                    <FluentValidationValidator DisableAssemblyScanning="true" />
+                    <div class="form-group">
+                        <label for="LastName">@Localizer["LastName"]</label>
+                        <InputText @bind-Value=CreateInstructorCommand.LastName class="form-control" id="LastName" />
+                        <ValidationMessage For="() => CreateInstructorCommand.LastName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="FirstName">@Localizer["FirstName"]</label>
+                        <InputText @bind-Value=CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                        <ValidationMessage For="() => CreateInstructorCommand.FirstName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="HireDate">@Localizer["HireDate"]</label>
+                        <InputDate @bind-Value=CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                        <ValidationMessage For="() => CreateInstructorCommand.HireDate" />
+                    </div>
+                    <div>
+                        <InputFile id="fileInput" OnChange="UploadFiles" hidden />
+                        <MudButton HtmlTag="label"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Filled.CloudUpload"
+                                   for="fileInput">
+                            @Localizer["UploadFiles"]
+                        </MudButton>
+                        @if (files != null)
+                        {
+                            <MudList>
+                                @foreach (var file in files)
+                                {
+                                    <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
+                                        @file.Name <code>@file.Size bytes</code>
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        }
+                    </div>
+                    <MudButton ButtonType="ButtonType.Submit"
+                               StartIcon="fas fa-save"
+                               Color="Color.Primary">@Localizer["Create"]</MudButton>
+                    <MudButton Color="Color.Primary" OnClick="Cancel">@Localizer["Cancel"]</MudButton>
+                </EditForm>
             </div>
         </div>
     </DialogContent>
