@@ -10,27 +10,26 @@ namespace WebUI.Client.Pages.Courses
 {
     public partial class CourseEdit
     {
+        [Parameter]
+        public int CourseId { get; set; }
+
         [Inject]
         public ICourseService CourseService { get; set; }
 
         [Inject]
         public IDepartmentService DepartmentService { get; set; }
 
-        [Parameter]
-        public string CourseId { get; set; }
-
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        public UpdateCourseCommand UpdateCourseCommand { get; set; } = new UpdateCourseCommand();
-
-        public DepartmentsLookupVM DepartmentsLookup { get; set; }
-
         public bool ErrorVisible { get; set; }
+
+        public UpdateCourseCommand UpdateCourseCommand { get; set; } = new UpdateCourseCommand();
+        public DepartmentsLookupVM DepartmentsLookup { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
-            var course = await CourseService.GetAsync(CourseId);
+            var course = await CourseService.GetAsync(CourseId.ToString());
 
             UpdateCourseCommand.CourseID = course.CourseID;
             UpdateCourseCommand.Credits = course.Credits;
