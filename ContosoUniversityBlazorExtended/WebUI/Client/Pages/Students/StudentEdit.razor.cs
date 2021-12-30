@@ -22,7 +22,7 @@ namespace WebUI.Client.Pages.Students
         public IStudentService StudentService { get; set; }
 
         [Parameter]
-        public string StudentId { get; set; }
+        public int StudentId { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
@@ -35,7 +35,7 @@ namespace WebUI.Client.Pages.Students
 
         protected override async Task OnParametersSetAsync()
         {
-            var student = await StudentService.GetAsync(StudentId);
+            var student = await StudentService.GetAsync(StudentId.ToString());
 
             UpdateStudentCommand.StudentID = student.StudentID;
             UpdateStudentCommand.FirstName = student.FirstName;
