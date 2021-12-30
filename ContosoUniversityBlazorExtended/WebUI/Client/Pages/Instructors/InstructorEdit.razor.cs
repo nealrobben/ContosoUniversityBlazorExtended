@@ -22,7 +22,7 @@ namespace WebUI.Client.Pages.Instructors
         public IInstructorService InstructorService { get; set; }
 
         [Parameter]
-        public string InstructorId { get; set; }
+        public int InstructorId { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
@@ -35,7 +35,7 @@ namespace WebUI.Client.Pages.Instructors
 
         protected override async Task OnParametersSetAsync()
         {
-            var instructor = await InstructorService.GetAsync(InstructorId);
+            var instructor = await InstructorService.GetAsync(InstructorId.ToString());
 
             UpdateInstructorCommand.InstructorID = instructor.InstructorID;
             UpdateInstructorCommand.FirstName = instructor.FirstName;
