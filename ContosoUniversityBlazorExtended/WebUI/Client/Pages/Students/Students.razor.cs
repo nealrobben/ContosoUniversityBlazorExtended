@@ -82,7 +82,7 @@ namespace WebUI.Client.Pages.Students
         public async Task OpenStudentEdit(int studentId)
         {
             var parameters = new DialogParameters();
-            parameters.Add("StudentId", studentId.ToString());
+            parameters.Add("StudentId", studentId);
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large };
 
