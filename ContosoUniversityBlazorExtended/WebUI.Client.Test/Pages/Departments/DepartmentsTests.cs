@@ -109,5 +109,39 @@ namespace WebUI.Client.Test.Pages.Departments
 
             Assert.NotEmpty(dialog.Markup.Trim());
         }
+
+        [Fact]
+        public void Departments_ClickEditButton_OpensDialog()
+        {
+            var departmentsOverviewVM = new DepartmentsOverviewVM
+            {
+                Departments =
+                {
+                    new DepartmentVM
+                    {
+                        DepartmentID = 1,
+                        Name = "Department x"
+                    }
+                }
+            };
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(departmentsOverviewVM);
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Departments.Departments>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".OpenDepartmentEditButton")[0].Should().NotBeNull();
+            comp.FindAll(".OpenDepartmentEditButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+        }
     }
 }
