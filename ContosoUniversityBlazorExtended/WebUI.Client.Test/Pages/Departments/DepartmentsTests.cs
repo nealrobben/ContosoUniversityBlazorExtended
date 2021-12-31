@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
+using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using Xunit;
 
@@ -76,6 +77,37 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.Find("#BackToFullListButton").Click();
 
             A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Departments_ClickDetailsButton_OpensDialog()
+        {
+            var departmentsOverviewVM = new DepartmentsOverviewVM
+            {
+                Departments =
+                {
+                    new DepartmentVM
+                    {
+                        DepartmentID = 1,
+                        Name = "Department x"
+                    }
+                }
+            };
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(departmentsOverviewVM);
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Departments.Departments>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".OpenDepartmentDetailsButton")[0].Should().NotBeNull();
+            comp.FindAll(".OpenDepartmentDetailsButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
         }
     }
 }

@@ -59,7 +59,8 @@
                            Title="@Localizer["Details"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-eye"
-                           Color="Color.Primary" Size="Size.Small">
+                           Color="Color.Primary" Size="Size.Small"
+                           Class="OpenDepartmentDetailsButton">
             </MudIconButton>
             <MudIconButton OnClick=@(e => DeleteDepartment(context.DepartmentID, $"{context.Name}"))
                            Title="@Localizer["Delete"]"
