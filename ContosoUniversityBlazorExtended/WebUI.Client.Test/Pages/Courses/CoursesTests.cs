@@ -47,5 +47,35 @@ namespace WebUI.Client.Test.Pages.Courses
 
             Assert.NotEmpty(dialog.Markup.Trim());
         }
+
+        [Fact]
+        public void Courses_ClickSearch_CallsCourseService()
+        {
+            var fakeCourseService = A.Fake<ICourseService>();
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var comp = Context.RenderComponent<Client.Pages.Courses.Courses>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("#SearchButton").Should().NotBeNull();
+            comp.Find("#SearchButton").Click();
+
+            A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Courses_ClickBackToFullList_CallsCourseService()
+        {
+            var fakeCourseService = A.Fake<ICourseService>();
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var comp = Context.RenderComponent<Client.Pages.Courses.Courses>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("#BackToFullListButton").Should().NotBeNull();
+            comp.Find("#BackToFullListButton").Click();
+
+            A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).MustHaveHappened();
+        }
     }
 }
