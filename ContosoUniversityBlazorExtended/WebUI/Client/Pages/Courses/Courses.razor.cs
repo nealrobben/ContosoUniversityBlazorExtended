@@ -71,7 +71,7 @@ namespace WebUI.Client.Pages.Courses
         public async Task OpenCourseEdit(int courseId)
         {
             var parameters = new DialogParameters();
-            parameters.Add("CourseId", courseId.ToString());
+            parameters.Add("CourseId", courseId);
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall };
 

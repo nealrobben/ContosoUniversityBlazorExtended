@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
+using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using Xunit;
 
@@ -76,6 +77,71 @@ namespace WebUI.Client.Test.Pages.Courses
             comp.Find("#BackToFullListButton").Click();
 
             A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Courses_ClickDetailsButton_OpensDialog()
+        {
+            var coursesOverviewVM = new CoursesOverviewVM
+            {
+                Courses =
+                {
+                    new CourseVM
+                    {
+                        CourseID = 1,
+                        Title = "Department x"
+                    }
+                }
+            };
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(coursesOverviewVM);
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Courses.Courses>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".OpenCourseDetailsButton")[0].Should().NotBeNull();
+            comp.FindAll(".OpenCourseDetailsButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+        }
+
+        [Fact]
+        public void Courses_ClickEditButton_OpensDialog()
+        {
+            var coursesOverviewVM = new CoursesOverviewVM
+            {
+                Courses =
+                {
+                    new CourseVM
+                    {
+                        CourseID = 1,
+                        Title = "Department x"
+                    }
+                }
+            };
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(coursesOverviewVM);
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Courses.Courses>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".OpenCourseEditButton")[0].Should().NotBeNull();
+            comp.FindAll(".OpenCourseEditButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
         }
     }
 }
