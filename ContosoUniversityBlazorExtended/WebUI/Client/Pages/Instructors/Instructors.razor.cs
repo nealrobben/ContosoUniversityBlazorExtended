@@ -85,7 +85,7 @@ namespace WebUI.Client.Pages.Instructors
         public async Task OpenInstructorEdit(int instructorId)
         {
             var parameters = new DialogParameters();
-            parameters.Add("InstructorId", instructorId.ToString());
+            parameters.Add("InstructorId", instructorId);
 
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Medium };
 

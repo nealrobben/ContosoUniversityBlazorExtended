@@ -61,13 +61,15 @@
                            Title="@Localizer["Edit"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-edit"
-                           Color="Color.Primary" Size="Size.Small">
+                           Color="Color.Primary" Size="Size.Small"
+                           Class="OpenInstructorEditButton">
             </MudIconButton>
             <MudIconButton OnClick="(e => OpenInstructorDetails(context.InstructorID))"
                            Title="@Localizer["Details"]"
                            Variant="Variant.Filled"
                            Icon="fas fa-eye"
-                           Color="Color.Primary" Size="Size.Small">
+                           Color="Color.Primary" Size="Size.Small"
+                           Class="OpenInstructorDetailsButton">
             </MudIconButton>
             <MudIconButton OnClick=@(e =>
                 DeleteInstructor(context.InstructorID, $"{context.FirstName} {context.LastName}"))
