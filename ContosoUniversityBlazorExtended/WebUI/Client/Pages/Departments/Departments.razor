@@ -20,18 +20,20 @@
         <MudText Typo="Typo.h6">@Localizer["Departments"]</MudText>
         <MudSpacer />
         <MudTextField T="string" Placeholder="@Localizer["Search"]" Adornment="Adornment.Start" @bind-Value="@DepartmentsOverview.MetaData.SearchString"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" id="SearchValue"></MudTextField>
         <MudIconButton OnClick="Filter"
                        Title="@Localizer["Search"]"
                        Variant="Variant.Filled"
                        Icon="fas fa-search"
-                       Color="Color.Primary">
+                       Color="Color.Primary"
+                       id="SearchButton">
         </MudIconButton>
         <MudIconButton OnClick="BackToFullList"
                        Title="@Localizer["BackToFullList"]"
                        Variant="Variant.Filled"
                        Icon="fas fa-list"
-                       Color="Color.Primary">
+                       Color="Color.Primary"
+                       id="BackToFullListButton">
         </MudIconButton>
     </ToolBarContent>
     <HeaderContent>

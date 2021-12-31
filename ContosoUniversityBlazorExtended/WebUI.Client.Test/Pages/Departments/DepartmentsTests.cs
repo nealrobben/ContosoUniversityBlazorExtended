@@ -13,7 +13,7 @@ namespace WebUI.Client.Test.Pages.Departments
     public class DepartmentsTests : BunitTestBase
     {
         [Fact]
-        public async Task Departments_ClickCreateButton_OpensDialog()
+        public void Departments_ClickCreateButton_OpensDialog()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
             Context.Services.AddScoped(x => fakeDepartmentService);
@@ -46,6 +46,36 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.Find("#CreateButton").Click();
 
             Assert.NotEmpty(dialog.Markup.Trim());
+        }
+
+        [Fact]
+        public void Departments_ClickSearch_CallsDepartmentService()
+        {
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var comp = Context.RenderComponent<Client.Pages.Departments.Departments>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("#SearchButton").Should().NotBeNull();
+            comp.Find("#SearchButton").Click();
+
+            A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Departments_ClickBackToFullList_CallsDepartmentService()
+        {
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var comp = Context.RenderComponent<Client.Pages.Departments.Departments>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.Find("#BackToFullListButton").Should().NotBeNull();
+            comp.Find("#BackToFullListButton").Click();
+
+            A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).MustHaveHappened();
         }
     }
 }
