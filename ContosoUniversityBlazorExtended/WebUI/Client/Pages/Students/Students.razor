@@ -1,7 +1,7 @@
 ﻿@using WebUI.Shared.Students.Queries.GetStudentsOverview
 @page "/students"
 
-<h1>@Localizer["Students"]</h1>
+<h2>@Localizer["Students"]</h2>
 <PageTitle>CU - @Localizer["Students"]</PageTitle>
 
 <p>
@@ -9,7 +9,8 @@
                    Title="@Localizer["Create"]"
                    Variant="Variant.Filled"
                    Icon="fas fa-plus-circle"
-                   Color="Color.Primary">
+                   Color="Color.Primary"
+                   id="CreateButton">
     </MudIconButton>
 </p>
 
