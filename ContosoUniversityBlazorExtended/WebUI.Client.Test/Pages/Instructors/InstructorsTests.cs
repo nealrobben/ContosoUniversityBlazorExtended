@@ -161,5 +161,94 @@ namespace WebUI.Client.Test.Pages.Instructors
 
             Assert.NotEmpty(dialog.Markup.Trim());
         }
+
+        [Fact]
+        public void Instructor_ClickDeleteButton_ShowsConfirmationDialog()
+        {
+            var instructorsOverviewVM = new InstructorsOverviewVM
+            {
+                Instructors =
+                {
+                    new InstructorVM
+                    {
+                        InstructorID = 1,
+                        FirstName = "Instructor",
+                        LastName = "X"
+                    }
+                }
+            };
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(instructorsOverviewVM);
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var fakeStudentService = A.Fake<IStudentService>();
+            Context.Services.AddScoped(x => fakeStudentService);
+
+            var fakeUploadService = A.Fake<IFileuploadService>();
+            Context.Services.AddScoped(x => fakeUploadService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Instructors.Instructors>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".InstructorDeleteButton")[0].Should().NotBeNull();
+            comp.FindAll(".InstructorDeleteButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+
+            dialog.Find(".mud-dialog-content").TrimmedText().Should().Be("Are you sure you want to delete Instructor Instructor X?");
+        }
+
+        [Fact]
+        public void Instructor_ClickDeleteButtonAndConfirm_InstructorServiceShouldBeCalled()
+        {
+            var instructorsOverviewVM = new InstructorsOverviewVM
+            {
+                Instructors =
+                {
+                    new InstructorVM
+                    {
+                        InstructorID = 1,
+                        FirstName = "Instructor",
+                        LastName = "X"
+                    }
+                }
+            };
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(instructorsOverviewVM);
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var fakeStudentService = A.Fake<IStudentService>();
+            Context.Services.AddScoped(x => fakeStudentService);
+
+            var fakeUploadService = A.Fake<IFileuploadService>();
+            Context.Services.AddScoped(x => fakeUploadService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Instructors.Instructors>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".InstructorDeleteButton")[0].Should().NotBeNull();
+            comp.FindAll(".InstructorDeleteButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+
+            dialog.FindAll("button")[1].Should().NotBeNull();
+            dialog.FindAll("button")[1].Click();
+
+            A.CallTo(() => fakeInstructorService.DeleteAsync(A<string>.Ignored)).MustHaveHappened();
+        }
     }
 }
