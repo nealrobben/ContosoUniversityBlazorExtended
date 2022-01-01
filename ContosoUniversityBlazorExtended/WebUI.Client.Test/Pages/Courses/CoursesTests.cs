@@ -26,7 +26,7 @@ namespace WebUI.Client.Test.Pages.Courses
                     new DepartmentLookupVM
                     {
                         DepartmentID = 1,
-                        Name = "Department x"
+                        Name = "Course x"
                     }
                 }
             };
@@ -89,7 +89,7 @@ namespace WebUI.Client.Test.Pages.Courses
                     new CourseVM
                     {
                         CourseID = 1,
-                        Title = "Department x"
+                        Title = "Course x"
                     }
                 }
             };
@@ -120,7 +120,7 @@ namespace WebUI.Client.Test.Pages.Courses
                     new CourseVM
                     {
                         CourseID = 1,
-                        Title = "Department x"
+                        Title = "Course x"
                     }
                 }
             };
@@ -142,6 +142,81 @@ namespace WebUI.Client.Test.Pages.Courses
             comp.FindAll(".OpenCourseEditButton")[0].Click();
 
             Assert.NotEmpty(dialog.Markup.Trim());
+        }
+
+        [Fact]
+        public void Courses_ClickDeleteButton_ShowsConfirmationDialog()
+        {
+            var coursesOverviewVM = new CoursesOverviewVM
+            {
+                Courses =
+                {
+                    new CourseVM
+                    {
+                        CourseID = 1,
+                        Title = "Course x"
+                    }
+                }
+            };
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(coursesOverviewVM);
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Courses.Courses>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".CourseDeleteButton")[0].Should().NotBeNull();
+            comp.FindAll(".CourseDeleteButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+
+            dialog.Find(".mud-dialog-content").TrimmedText().Should().Be("Are you sure you want to delete the course Course x?");
+        }
+
+        [Fact]
+        public void Courses_ClickDeleteButtonAndConfirm_CourseServiceShouldBeCalled()
+        {
+            var coursesOverviewVM = new CoursesOverviewVM
+            {
+                Courses =
+                {
+                    new CourseVM
+                    {
+                        CourseID = 1,
+                        Title = "Course x"
+                    }
+                }
+            };
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            A.CallTo(() => fakeCourseService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(coursesOverviewVM);
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Courses.Courses>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".CourseDeleteButton")[0].Should().NotBeNull();
+            comp.FindAll(".CourseDeleteButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+
+            dialog.FindAll("button")[1].Should().NotBeNull();
+            dialog.FindAll("button")[1].Click();
+
+            A.CallTo(() => fakeCourseService.DeleteAsync(A<string>.Ignored)).MustHaveHappened();
         }
     }
 }

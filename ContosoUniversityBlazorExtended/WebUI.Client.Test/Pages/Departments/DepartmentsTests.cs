@@ -213,8 +213,6 @@ namespace WebUI.Client.Test.Pages.Departments
 
             Assert.NotEmpty(dialog.Markup.Trim());
 
-            dialog.Find(".mud-dialog-content").TrimmedText().Should().Be("Are you sure you want to delete the department Department x?");
-
             dialog.FindAll("button")[1].Should().NotBeNull();
             dialog.FindAll("button")[1].Click();
 
