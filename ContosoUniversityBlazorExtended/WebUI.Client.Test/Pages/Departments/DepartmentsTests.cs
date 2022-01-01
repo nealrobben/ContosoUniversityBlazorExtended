@@ -143,5 +143,82 @@ namespace WebUI.Client.Test.Pages.Departments
 
             Assert.NotEmpty(dialog.Markup.Trim());
         }
+
+        [Fact]
+        public void Departments_ClickDeleteButton_ShowsConfirmationDialog()
+        {
+            var departmentsOverviewVM = new DepartmentsOverviewVM
+            {
+                Departments =
+                {
+                    new DepartmentVM
+                    {
+                        DepartmentID = 1,
+                        Name = "Department x"
+                    }
+                }
+            };
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(departmentsOverviewVM);
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Departments.Departments>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".DepartmentDeleteButton")[0].Should().NotBeNull();
+            comp.FindAll(".DepartmentDeleteButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+
+            dialog.Find(".mud-dialog-content").TrimmedText().Should().Be("Are you sure you want to delete the department Department x?");
+        }
+
+        [Fact]
+        public void Departments_ClickDeleteButtonAndConfirm_DepartmentServiceShouldBeCalled()
+        {
+            var departmentsOverviewVM = new DepartmentsOverviewVM
+            {
+                Departments =
+                {
+                    new DepartmentVM
+                    {
+                        DepartmentID = 1,
+                        Name = "Department x"
+                    }
+                }
+            };
+
+            var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(departmentsOverviewVM);
+            Context.Services.AddScoped(x => fakeDepartmentService);
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var dialog = Context.RenderComponent<MudDialogProvider>();
+            Assert.Empty(dialog.Markup.Trim());
+
+            var comp = Context.RenderComponent<Client.Pages.Departments.Departments>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".DepartmentDeleteButton")[0].Should().NotBeNull();
+            comp.FindAll(".DepartmentDeleteButton")[0].Click();
+
+            Assert.NotEmpty(dialog.Markup.Trim());
+
+            dialog.Find(".mud-dialog-content").TrimmedText().Should().Be("Are you sure you want to delete the department Department x?");
+
+            dialog.FindAll("button")[1].Should().NotBeNull();
+            dialog.FindAll("button")[1].Click();
+
+            A.CallTo(() => fakeDepartmentService.DeleteAsync(A<string>.Ignored)).MustHaveHappened();
+        }
     }
 }
