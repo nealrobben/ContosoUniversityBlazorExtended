@@ -7,6 +7,7 @@ using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
 using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
+using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 using Xunit;
 
 namespace WebUI.Client.Test.Pages.Instructors
@@ -247,7 +248,7 @@ namespace WebUI.Client.Test.Pages.Instructors
         }
 
         [Fact]
-        public void Instructor_ClickSelectButton_ShowsConfirmationDialog()
+        public void Instructor_ClickSelectButton_ShowsCoursesForInstructor()
         {
             var instructorsOverviewVM = new InstructorsOverviewVM
             {
@@ -295,6 +296,73 @@ namespace WebUI.Client.Test.Pages.Instructors
             comp.FindAll(".InstructorSelectButton")[0].Click();
 
             comp.FindAll("#CoursesForInstructorTable").Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public void Instructor_ClickSelectButtonOnCoursesForInstructor_ShowsStudentsForCourse()
+        {
+            var instructorsOverviewVM = new InstructorsOverviewVM
+            {
+                Instructors =
+                {
+                    new InstructorVM
+                    {
+                        InstructorID = 1,
+                        FirstName = "Instructor",
+                        LastName = "X"
+                    }
+                }
+            };
+
+            var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetAllAsync(A<string>.Ignored, A<int?>.Ignored, A<string>.Ignored, A<int?>.Ignored)).Returns(instructorsOverviewVM);
+            Context.Services.AddScoped(x => fakeInstructorService);
+
+            var coursesForInstructorOverview = new CoursesForInstructorOverviewVM
+            {
+                Courses =
+                {
+                    new CourseForInstructorVM
+                    {
+                        CourseID = 2,
+                        Title = "Course X",
+                        DepartmentName = "Department X"
+                    }
+                }
+            };
+
+            var fakeCourseService = A.Fake<ICourseService>();
+            A.CallTo(() => fakeCourseService.GetCoursesForInstructor("1")).Returns(coursesForInstructorOverview);
+            Context.Services.AddScoped(x => fakeCourseService);
+
+            var studentsForCourseVM = new StudentsForCourseVM
+            {
+                Students =
+                {
+                    new StudentForCourseVM
+                    {
+                        StudentName = "Student X",
+                        StudentGrade = ContosoUniversityBlazor.Domain.Enums.Grade.A
+                    }
+                }
+            };
+
+            var fakeStudentService = A.Fake<IStudentService>();
+            A.CallTo(() => fakeStudentService.GetStudentsForCourse("2")).Returns(studentsForCourseVM);
+            Context.Services.AddScoped(x => fakeStudentService);
+
+            var comp = Context.RenderComponent<Client.Pages.Instructors.Instructors>();
+            Assert.NotEmpty(comp.Markup.Trim());
+
+            comp.FindAll(".InstructorSelectButton")[0].Should().NotBeNull();
+            comp.FindAll(".InstructorSelectButton")[0].Click();
+
+            comp.FindAll("#StudentsForCourse").Should().BeEmpty();
+
+            comp.FindAll(".CourseSelectButton")[0].Should().NotBeNull();
+            comp.FindAll(".CourseSelectButton")[0].Click();
+
+            comp.FindAll("#StudentsForCourse").Should().NotBeEmpty();
         }
     }
 }
