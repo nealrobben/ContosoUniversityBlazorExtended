@@ -4,7 +4,7 @@
      <h3>@Localizer["CoursesTaughtByInstructor"]</h3>
 
     <MudTable Items="CourseForInstructorOverview.Courses" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm"
-              RowClassFunc="@CoursesSelectRowClassFunc">
+              RowClassFunc="@CoursesSelectRowClassFunc" id="CoursesForInstructorTable">
         <HeaderContent>
             <MudTh></MudTh>
             <MudTh>@Localizer["CourseID"]</MudTh>
