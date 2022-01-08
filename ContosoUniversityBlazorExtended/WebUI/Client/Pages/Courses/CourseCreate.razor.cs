@@ -33,6 +33,7 @@ namespace WebUI.Client.Pages.Courses
         {
             DepartmentsLookup = await DepartmentService.GetLookupAsync();
             CreateCourseCommand.DepartmentID = DepartmentsLookup.Departments.First().DepartmentID;
+            StateHasChanged();
         }
 
         public async Task FormSubmitted(EditContext editContext)
