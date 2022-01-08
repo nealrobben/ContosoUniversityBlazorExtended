@@ -27,15 +27,16 @@
                     </div>
                     <div class="form-group">
                         <label for="InstructorID">@Localizer["AdministratorName"]</label>
-                        <CustomInputSelect @bind-Value=UpdateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                        <MudSelect T="int" AnchorOrigin="Origin.BottomCenter" @bind-Value=UpdateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
                             @if (InstructorsLookup != null)
                             {
                                 @foreach (var instructor in InstructorsLookup.Instructors)
                                 {
-                                    <option value="@instructor.ID">@instructor.FullName</option>
+                                    <MudSelectItem Value="@instructor.ID">@instructor.FullName</MudSelectItem>
                                 }
                             }
-                        </CustomInputSelect>
+
+                        </MudSelect>
                         <ValidationMessage For="() => UpdateDepartmentCommand.InstructorID" />
                     </div>
                     <MudButton ButtonType="ButtonType.Submit"
