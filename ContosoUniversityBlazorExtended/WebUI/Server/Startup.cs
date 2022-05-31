@@ -1,19 +1,15 @@
 using ContosoUniversityBlazor.Application;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
 using ContosoUniversityBlazor.Infrastructure;
-using ContosoUniversityBlazor.Infrastructure.Persistence;
 using ContosoUniversityBlazor.Persistence;
 using ContosoUniversityBlazor.WebUI.Filters;
 using ContosoUniversityBlazor.WebUI.Services;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
-using WebUI.Server.Validators.Departments;
 using WebUI.Shared;
 
 namespace WebUI.Server
@@ -44,11 +40,7 @@ namespace WebUI.Server
                 .AddDbContextCheck<SchoolContext>();
 
             services.AddControllersWithViews(options =>
-                options.Filters.Add(new ApiExceptionFilter()))
-                .AddFluentValidation(config =>
-                config.RegisterValidatorsFromAssemblyContaining<CreateDepartmentValidator>())
-            .AddJsonOptions(config =>
-                config.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+                options.Filters.Add(new ApiExceptionFilter()));
 
             services.AddRazorPages();
 

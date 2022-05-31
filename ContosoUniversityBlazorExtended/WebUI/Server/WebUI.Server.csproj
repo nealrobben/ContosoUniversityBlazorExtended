@@ -48,9 +48,7 @@
 
   <ItemGroup>
     <Folder Include="Img\ProfilePictures\" />
-    <Folder Include="Validators\Courses\" />
-    <Folder Include="Validators\Instructors\" />
-    <Folder Include="Validators\Students\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>

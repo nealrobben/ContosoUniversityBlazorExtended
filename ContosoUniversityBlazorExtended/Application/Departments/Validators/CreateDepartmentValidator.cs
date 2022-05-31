@@ -1,17 +1,17 @@
-﻿using ContosoUniversityBlazor.Persistence;
+﻿using ContosoUniversityBlazor.Application.Common.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 
-namespace WebUI.Server.Validators.Departments
+namespace Application.Departments.Validators
 {
-    public class CreateDepartmentValidator : Shared.Departments.Validators.CreateDepartmentValidator
+    public class CreateDepartmentValidator : WebUI.Shared.Departments.Validators.CreateDepartmentValidator
     {
-        private readonly SchoolContext _context;
+        private readonly ISchoolContext _context;
 
-        public CreateDepartmentValidator(SchoolContext context) : base()
+        public CreateDepartmentValidator(ISchoolContext context) : base()
         {
             _context = context;
 
@@ -23,7 +23,7 @@ namespace WebUI.Server.Validators.Departments
         public async Task<bool> BeUniqueName(CreateDepartmentCommand createDepartment, string name, CancellationToken cancellationToken)
         {
             return await _context.Departments
-                .AllAsync(x => x.Name != name, cancellationToken);
+                .AllAsync(x => !x.Name.Equals(name), cancellationToken);
         }
     }
 }
