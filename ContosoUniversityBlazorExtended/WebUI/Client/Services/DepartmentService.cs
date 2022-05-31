@@ -6,6 +6,8 @@ using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
+using Microsoft.AspNetCore.Mvc;
+using WebUI.Client.Extensions;
 
 namespace WebUI.Client.Services
 {
@@ -78,6 +80,14 @@ namespace WebUI.Client.Services
         public async Task CreateAsync(CreateDepartmentCommand createCommand)
         {
             var result = await _http.PostAsJsonAsync(_departmentsEndoint, createCommand);
+
+            var status = (int)result.StatusCode;
+
+            if(status == 400)
+            {
+                var responseData_ = result.Content == null ? null : await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                throw new ApiException("The HTTP status code of the response was not expected (" + status + ").", status, responseData_, null, null);
+            }      
 
             result.EnsureSuccessStatusCode();
         }

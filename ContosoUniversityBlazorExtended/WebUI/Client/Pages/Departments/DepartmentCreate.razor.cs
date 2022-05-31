@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Mvc;
 using MudBlazor;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 using WebUI.Client.Services;
 using WebUI.Client.Shared;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
@@ -51,10 +54,15 @@ namespace WebUI.Client.Pages.Departments
                     CreateDepartmentCommand = new CreateDepartmentCommand();
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                //catch (ApiException ex)
-                //{
+                catch (ApiException ex)
+                {
+                    var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(ex.Response);
 
-                //}
+                    if (problemDetails != null)
+                    {
+                        _customValidation.DisplayErrors(problemDetails.Errors);
+                    }
+                }
                 catch (Exception e)
                 {
                     ErrorVisible = true;
