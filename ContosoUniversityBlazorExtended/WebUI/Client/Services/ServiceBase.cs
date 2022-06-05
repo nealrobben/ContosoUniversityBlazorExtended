@@ -57,5 +57,12 @@ namespace WebUI.Client.Services
         {
             return await _http.GetFromJsonAsync<TDetailsVM>($"{Endpoint}/{id}");
         }
+
+        public async Task DeleteAsync(string id)
+        {
+            var result = await _http.DeleteAsync($"{Endpoint}/{id}");
+
+            result.EnsureSuccessStatusCode();
+        }
     }
 }

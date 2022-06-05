@@ -28,13 +28,6 @@ namespace WebUI.Client.Services
         {
         }
 
-        public async Task DeleteAsync(string id)
-        {
-            var result = await _http.DeleteAsync($"{Endpoint}/{id}");
-
-            result.EnsureSuccessStatusCode();
-        }
-
         public async Task CreateAsync(CreateDepartmentCommand createCommand)
         {
             var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
