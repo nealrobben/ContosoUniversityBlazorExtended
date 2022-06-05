@@ -5,6 +5,15 @@ using WebUI.Client.Extensions;
 
 namespace WebUI.Client.Services
 {
+    public interface IServiceBase<TOverviewVM, TDetailsVM, TCreateCommand, TUpdateCommand>
+    {
+        Task CreateAsync(TCreateCommand createCommand);
+        Task DeleteAsync(string id);
+        Task<TOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
+        Task<TDetailsVM> GetAsync(string id);
+        Task UpdateAsync(TUpdateCommand createCommand);
+    }
+
     public abstract class ServiceBase<TOverviewVM, TDetailsVM, TCreateCommand, TUpdateCommand>
     {
         protected const string ApiBase = "/api";

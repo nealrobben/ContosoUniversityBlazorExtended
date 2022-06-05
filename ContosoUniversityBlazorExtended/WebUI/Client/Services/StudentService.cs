@@ -9,17 +9,16 @@ using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 
 namespace WebUI.Client.Services
 {
-    public interface IStudentService
+    public interface IStudentService 
+        : IServiceBase<StudentsOverviewVM, StudentDetailsVM, 
+            CreateStudentCommand, UpdateStudentCommand>
     {
-        Task CreateAsync(CreateStudentCommand createCommand);
-        Task DeleteAsync(string id);
-        Task<StudentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize);
-        Task<StudentDetailsVM> GetAsync(string id);
         Task<StudentsForCourseVM> GetStudentsForCourse(string courseId);
-        Task UpdateAsync(UpdateStudentCommand createCommand);
     }
 
-    public class StudentService : ServiceBase<StudentsOverviewVM, StudentDetailsVM, CreateStudentCommand, UpdateStudentCommand>, IStudentService
+    public class StudentService 
+        : ServiceBase<StudentsOverviewVM, StudentDetailsVM, 
+            CreateStudentCommand, UpdateStudentCommand>, IStudentService
     {
         protected override string ControllerName => "students";
 
