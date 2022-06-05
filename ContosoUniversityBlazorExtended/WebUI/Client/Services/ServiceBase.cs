@@ -5,7 +5,7 @@ using WebUI.Client.Extensions;
 
 namespace WebUI.Client.Services
 {
-    public abstract class ServiceBase<TOverviewVM, TDetailsVM, TCreateCommand>
+    public abstract class ServiceBase<TOverviewVM, TDetailsVM, TCreateCommand, TUpdateCommand>
     {
         protected const string ApiBase = "/api";
         protected abstract string ControllerName { get; }
@@ -77,6 +77,13 @@ namespace WebUI.Client.Services
                 var responseData_ = result.Content == null ? null : await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 throw new ApiException("The HTTP status code of the response was not expected (" + status + ").", status, responseData_, null, null);
             }
+
+            result.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateAsync(TUpdateCommand createCommand)
+        {
+            var result = await _http.PutAsJsonAsync(Endpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
