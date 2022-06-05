@@ -20,9 +20,8 @@ namespace WebUI.Client.Services
         : ServiceBase<InstructorsOverviewVM, InstructorDetailsVM, 
             CreateInstructorCommand, UpdateInstructorCommand>, IInstructorService
     {
-        protected override string ControllerName => "instructors";
-
-        public InstructorService(HttpClient http) : base(http)
+        public InstructorService(HttpClient http) 
+            : base(http, "instructors")
         {
         }
 

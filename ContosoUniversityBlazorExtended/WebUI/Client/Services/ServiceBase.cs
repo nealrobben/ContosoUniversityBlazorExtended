@@ -22,14 +22,15 @@ namespace WebUI.Client.Services
         private const string PageSizeParameterName = "pageSize";
 
         protected const string ApiBase = "/api";
-        protected abstract string ControllerName { get; }
-        protected string Endpoint => $"{ApiBase}/{ControllerName}";
+        private string _controllerName = "";
+        protected string Endpoint => $"{ApiBase}/{_controllerName}";
 
         protected HttpClient _http;
 
-        public ServiceBase(HttpClient http)
+        public ServiceBase(HttpClient http, string controllerName)
         {
             _http = http;
+            _controllerName = controllerName;
         }
 
         public async Task<TOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)

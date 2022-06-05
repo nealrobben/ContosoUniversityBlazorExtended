@@ -20,9 +20,8 @@ namespace WebUI.Client.Services
         : ServiceBase<StudentsOverviewVM, StudentDetailsVM, 
             CreateStudentCommand, UpdateStudentCommand>, IStudentService
     {
-        protected override string ControllerName => "students";
-
-        public StudentService(HttpClient http) : base(http)
+        public StudentService(HttpClient http) 
+            : base(http, "students")
         {
         }
 

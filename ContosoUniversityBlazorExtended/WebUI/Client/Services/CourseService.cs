@@ -20,9 +20,8 @@ namespace WebUI.Client.Services
         : ServiceBase<CoursesOverviewVM, CourseDetailVM, 
             CreateCourseCommand, UpdateCourseCommand>, ICourseService
     {
-        protected override string ControllerName => "courses";
-
-        public CourseService(HttpClient http) : base(http)
+        public CourseService(HttpClient http) 
+            : base(http, "courses")
         {
         }
 

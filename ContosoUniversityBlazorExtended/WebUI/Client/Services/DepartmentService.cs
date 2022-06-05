@@ -20,9 +20,8 @@ namespace WebUI.Client.Services
         : ServiceBase<DepartmentsOverviewVM, DepartmentDetailVM, 
             CreateDepartmentCommand, UpdateDepartmentCommand>, IDepartmentService
     {
-        protected override string ControllerName => "departments";
-
-        public DepartmentService(HttpClient http) : base(http)
+        public DepartmentService(HttpClient http) 
+            : base(http, "departments")
         {
         }
 
