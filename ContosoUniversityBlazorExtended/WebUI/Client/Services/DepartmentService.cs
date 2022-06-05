@@ -23,7 +23,7 @@ namespace WebUI.Client.Services
 
     public class DepartmentService : ServiceBase, IDepartmentService
     {
-        private const string _departmentsEndoint = $"{apiBase}/departments";
+        protected override string ControllerName => "departments";
 
         public DepartmentService(HttpClient http) : base(http)
         {
@@ -31,7 +31,7 @@ namespace WebUI.Client.Services
 
         public async Task<DepartmentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            var url = _departmentsEndoint;
+            var url = Endpoint;
 
             if (pageNumber != null)
             {
@@ -67,19 +67,19 @@ namespace WebUI.Client.Services
 
         public async Task<DepartmentDetailVM> GetAsync(string id)
         {
-            return await _http.GetFromJsonAsync<DepartmentDetailVM>($"{_departmentsEndoint}/{id}");
+            return await _http.GetFromJsonAsync<DepartmentDetailVM>($"{Endpoint}/{id}");
         }
 
         public async Task DeleteAsync(string id)
         {
-            var result = await _http.DeleteAsync($"{_departmentsEndoint}/{id}");
+            var result = await _http.DeleteAsync($"{Endpoint}/{id}");
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task CreateAsync(CreateDepartmentCommand createCommand)
         {
-            var result = await _http.PostAsJsonAsync(_departmentsEndoint, createCommand);
+            var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
 
             var status = (int)result.StatusCode;
 
@@ -94,14 +94,14 @@ namespace WebUI.Client.Services
 
         public async Task UpdateAsync(UpdateDepartmentCommand createCommand)
         {
-            var result = await _http.PutAsJsonAsync(_departmentsEndoint, createCommand);
+            var result = await _http.PutAsJsonAsync(Endpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task<DepartmentsLookupVM> GetLookupAsync()
         {
-            return await _http.GetFromJsonAsync<DepartmentsLookupVM>($"{_departmentsEndoint}/lookup");
+            return await _http.GetFromJsonAsync<DepartmentsLookupVM>($"{Endpoint}/lookup");
         }
     }
 }

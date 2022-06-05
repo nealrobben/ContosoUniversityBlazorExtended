@@ -21,7 +21,7 @@ namespace WebUI.Client.Services
 
     public class CourseService : ServiceBase, ICourseService
     {
-        private const string _coursesEndpoint = $"{apiBase}/courses";
+        protected override string ControllerName => "courses";
 
         public CourseService(HttpClient http) : base(http)
         {
@@ -29,7 +29,7 @@ namespace WebUI.Client.Services
 
         public async Task<CoursesOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            var url = _coursesEndpoint;
+            var url = Endpoint;
 
             if (pageNumber != null)
             {
@@ -65,33 +65,33 @@ namespace WebUI.Client.Services
 
         public async Task<CourseDetailVM> GetAsync(string id)
         {
-            return await _http.GetFromJsonAsync<CourseDetailVM>($"{_coursesEndpoint}/{id}");
+            return await _http.GetFromJsonAsync<CourseDetailVM>($"{Endpoint}/{id}");
         }
 
         public async Task DeleteAsync(string id)
         {
-            var result = await _http.DeleteAsync($"{_coursesEndpoint}/{id}");
+            var result = await _http.DeleteAsync($"{Endpoint}/{id}");
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task CreateAsync(CreateCourseCommand createCommand)
         {
-            var result = await _http.PostAsJsonAsync(_coursesEndpoint, createCommand);
+            var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(UpdateCourseCommand createCommand)
         {
-            var result = await _http.PutAsJsonAsync(_coursesEndpoint, createCommand);
+            var result = await _http.PutAsJsonAsync(Endpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
 
         public async Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId)
         {
-            return await _http.GetFromJsonAsync<CoursesForInstructorOverviewVM>($"{_coursesEndpoint}/byinstructor/{instructorId}");
+            return await _http.GetFromJsonAsync<CoursesForInstructorOverviewVM>($"{Endpoint}/byinstructor/{instructorId}");
         }
     }
 }

@@ -2,9 +2,11 @@
 
 namespace WebUI.Client.Services
 {
-    public class ServiceBase
+    public abstract class ServiceBase
     {
-        protected const string apiBase = "/api";
+        protected const string ApiBase = "/api";
+        protected abstract string ControllerName { get; }
+        protected string Endpoint => $"{ApiBase}/{ControllerName}";
 
         protected HttpClient _http;
 

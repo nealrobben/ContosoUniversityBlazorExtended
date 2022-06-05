@@ -18,6 +18,8 @@ namespace WebUI.Client.Services
     {
         const long maxFileSize = 1024 * 1024 * 15;
 
+        protected override string ControllerName => "File";
+
         public FileuploadService(HttpClient http) : base(http)
         {
         }
@@ -33,7 +35,7 @@ namespace WebUI.Client.Services
 
                 content.Add(content: fileContent, name: "\"files\"", fileName: file.Name);
 
-                var response = await _http.PostAsync("/api/File", content);
+                var response = await _http.PostAsync(Endpoint, content);
 
                 var newUploadResults = await response.Content.ReadFromJsonAsync<IList<UploadResult>>();
 
