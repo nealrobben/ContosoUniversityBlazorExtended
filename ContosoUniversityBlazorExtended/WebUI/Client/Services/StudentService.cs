@@ -19,48 +19,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateStudentCommand createCommand);
     }
 
-    public class StudentService : ServiceBase, IStudentService
+    public class StudentService : ServiceBase<StudentsOverviewVM>, IStudentService
     {
         protected override string ControllerName => "students";
 
         public StudentService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task<StudentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
-        {
-            var url = Endpoint;
-
-            if (pageNumber != null)
-            {
-                url += $"?pageNumber={pageNumber}";
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                if (!url.Contains("?"))
-                    url += $"?searchString={searchString}";
-                else
-                    url += $"&searchString={searchString}";
-            }
-
-            if (!string.IsNullOrEmpty(sortOrder))
-            {
-                if (!url.Contains("?"))
-                    url += $"?sortOrder={sortOrder}";
-                else
-                    url += $"&sortOrder={sortOrder}";
-            }
-
-            if (pageSize != null)
-            {
-                if (!url.Contains("?"))
-                    url += $"?pageSize={pageSize}";
-                else
-                    url += $"&pageSize={pageSize}";
-            }
-
-            return await _http.GetFromJsonAsync<StudentsOverviewVM>(url);
         }
 
         public async Task<StudentDetailsVM> GetAsync(string id)

@@ -6,7 +6,6 @@ using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
-using Microsoft.AspNetCore.Mvc;
 using WebUI.Client.Extensions;
 
 namespace WebUI.Client.Services
@@ -21,48 +20,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateDepartmentCommand createCommand);
     }
 
-    public class DepartmentService : ServiceBase, IDepartmentService
+    public class DepartmentService : ServiceBase<DepartmentsOverviewVM>, IDepartmentService
     {
         protected override string ControllerName => "departments";
 
         public DepartmentService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task<DepartmentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
-        {
-            var url = Endpoint;
-
-            if (pageNumber != null)
-            {
-                url += $"?pageNumber={pageNumber}";
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                if (!url.Contains("?"))
-                    url += $"?searchString={searchString}";
-                else
-                    url += $"&searchString={searchString}";
-            }
-
-            if (!string.IsNullOrEmpty(sortOrder))
-            {
-                if (!url.Contains("?"))
-                    url += $"?sortOrder={sortOrder}";
-                else
-                    url += $"&sortOrder={sortOrder}";
-            }
-
-            if (pageSize != null)
-            {
-                if (!url.Contains("?"))
-                    url += $"?pageSize={pageSize}";
-                else
-                    url += $"&pageSize={pageSize}";
-            }
-
-            return await _http.GetFromJsonAsync<DepartmentsOverviewVM>(url);
         }
 
         public async Task<DepartmentDetailVM> GetAsync(string id)

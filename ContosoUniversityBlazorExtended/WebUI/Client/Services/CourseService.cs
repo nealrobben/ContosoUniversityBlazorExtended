@@ -19,48 +19,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateCourseCommand createCommand);
     }
 
-    public class CourseService : ServiceBase, ICourseService
+    public class CourseService : ServiceBase<CoursesOverviewVM>, ICourseService
     {
         protected override string ControllerName => "courses";
 
         public CourseService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task<CoursesOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
-        {
-            var url = Endpoint;
-
-            if (pageNumber != null)
-            {
-                url += $"?pageNumber={pageNumber}";
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                if (!url.Contains("?"))
-                    url += $"?searchString={searchString}";
-                else
-                    url += $"&searchString={searchString}";
-            }
-
-            if (!string.IsNullOrEmpty(sortOrder))
-            {
-                if (!url.Contains("?"))
-                    url += $"?sortOrder={sortOrder}";
-                else
-                    url += $"&sortOrder={sortOrder}";
-            }
-
-            if (pageSize != null)
-            {
-                if (!url.Contains("?"))
-                    url += $"?pageSize={pageSize}";
-                else
-                    url += $"&pageSize={pageSize}";
-            }
-
-            return await _http.GetFromJsonAsync<CoursesOverviewVM>(url);
         }
 
         public async Task<CourseDetailVM> GetAsync(string id)

@@ -14,14 +14,15 @@ namespace WebUI.Client.Services
         Task<string> UploadFile(IBrowserFile file);
     }
 
-    public class FileuploadService : ServiceBase, IFileuploadService
+    public class FileuploadService : IFileuploadService
     {
+        private HttpClient _http;
+
         const long maxFileSize = 1024 * 1024 * 15;
 
-        protected override string ControllerName => "File";
-
-        public FileuploadService(HttpClient http) : base(http)
+        public FileuploadService(HttpClient http)
         {
+            _http = http;
         }
 
         public async Task<string> UploadFile(IBrowserFile file)
@@ -35,7 +36,7 @@ namespace WebUI.Client.Services
 
                 content.Add(content: fileContent, name: "\"files\"", fileName: file.Name);
 
-                var response = await _http.PostAsync(Endpoint, content);
+                var response = await _http.PostAsync("api/File", content);
 
                 var newUploadResults = await response.Content.ReadFromJsonAsync<IList<UploadResult>>();
 
