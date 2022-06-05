@@ -16,6 +16,11 @@ namespace WebUI.Client.Services
 
     public abstract class ServiceBase<TOverviewVM, TDetailsVM, TCreateCommand, TUpdateCommand>
     {
+        private const string PageNumberParameterName = "pageNumber";
+        private const string SearchStringParameterName = "searchString";
+        private const string SortOrderParameterName = "sortOrder";
+        private const string PageSizeParameterName = "pageSize";
+
         protected const string ApiBase = "/api";
         protected abstract string ControllerName { get; }
         protected string Endpoint => $"{ApiBase}/{ControllerName}";
@@ -33,31 +38,26 @@ namespace WebUI.Client.Services
 
             if (pageNumber != null)
             {
-                url += $"?pageNumber={pageNumber}";
+                var separator = !url.Contains('?') ? '?' : '&';
+                url += $"{separator}{PageNumberParameterName}={pageNumber}";
             }
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                if (!url.Contains("?"))
-                    url += $"?searchString={searchString}";
-                else
-                    url += $"&searchString={searchString}";
+                var separator = !url.Contains('?') ? '?' : '&';
+                url += $"{separator}{SearchStringParameterName}={searchString}";
             }
 
             if (!string.IsNullOrEmpty(sortOrder))
             {
-                if (!url.Contains("?"))
-                    url += $"?sortOrder={sortOrder}";
-                else
-                    url += $"&sortOrder={sortOrder}";
+                var separator = !url.Contains('?') ? '?' : '&';
+                url += $"{separator}{SortOrderParameterName}={sortOrder}";
             }
 
             if (pageSize != null)
             {
-                if (!url.Contains("?"))
-                    url += $"?pageSize={pageSize}";
-                else
-                    url += $"&pageSize={pageSize}";
+                var separator = !url.Contains('?') ? '?' : '&';
+                url += $"{separator}{PageSizeParameterName}={pageSize}";
             }
 
             return await _http.GetFromJsonAsync<TOverviewVM>(url);
