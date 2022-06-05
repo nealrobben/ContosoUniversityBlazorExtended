@@ -1,10 +1,11 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 
 namespace WebUI.Client.Services
 {
-    public abstract class ServiceBase<TOverviewVM, TDetailsVM>
+    public abstract class ServiceBase<TOverviewVM, TDetailsVM, TCreateCommand>
     {
         protected const string ApiBase = "/api";
         protected abstract string ControllerName { get; }
@@ -61,6 +62,21 @@ namespace WebUI.Client.Services
         public async Task DeleteAsync(string id)
         {
             var result = await _http.DeleteAsync($"{Endpoint}/{id}");
+
+            result.EnsureSuccessStatusCode();
+        }
+
+        public async Task CreateAsync(TCreateCommand createCommand)
+        {
+            var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
+
+            var status = (int)result.StatusCode;
+
+            if (status == 400)
+            {
+                var responseData_ = result.Content == null ? null : await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                throw new ApiException("The HTTP status code of the response was not expected (" + status + ").", status, responseData_, null, null);
+            }
 
             result.EnsureSuccessStatusCode();
         }

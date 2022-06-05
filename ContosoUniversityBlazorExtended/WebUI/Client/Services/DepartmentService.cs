@@ -20,27 +20,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateDepartmentCommand createCommand);
     }
 
-    public class DepartmentService : ServiceBase<DepartmentsOverviewVM, DepartmentDetailVM>, IDepartmentService
+    public class DepartmentService : ServiceBase<DepartmentsOverviewVM, DepartmentDetailVM, CreateDepartmentCommand>, IDepartmentService
     {
         protected override string ControllerName => "departments";
 
         public DepartmentService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task CreateAsync(CreateDepartmentCommand createCommand)
-        {
-            var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
-
-            var status = (int)result.StatusCode;
-
-            if(status == 400)
-            {
-                var responseData_ = result.Content == null ? null : await result.Content.ReadAsStringAsync().ConfigureAwait(false);
-                throw new ApiException("The HTTP status code of the response was not expected (" + status + ").", status, responseData_, null, null);
-            }      
-
-            result.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(UpdateDepartmentCommand createCommand)

@@ -19,19 +19,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateInstructorCommand createCommand);
     }
 
-    public class InstructorService : ServiceBase<InstructorsOverviewVM, InstructorDetailsVM>, IInstructorService
+    public class InstructorService : ServiceBase<InstructorsOverviewVM, InstructorDetailsVM, CreateInstructorCommand>, IInstructorService
     {
         protected override string ControllerName => "instructors";
 
         public InstructorService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task CreateAsync(CreateInstructorCommand createCommand)
-        {
-            var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
-
-            result.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(UpdateInstructorCommand createCommand)

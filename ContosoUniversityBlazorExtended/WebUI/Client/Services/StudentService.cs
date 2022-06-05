@@ -19,19 +19,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateStudentCommand createCommand);
     }
 
-    public class StudentService : ServiceBase<StudentsOverviewVM, StudentDetailsVM>, IStudentService
+    public class StudentService : ServiceBase<StudentsOverviewVM, StudentDetailsVM, CreateStudentCommand>, IStudentService
     {
         protected override string ControllerName => "students";
 
         public StudentService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task CreateAsync(CreateStudentCommand createCommand)
-        {
-            var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
-
-            result.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateAsync(UpdateStudentCommand createCommand)
