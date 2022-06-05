@@ -79,6 +79,18 @@ namespace WebUI.Client.Services
         {
             var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
 
+            CheckResultForError(result);
+        }
+
+        public async Task UpdateAsync(TUpdateCommand createCommand)
+        {
+            var result = await _http.PutAsJsonAsync(Endpoint, createCommand);
+
+            CheckResultForError(result);
+        }
+
+        private async void CheckResultForError(HttpResponseMessage result)
+        {
             var status = (int)result.StatusCode;
 
             if (status == 400)
@@ -86,13 +98,6 @@ namespace WebUI.Client.Services
                 var responseData_ = result.Content == null ? null : await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 throw new ApiException("The HTTP status code of the response was not expected (" + status + ").", status, responseData_, null, null);
             }
-
-            result.EnsureSuccessStatusCode();
-        }
-
-        public async Task UpdateAsync(TUpdateCommand createCommand)
-        {
-            var result = await _http.PutAsJsonAsync(Endpoint, createCommand);
 
             result.EnsureSuccessStatusCode();
         }
