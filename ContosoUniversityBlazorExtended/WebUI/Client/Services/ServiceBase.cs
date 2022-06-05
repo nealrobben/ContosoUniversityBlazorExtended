@@ -34,31 +34,10 @@ namespace WebUI.Client.Services
 
         public async Task<TOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString, int? pageSize)
         {
-            var url = Endpoint;
-
-            if (pageNumber != null)
-            {
-                var separator = !url.Contains('?') ? '?' : '&';
-                url += $"{separator}{PageNumberParameterName}={pageNumber}";
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                var separator = !url.Contains('?') ? '?' : '&';
-                url += $"{separator}{SearchStringParameterName}={searchString}";
-            }
-
-            if (!string.IsNullOrEmpty(sortOrder))
-            {
-                var separator = !url.Contains('?') ? '?' : '&';
-                url += $"{separator}{SortOrderParameterName}={sortOrder}";
-            }
-
-            if (pageSize != null)
-            {
-                var separator = !url.Contains('?') ? '?' : '&';
-                url += $"{separator}{PageSizeParameterName}={pageSize}";
-            }
+            var url = Endpoint.AppendParameter(PageNumberParameterName, pageNumber)
+                .AppendParameter(SearchStringParameterName, searchString)
+                .AppendParameter(SortOrderParameterName, sortOrder)
+                .AppendParameter(PageSizeParameterName, pageSize);
 
             return await _http.GetFromJsonAsync<TOverviewVM>(url);
         }
