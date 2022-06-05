@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace WebUI.Client.Services
 {
-    public abstract class ServiceBase<TOverviewVM>
+    public abstract class ServiceBase<TOverviewVM, TDetailsVM>
     {
         protected const string ApiBase = "/api";
         protected abstract string ControllerName { get; }
@@ -51,6 +51,11 @@ namespace WebUI.Client.Services
             }
 
             return await _http.GetFromJsonAsync<TOverviewVM>(url);
+        }
+
+        public async Task<TDetailsVM> GetAsync(string id)
+        {
+            return await _http.GetFromJsonAsync<TDetailsVM>($"{Endpoint}/{id}");
         }
     }
 }

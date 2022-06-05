@@ -20,17 +20,12 @@ namespace WebUI.Client.Services
         Task UpdateAsync(UpdateDepartmentCommand createCommand);
     }
 
-    public class DepartmentService : ServiceBase<DepartmentsOverviewVM>, IDepartmentService
+    public class DepartmentService : ServiceBase<DepartmentsOverviewVM, DepartmentDetailVM>, IDepartmentService
     {
         protected override string ControllerName => "departments";
 
         public DepartmentService(HttpClient http) : base(http)
         {
-        }
-
-        public async Task<DepartmentDetailVM> GetAsync(string id)
-        {
-            return await _http.GetFromJsonAsync<DepartmentDetailVM>($"{Endpoint}/{id}");
         }
 
         public async Task DeleteAsync(string id)
