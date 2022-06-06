@@ -63,7 +63,7 @@ namespace WebUI.Client.Pages.Departments
                         _customValidation.DisplayErrors(problemDetails.Errors);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     ErrorVisible = true;
                 }

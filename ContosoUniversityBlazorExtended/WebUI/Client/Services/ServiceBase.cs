@@ -59,17 +59,17 @@ namespace WebUI.Client.Services
         {
             var result = await _http.PostAsJsonAsync(Endpoint, createCommand);
 
-            CheckResultForError(result);
+            await CheckResultForError(result);
         }
 
         public async Task UpdateAsync(TUpdateCommand createCommand)
         {
             var result = await _http.PutAsJsonAsync(Endpoint, createCommand);
 
-            CheckResultForError(result);
+            await CheckResultForError(result);
         }
 
-        private async void CheckResultForError(HttpResponseMessage result)
+        private async Task CheckResultForError(HttpResponseMessage result)
         {
             var status = (int)result.StatusCode;
 

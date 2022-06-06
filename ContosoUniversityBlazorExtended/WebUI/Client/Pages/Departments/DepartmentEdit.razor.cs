@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Mvc;
 using MudBlazor;
+using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
+using WebUI.Client.Extensions;
 using WebUI.Client.Services;
+using WebUI.Client.Shared;
 using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 
@@ -21,6 +26,8 @@ namespace WebUI.Client.Pages.Departments
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
+
+        private CustomValidation _customValidation;
 
         public bool ErrorVisible { get; set; }
 
@@ -43,6 +50,8 @@ namespace WebUI.Client.Pages.Departments
 
         public async Task FormSubmitted(EditContext editContext)
         {
+            _customValidation.ClearErrors();
+            ErrorVisible = false;
             bool formIsValid = editContext.Validate();
 
             if (formIsValid)
@@ -52,7 +61,16 @@ namespace WebUI.Client.Pages.Departments
                     await DepartmentService.UpdateAsync(UpdateDepartmentCommand);
                     MudDialog.Close(DialogResult.Ok(true));
                 }
-                catch (System.Exception)
+                catch (ApiException ex)
+                {
+                    var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(ex.Response);
+
+                    if (problemDetails != null)
+                    {
+                        _customValidation.DisplayErrors(problemDetails.Errors);
+                    }
+                }
+                catch (Exception)
                 {
                     ErrorVisible = true;
                 }
