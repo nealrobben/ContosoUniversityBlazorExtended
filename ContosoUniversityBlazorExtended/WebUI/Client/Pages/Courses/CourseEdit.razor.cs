@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
@@ -18,6 +19,9 @@ namespace WebUI.Client.Pages.Courses
 
         [Inject]
         public IDepartmentService DepartmentService { get; set; }
+
+        [Inject]
+        IStringLocalizer<CourseEdit> Localizer { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
