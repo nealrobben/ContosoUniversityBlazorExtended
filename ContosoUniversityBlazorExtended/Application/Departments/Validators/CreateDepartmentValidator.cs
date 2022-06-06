@@ -7,7 +7,8 @@ using WebUI.Shared.Departments.Commands.CreateDepartment;
 
 namespace Application.Departments.Validators
 {
-    public class CreateDepartmentValidator : WebUI.Shared.Departments.Validators.CreateDepartmentValidator
+    public class CreateDepartmentValidator 
+        : WebUI.Shared.Departments.Validators.CreateDepartmentValidator
     {
         private readonly ISchoolContext _context;
 
@@ -20,7 +21,8 @@ namespace Application.Departments.Validators
                     .WithMessage("'Name' must be unique.");
         }
 
-        public async Task<bool> BeUniqueName(CreateDepartmentCommand createDepartment, string name, CancellationToken cancellationToken)
+        public async Task<bool> BeUniqueName(CreateDepartmentCommand createDepartment, 
+            string name, CancellationToken cancellationToken)
         {
             return await _context.Departments
                 .AllAsync(x => !x.Name.Equals(name), cancellationToken);

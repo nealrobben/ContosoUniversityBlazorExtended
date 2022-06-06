@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +12,9 @@ namespace WebUI.Client.Shared
 
         [CascadingParameter]
         private EditContext CurrentEditContext { get; set; }
+
+        [Parameter]
+        public IStringLocalizer Localizer { get; set; }
 
         protected override void OnInitialized()
         {
@@ -39,7 +43,19 @@ namespace WebUI.Client.Shared
         {
             foreach (var err in errors)
             {
-                _messageStore.Add(CurrentEditContext.Field(err.Key), err.Value);
+                var errorValue = err.Value[0];
+
+                if(Localizer != null)
+                {
+                    var localizedValue = Localizer[errorValue];
+
+                    if (!string.IsNullOrWhiteSpace(localizedValue))
+                    {
+                        errorValue = localizedValue;
+                    }
+                }
+
+                _messageStore.Add(CurrentEditContext.Field(err.Key), errorValue);
             }
 
             CurrentEditContext.NotifyValidationStateChanged();
