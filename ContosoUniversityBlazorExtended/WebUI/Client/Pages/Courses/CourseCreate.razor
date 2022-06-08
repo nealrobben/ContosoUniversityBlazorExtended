@@ -8,6 +8,7 @@
             <div class="col-md-12">
                 <EditForm Model=@CreateCourseCommand OnSubmit=@FormSubmitted>
                     <FluentValidationValidator DisableAssemblyScanning="true" />
+                    <CustomValidation @ref="_customValidation" Localizer="Localizer" />
                     <div class="form-group">
                         <label for="CourseID">@Localizer["CourseID"]</label>
                         <InputNumber @bind-Value=CreateCourseCommand.CourseID class="form-control" id="CourseID" />
