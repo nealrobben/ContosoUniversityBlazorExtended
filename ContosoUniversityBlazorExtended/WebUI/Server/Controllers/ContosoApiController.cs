@@ -6,7 +6,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public abstract class ApiController : ControllerBase
+    public abstract class ContosoApiController : ControllerBase
     {
         private IMediator _mediator;
 

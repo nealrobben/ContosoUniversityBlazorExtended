@@ -13,7 +13,7 @@ using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
-    public class DepartmentsController : ApiController
+    public class DepartmentsController : ContosoApiController
     {
         [HttpGet]
         public async Task<ActionResult<DepartmentsOverviewVM>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)

@@ -13,7 +13,7 @@ using WebUI.Shared;
 
 namespace WebUI.Server.Controllers
 {
-    public class FileController : ApiController
+    public class FileController : ContosoApiController
     {
         private readonly IWebHostEnvironment _env;
         private readonly ILogger<FileController> _logger;

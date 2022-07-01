@@ -12,7 +12,7 @@ using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
-    public class CoursesController : ApiController
+    public class CoursesController : ContosoApiController
     {
         [HttpGet]
         public async Task<ActionResult<CoursesOverviewVM>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)

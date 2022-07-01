@@ -6,7 +6,7 @@ using WebUI.Shared.Home.Queries.GetAboutInfo;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
-    public class AboutController : ApiController
+    public class AboutController : ContosoApiController
     {
         [HttpGet]
         public async Task<ActionResult<AboutInfoVM>> GetAboutInfo()
