@@ -40,7 +40,7 @@ namespace WebUI.Client.Test.Pages.Courses
             comp.FindAll("input")[0].Id.Should().Be("CourseID");
             comp.FindAll("input")[1].Id.Should().Be("Title");
             comp.FindAll("input")[2].Id.Should().Be("Credits");
-            comp.FindAll("select")[0].Id.Should().Be("Department");
+            comp.FindAll("input")[3].Id.Should().Be("Department");
         }
 
         [Fact]
