@@ -164,7 +164,7 @@ namespace WebUI.Client.Test.Pages.Departments
 
             comp.Find("button[type='submit']").Click();
 
-            dialog.ErrorVisible.Should().Be(true);
+            dialog?.ErrorVisible.Should().Be(true);
             comp.Find("div.mud-alert-message").TrimmedText().Should().Be("An error occured during saving");
         }
 
