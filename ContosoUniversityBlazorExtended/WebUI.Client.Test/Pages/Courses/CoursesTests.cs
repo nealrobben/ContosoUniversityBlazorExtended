@@ -14,7 +14,7 @@ namespace WebUI.Client.Test.Pages.Courses
     public class CoursesTests : BunitTestBase
     {
         [Fact]
-        public async Task Courses_ClickCreateButton_OpensDialog()
+        public void Courses_ClickCreateButton_OpensDialog()
         {
             var fakeCourseService = A.Fake<ICourseService>();
             Context.Services.AddScoped(x => fakeCourseService);

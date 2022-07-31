@@ -15,7 +15,7 @@ namespace WebUI.Client.Test.Pages.Instructors
     public class InstructorsTests : BunitTestBase
     {
         [Fact]
-        public async Task Instructors_ClickCreateButton_OpensDialog()
+        public void Instructors_ClickCreateButton_OpensDialog()
         {
             var fakeInstructorService = A.Fake<IInstructorService>();
             Context.Services.AddScoped(x => fakeInstructorService);
