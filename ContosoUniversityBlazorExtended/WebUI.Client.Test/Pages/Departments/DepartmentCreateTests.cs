@@ -21,6 +21,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -51,6 +52,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -179,6 +181,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();

@@ -9,6 +9,7 @@ using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
 using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
+using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using Xunit;
 
 namespace WebUI.Client.Test.Pages.Departments
@@ -31,6 +32,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -74,6 +76,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -112,6 +115,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -155,6 +159,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -200,6 +205,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -247,6 +253,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -276,6 +283,23 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("The Budget field must be a number.");
             comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("The StartDate field must be a date.");
             comp.FindAll("div.validation-message")[3].TrimmedText().Should().Be("The selected value  is not a valid number.");
+        }
+
+        private static InstructorsLookupVM GetInstructorsLookupVMWithTestData()
+        {
+            return new InstructorsLookupVM(new List<InstructorLookupVM>
+            {
+                new InstructorLookupVM
+                {
+                    ID = 1,
+                    FullName = "Test One"
+                },
+                new InstructorLookupVM
+                {
+                    ID = 2,
+                    FullName = "Test Two"
+                }
+            });
         }
     }
 }

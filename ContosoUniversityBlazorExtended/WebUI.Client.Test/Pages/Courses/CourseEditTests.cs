@@ -9,6 +9,7 @@ using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using Xunit;
 
 namespace WebUI.Client.Test.Pages.Courses
@@ -31,6 +32,7 @@ namespace WebUI.Client.Test.Pages.Courses
             Context.Services.AddScoped(x => fakeCourseService);
 
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -71,6 +73,7 @@ namespace WebUI.Client.Test.Pages.Courses
             Context.Services.AddScoped(x => fakeCourseService);
 
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -109,6 +112,7 @@ namespace WebUI.Client.Test.Pages.Courses
             Context.Services.AddScoped(x => fakeCourseService);
 
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -151,6 +155,7 @@ namespace WebUI.Client.Test.Pages.Courses
             Context.Services.AddScoped(x => fakeCourseService);
 
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -195,6 +200,7 @@ namespace WebUI.Client.Test.Pages.Courses
             Context.Services.AddScoped(x => fakeCourseService);
 
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -241,6 +247,7 @@ namespace WebUI.Client.Test.Pages.Courses
             Context.Services.AddScoped(x => fakeCourseService);
 
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -270,6 +277,28 @@ namespace WebUI.Client.Test.Pages.Courses
             comp.FindAll("div.validation-message")[0].TrimmedText().Should().Be("'Title' must not be empty.");
             comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("The Credits field must be a number.");
             comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("The selected value  is not a valid number.");
+        }
+
+        private DepartmentsLookupVM GetDepartmentsLookupVMWithTestData()
+        {
+            return new DepartmentsLookupVM(new List<DepartmentLookupVM>
+            {
+                new DepartmentLookupVM
+                {
+                    DepartmentID = 1,
+                    Name = "Department One"
+                },
+                new DepartmentLookupVM
+                {
+                    DepartmentID = 2,
+                    Name = "Department Two"
+                },
+                new DepartmentLookupVM
+                {
+                    DepartmentID = 3,
+                    Name = "Department Three"
+                }
+            });
         }
     }
 }

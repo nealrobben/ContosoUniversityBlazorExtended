@@ -18,6 +18,7 @@ namespace WebUI.Client.Test.Pages.Courses
         public async Task CourseCreate_DisplayDialogCorrectly()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeCourseService = A.Fake<ICourseService>();
@@ -48,6 +49,7 @@ namespace WebUI.Client.Test.Pages.Courses
         public async Task CourseCreate_WhenCancelButtonClicked_PopupCloses()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeCourseService = A.Fake<ICourseService>();
@@ -176,6 +178,7 @@ namespace WebUI.Client.Test.Pages.Courses
         public async Task CourseCreate_WhenValidationFails_ShowErrorMessagesForFields()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeCourseService = A.Fake<ICourseService>();
