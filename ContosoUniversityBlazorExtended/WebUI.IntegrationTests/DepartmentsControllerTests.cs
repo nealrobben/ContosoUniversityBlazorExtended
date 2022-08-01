@@ -5,7 +5,7 @@ namespace WebUI.IntegrationTests
         [Fact]
         public async Task GetAll_WithoutDepartments_ReturnsEmptyResponse()
         {
-            var response = await _client.GetAsync("/departments");
+            var response = await _client.GetAsync("/api/departments");
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
     }
