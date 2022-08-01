@@ -7,6 +7,7 @@ using WebUI.Client.Pages.Courses;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
 using WebUI.Shared.Courses.Commands.CreateCourse;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using Xunit;
 
 namespace WebUI.Client.Test.Pages.Courses
@@ -73,6 +74,7 @@ namespace WebUI.Client.Test.Pages.Courses
         public async Task CourseCreate_WhenCreateButtonClicked_PopupCloses()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeCourseService = A.Fake<ICourseService>();
@@ -104,6 +106,7 @@ namespace WebUI.Client.Test.Pages.Courses
         public async Task CourseCreate_WhenCreateButtonClicked_CourseServiceMustBeCalled()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeCourseService = A.Fake<ICourseService>();
@@ -136,6 +139,7 @@ namespace WebUI.Client.Test.Pages.Courses
         public async Task CourseCreate_WhenExceptionCaughtAfterSave_ShowErrorMessage()
         {
             var fakeDepartmentService = A.Fake<IDepartmentService>();
+            A.CallTo(() => fakeDepartmentService.GetLookupAsync()).Returns(GetDepartmentsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeCourseService = A.Fake<ICourseService>();
@@ -196,6 +200,28 @@ namespace WebUI.Client.Test.Pages.Courses
             comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("'Title' must not be empty.");
             comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("'Credits' must not be empty.");
             comp.FindAll("div.validation-message")[3].TrimmedText().Should().Be("'Credits' must be greater than '0'.");
+        }
+
+        private DepartmentsLookupVM GetDepartmentsLookupVMWithTestData()
+        {
+            return new DepartmentsLookupVM(new List<DepartmentLookupVM>
+            {
+                new DepartmentLookupVM
+                {
+                    DepartmentID = 1,
+                    Name = "Department One"
+                },
+                new DepartmentLookupVM
+                {
+                    DepartmentID = 2,
+                    Name = "Department Two"
+                },
+                new DepartmentLookupVM
+                {
+                    DepartmentID = 3,
+                    Name = "Department Three"
+                }
+            });
         }
     }
 }
