@@ -205,7 +205,6 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("'Budget' must not be empty.");
             comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("'Budget' must be greater than '0'.");
             comp.FindAll("div.validation-message")[3].TrimmedText().Should().Be("The StartDate field must be a date.");
-            comp.FindAll("div.validation-message")[4].TrimmedText().Should().Be("'Instructor ID' must not be empty.");
         }
 
         private static InstructorsLookupVM GetInstructorsLookupVMWithTestData()

@@ -282,7 +282,6 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.FindAll("div.validation-message")[0].TrimmedText().Should().Be("'Name' must not be empty.");
             comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("The Budget field must be a number.");
             comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("The StartDate field must be a date.");
-            comp.FindAll("div.validation-message")[3].TrimmedText().Should().Be("The selected value  is not a valid number.");
         }
 
         private static InstructorsLookupVM GetInstructorsLookupVMWithTestData()

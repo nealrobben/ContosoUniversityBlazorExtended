@@ -276,7 +276,6 @@ namespace WebUI.Client.Test.Pages.Courses
 
             comp.FindAll("div.validation-message")[0].TrimmedText().Should().Be("'Title' must not be empty.");
             comp.FindAll("div.validation-message")[1].TrimmedText().Should().Be("The Credits field must be a number.");
-            comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("The selected value  is not a valid number.");
         }
 
         private DepartmentsLookupVM GetDepartmentsLookupVMWithTestData()
