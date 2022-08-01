@@ -7,6 +7,7 @@ using WebUI.Client.Pages.Departments;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
+using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using Xunit;
 
 namespace WebUI.Client.Test.Pages.Departments
@@ -76,6 +77,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -107,6 +109,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -140,6 +143,7 @@ namespace WebUI.Client.Test.Pages.Departments
             Context.Services.AddScoped(x => fakeDepartmentService);
 
             var fakeInstructorService = A.Fake<IInstructorService>();
+            A.CallTo(() => fakeInstructorService.GetLookupAsync()).Returns(GetInstructorsLookupVMWithTestData());
             Context.Services.AddScoped(x => fakeInstructorService);
 
             var comp = Context.RenderComponent<MudDialogProvider>();
@@ -199,6 +203,23 @@ namespace WebUI.Client.Test.Pages.Departments
             comp.FindAll("div.validation-message")[2].TrimmedText().Should().Be("'Budget' must be greater than '0'.");
             comp.FindAll("div.validation-message")[3].TrimmedText().Should().Be("The StartDate field must be a date.");
             comp.FindAll("div.validation-message")[4].TrimmedText().Should().Be("'Instructor ID' must not be empty.");
+        }
+
+        private static InstructorsLookupVM GetInstructorsLookupVMWithTestData()
+        {
+            return new InstructorsLookupVM(new List<InstructorLookupVM>
+            {
+                new InstructorLookupVM
+                {
+                    ID = 1,
+                    FullName = "Test One"
+                },
+                new InstructorLookupVM
+                {
+                    ID = 2,
+                    FullName = "Test Two"
+                }
+            });
         }
     }
 }
