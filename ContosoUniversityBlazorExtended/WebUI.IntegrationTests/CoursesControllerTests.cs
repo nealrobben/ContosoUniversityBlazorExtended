@@ -1,4 +1,6 @@
-﻿namespace WebUI.IntegrationTests
+﻿using FluentAssertions;
+
+namespace WebUI.IntegrationTests
 {
     public class CoursesControllerTests : IntegrationTest
     {
@@ -6,7 +8,8 @@
         public async Task GetAll_WithoutCourses_ReturnsEmptyResponse()
         {
             var response = await _client.GetAsync("/api/courses");
-            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
     }
 }

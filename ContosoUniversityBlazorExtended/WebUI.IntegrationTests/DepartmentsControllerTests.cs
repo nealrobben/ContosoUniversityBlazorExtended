@@ -1,3 +1,5 @@
+using FluentAssertions;
+
 namespace WebUI.IntegrationTests
 {
     public class DepartmentsControllerTests : IntegrationTest
@@ -6,7 +8,8 @@ namespace WebUI.IntegrationTests
         public async Task GetAll_WithoutDepartments_ReturnsEmptyResponse()
         {
             var response = await _client.GetAsync("/api/departments");
-            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
     }
 }
