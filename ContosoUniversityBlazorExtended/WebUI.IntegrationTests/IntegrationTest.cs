@@ -1,6 +1,9 @@
-﻿using ContosoUniversityBlazor.Persistence;
+﻿using ContosoUniversityBlazor.Application.Common.Interfaces;
+using ContosoUniversityBlazor.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebUI.Server;
@@ -16,13 +19,13 @@ namespace WebUI.IntegrationTests
             var appFactory = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
                 {
-                    builder.ConfigureServices(services =>
+                    builder.ConfigureAppConfiguration((context, configBuilder) =>
                     {
-                        services.RemoveAll(typeof(SchoolContext));
-                        services.AddDbContext<SchoolContext>(options =>
-                        {
-                            options.UseInMemoryDatabase("TestDB");
-                        });
+                        configBuilder.AddInMemoryCollection(
+                            new Dictionary<string, string>
+                            {
+                                ["UseInMemoryDatabase"] = "true"
+                            });
                     });
                 });
 

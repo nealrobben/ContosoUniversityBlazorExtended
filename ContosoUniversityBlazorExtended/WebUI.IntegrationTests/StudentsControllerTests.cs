@@ -11,7 +11,7 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            //(await response.Content.ReadAsAsync<StudentsOverviewVM>()).Students.Should().Be().Empty();
+            (await response.Content.ReadAsAsync<StudentsOverviewVM>()).Students.Should().BeEmpty();
         }
     }
 }
