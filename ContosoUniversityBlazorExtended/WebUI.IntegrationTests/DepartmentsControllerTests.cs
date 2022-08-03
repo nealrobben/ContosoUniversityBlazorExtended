@@ -1,4 +1,5 @@
 using FluentAssertions;
+using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.IntegrationTests
 {
@@ -10,6 +11,7 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            (await response.Content.ReadAsAsync<DepartmentsOverviewVM>()).Departments.Should().BeEmpty();
         }
     }
 }
