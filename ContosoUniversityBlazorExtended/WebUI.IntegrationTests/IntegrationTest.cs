@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using ContosoUniversityBlazor.Application.Common.Interfaces;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using WebUI.Server;
 
 namespace WebUI.IntegrationTests
@@ -7,10 +9,11 @@ namespace WebUI.IntegrationTests
     public class IntegrationTest
     {
         protected readonly HttpClient _client;
+        protected readonly WebApplicationFactory<Startup> _appFactory;
 
         protected IntegrationTest()
         {
-            var appFactory = new WebApplicationFactory<Startup>()
+            _appFactory = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureAppConfiguration((context, configBuilder) =>
@@ -23,7 +26,7 @@ namespace WebUI.IntegrationTests
                     });
                 });
 
-            _client = appFactory.CreateClient();
+            _client = _appFactory.CreateClient();
         }
     }
 }
