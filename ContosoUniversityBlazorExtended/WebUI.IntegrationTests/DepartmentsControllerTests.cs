@@ -2,6 +2,7 @@ using ContosoUniversityBlazor.Application.Common.Interfaces;
 using ContosoUniversityBlazor.Domain.Entities;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.IntegrationTests
@@ -45,6 +46,42 @@ namespace WebUI.IntegrationTests
             result.Departments.First().Name.Should().Be(department.Name);
             result.Departments.First().Budget.Should().Be(department.Budget);
             result.Departments.First().StartDate.Should().Be(department.StartDate);
+        }
+
+        [Fact]
+        public async Task GetSingle_WithNonExistingId_ReturnsNotFound()
+        {
+            var response = await _client.GetAsync("/api/departments/1");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task GetSingle_WithExistingId_ReturnsDepartment()
+        {
+            var department = new Department
+            {
+                DepartmentID = 1,
+                Name = "Test 1",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/departments/1");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<DepartmentDetailVM>());
+            result.DepartmentID.Should().Be(department.DepartmentID);
+            result.Name.Should().Be(department.Name);
+            result.Budget.Should().Be(department.Budget);
+            result.StartDate.Should().Be(department.StartDate);
         }
     }
 }
