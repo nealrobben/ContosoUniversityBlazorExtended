@@ -25,7 +25,7 @@ namespace Application.Courses.Validators
             string title, CancellationToken cancellationToken)
         {
             return await _context.Courses
-                .AllAsync(x => !x.Title.Equals(title) && x.CourseID != updateCourse.CourseID, cancellationToken);
+                .AllAsync(x => !x.Title.Equals(title) || x.CourseID == updateCourse.CourseID, cancellationToken);
         }
     }
 }
