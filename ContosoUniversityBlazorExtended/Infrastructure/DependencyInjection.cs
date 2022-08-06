@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ContosoUniversityBlazor.Infrastructure
 {
@@ -29,8 +30,11 @@ namespace ContosoUniversityBlazor.Infrastructure
 
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
+                //Use a random name since otherwise all integration tests running concurrently will use the same in-memory database (based on name)
+                var databaseName = $"ContosoUniversityBlazorDb_{Guid.NewGuid()}";
+
                 services.AddDbContext<SchoolContext>(options =>
-                    options.UseInMemoryDatabase("ContosoUniversityBlazorDb"));
+                    options.UseInMemoryDatabase(databaseName));
             }
             else
             {

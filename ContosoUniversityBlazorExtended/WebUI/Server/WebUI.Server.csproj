@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validators\**" />
+    <Content Remove="Validators\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="Validators\**" />
+    <TypeScriptCompile Remove="Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.7" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.16.1" />
@@ -48,7 +56,6 @@
 
   <ItemGroup>
     <Folder Include="Img\ProfilePictures\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>
