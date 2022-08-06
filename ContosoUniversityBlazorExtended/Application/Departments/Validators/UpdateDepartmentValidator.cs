@@ -25,7 +25,7 @@ namespace Application.Departments.Validators
             string name, CancellationToken cancellationToken)
         {
             return await _context.Departments
-                .AllAsync(x => !x.Name.Equals(name) && x.DepartmentID != updateDepartment.DepartmentID, cancellationToken);
+                .AllAsync(x => !x.Name.Equals(name) || x.DepartmentID == updateDepartment.DepartmentID, cancellationToken);
         }
     }
 }
