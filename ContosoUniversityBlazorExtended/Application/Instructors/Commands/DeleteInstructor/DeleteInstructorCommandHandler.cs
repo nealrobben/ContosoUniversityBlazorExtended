@@ -25,7 +25,7 @@ namespace ContosoUniversityBlazor.Application.Instructors.Commands.DeleteInstruc
         {
             var instructor = await _context.Instructors
                 .Include(i => i.CourseAssignments)
-                .SingleAsync(i => i.ID == request.ID);
+                .SingleOrDefaultAsync(i => i.ID == request.ID);
 
             if (instructor == null)
                 throw new NotFoundException(nameof(Instructor), request.ID);

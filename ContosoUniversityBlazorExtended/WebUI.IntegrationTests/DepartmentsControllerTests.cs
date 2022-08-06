@@ -44,6 +44,7 @@ namespace WebUI.IntegrationTests
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+
             result.Departments.Should().ContainSingle();
             result.Departments.First().DepartmentID.Should().Be(department.DepartmentID);
             result.Departments.First().Name.Should().Be(department.Name);
