@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore .\ContosoUniversityBlazorExtended\ContosoUniversityBlazorExtended.sln
+      run: dotnet restore .\ContosoUniversityBlazorExtended\
     - name: Build
-      run: dotnet build .\ContosoUniversityBlazorExtended\ContosoUniversityBlazorExtended.sln --no-restore 
+      run: dotnet build .\ContosoUniversityBlazorExtended\ --no-restore 
     - name: Test
-      run: dotnet test .\ContosoUniversityBlazorExtended\ContosoUniversityBlazorExtended.sln --no-build --verbosity normal
+      run: dotnet test .\ContosoUniversityBlazorExtended\ --no-build --verbosity normal
