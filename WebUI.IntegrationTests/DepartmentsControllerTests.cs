@@ -134,6 +134,134 @@ namespace WebUI.IntegrationTests
         }
 
         [Fact]
+        public async Task GetAll_WithPageSize_ReturnsOnlyDepartmentsOnFirstPage()
+        {
+            var department1 = new Department
+            {
+                DepartmentID = 1,
+                Name = "abc",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department2 = new Department
+            {
+                DepartmentID = 2,
+                Name = "def",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department3 = new Department
+            {
+                DepartmentID = 3,
+                Name = "ghi",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department4 = new Department
+            {
+                DepartmentID = 4,
+                Name = "jkl",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department1);
+                schoolContext.Departments.Add(department2);
+                schoolContext.Departments.Add(department3);
+                schoolContext.Departments.Add(department4);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/departments?pageSize=2");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+
+            result.Departments.Count.Should().Be(2);
+
+            result.Departments[0].DepartmentID.Should().Be(department1.DepartmentID);
+            result.Departments[0].Name.Should().Be(department1.Name);
+            result.Departments[0].Budget.Should().Be(department1.Budget);
+            result.Departments[0].StartDate.Should().Be(department1.StartDate);
+
+            result.Departments[1].DepartmentID.Should().Be(department2.DepartmentID);
+            result.Departments[1].Name.Should().Be(department2.Name);
+            result.Departments[1].Budget.Should().Be(department2.Budget);
+            result.Departments[1].StartDate.Should().Be(department2.StartDate);
+        }
+
+        [Fact]
+        public async Task GetAll_WithPageSizeAndPageNumber_ReturnsOnlyDepartmentsOnSecondPage()
+        {
+            var department1 = new Department
+            {
+                DepartmentID = 1,
+                Name = "abc",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department2 = new Department
+            {
+                DepartmentID = 2,
+                Name = "def",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department3 = new Department
+            {
+                DepartmentID = 3,
+                Name = "ghi",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department4 = new Department
+            {
+                DepartmentID = 4,
+                Name = "jkl",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department1);
+                schoolContext.Departments.Add(department2);
+                schoolContext.Departments.Add(department3);
+                schoolContext.Departments.Add(department4);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/departments?pageNumber=1&pageSize=2");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+
+            result.Departments.Count.Should().Be(2);
+
+            result.Departments[0].DepartmentID.Should().Be(department3.DepartmentID);
+            result.Departments[0].Name.Should().Be(department3.Name);
+            result.Departments[0].Budget.Should().Be(department3.Budget);
+            result.Departments[0].StartDate.Should().Be(department3.StartDate);
+
+            result.Departments[1].DepartmentID.Should().Be(department4.DepartmentID);
+            result.Departments[1].Name.Should().Be(department4.Name);
+            result.Departments[1].Budget.Should().Be(department4.Budget);
+            result.Departments[1].StartDate.Should().Be(department4.StartDate);
+        }
+
+        [Fact]
         public async Task GetSingle_WithNonExistingId_ReturnsNotFound()
         {
             var response = await _client.GetAsync("/api/departments/1");
