@@ -53,6 +53,87 @@ namespace WebUI.IntegrationTests
         }
 
         [Fact]
+        public async Task GetAll_WithSearchString_ReturnsDepartmentsWithNameMatchingSearchString()
+        {
+            var department1 = new Department
+            {
+                DepartmentID = 1,
+                Name = "abc",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department2 = new Department
+            {
+                DepartmentID = 2,
+                Name = "def",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department1);
+                schoolContext.Departments.Add(department2);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/departments?searchString=ef");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+
+            result.Departments.Should().ContainSingle();
+            result.Departments.First().DepartmentID.Should().Be(department2.DepartmentID);
+            result.Departments.First().Name.Should().Be(department2.Name);
+            result.Departments.First().Budget.Should().Be(department2.Budget);
+            result.Departments.First().StartDate.Should().Be(department2.StartDate);
+        }
+
+        [Fact]
+        public async Task GetAll_WithOrder_ReturnsDepartmentsInCorrectOrder()
+        {
+            var department1 = new Department
+            {
+                DepartmentID = 1,
+                Name = "abc",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            var department2 = new Department
+            {
+                DepartmentID = 2,
+                Name = "def",
+                Budget = 123,
+                StartDate = DateTime.UtcNow
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department1);
+                schoolContext.Departments.Add(department2);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/departments?sortOrder=name_desc");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+
+            result.Departments.Count().Should().Be(2);
+            
+            result.Departments.First().DepartmentID.Should().Be(department2.DepartmentID);
+            result.Departments.First().Name.Should().Be(department2.Name);
+            result.Departments.First().Budget.Should().Be(department2.Budget);
+            result.Departments.First().StartDate.Should().Be(department2.StartDate);
+        }
+
+        [Fact]
         public async Task GetSingle_WithNonExistingId_ReturnsNotFound()
         {
             var response = await _client.GetAsync("/api/departments/1");
