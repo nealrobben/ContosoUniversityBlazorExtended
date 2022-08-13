@@ -1,4 +1,5 @@
 ﻿using ContosoUniversityBlazor.Domain.Entities;
+using System;
 using System.Linq;
 
 namespace Application.Common.Extensions
@@ -10,8 +11,8 @@ namespace Application.Common.Extensions
             if (string.IsNullOrWhiteSpace(searchString))
                 return value;
 
-            return value.Where(s => s.LastName.Contains(searchString)
-                       || s.FirstMidName.Contains(searchString));
+            return value.Where(s => s.LastName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                       || s.FirstMidName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public static IQueryable<Student> Sort(this IQueryable<Student> value, string sortString)
@@ -40,7 +41,7 @@ namespace Application.Common.Extensions
             if (string.IsNullOrWhiteSpace(searchString))
                 return value;
 
-            return value.Where(s => s.Name.Contains(searchString));
+            return value.Where(s => s.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public static IQueryable<Department> Sort(this IQueryable<Department> value, string sortString)
@@ -61,8 +62,8 @@ namespace Application.Common.Extensions
             if (string.IsNullOrWhiteSpace(searchString))
                 return value;
 
-            return value.Where(s => s.LastName.Contains(searchString)
-                       || s.FirstMidName.Contains(searchString));
+            return value.Where(s => s.LastName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                       || s.FirstMidName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public static IQueryable<Instructor> Sort(this IQueryable<Instructor> value, string sortString)
@@ -91,7 +92,7 @@ namespace Application.Common.Extensions
             if (string.IsNullOrWhiteSpace(searchString))
                 return value;
 
-            return value.Where(s => s.Title.Contains(searchString));
+            return value.Where(s => s.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public static IQueryable<Course> Sort(this IQueryable<Course> value, string sortString)

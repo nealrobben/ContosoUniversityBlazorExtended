@@ -2,6 +2,7 @@
 using ContosoUniversityBlazor.Domain.Entities;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using WebUI.Client.Pages.Courses;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
@@ -56,6 +57,243 @@ namespace WebUI.IntegrationTests
             result.Courses.First().Title.Should().Be(course.Title);
             result.Courses.First().Credits.Should().Be(course.Credits);
             result.Courses.First().DepartmentName.Should().Be(department.Name);
+        }
+
+        [Fact]
+        public async Task GetAll_SearchString_ReturnsCoursesWithTitleMatchingSearchString()
+        {
+            var department = new Department
+            {
+                DepartmentID = 1,
+                Name = "Name 1"
+            };
+
+            var course1 = new Course
+            {
+                CourseID = 1,
+                Title = "Economics",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course2 = new Course
+            {
+                CourseID = 2,
+                Title = "Math",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department);
+                schoolContext.Courses.Add(course1);
+                schoolContext.Courses.Add(course2);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/courses?searchString=math");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+
+            result.Courses.Should().ContainSingle();
+            result.Courses.First().CourseID.Should().Be(course2.CourseID);
+            result.Courses.First().Title.Should().Be(course2.Title);
+            result.Courses.First().Credits.Should().Be(course2.Credits);
+            result.Courses.First().DepartmentName.Should().Be(department.Name);
+        }
+
+
+        [Fact]
+        public async Task GetAll_WithOrder_ReturnsCoursesInCorrectOrder()
+        {
+            var department = new Department
+            {
+                DepartmentID = 1,
+                Name = "Name 1"
+            };
+
+            var course1 = new Course
+            {
+                CourseID = 1,
+                Title = "abc",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course2 = new Course
+            {
+                CourseID = 2,
+                Title = "def",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department);
+                schoolContext.Courses.Add(course1);
+                schoolContext.Courses.Add(course2);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/courses?sortOrder=title_desc");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+
+            result.Courses.Count.Should().Be(2);
+            result.Courses.First().CourseID.Should().Be(course2.CourseID);
+            result.Courses.First().Title.Should().Be(course2.Title);
+            result.Courses.First().Credits.Should().Be(course2.Credits);
+            result.Courses.First().DepartmentName.Should().Be(department.Name);
+        }
+
+        [Fact]
+        public async Task GetAll_WithPageSize_ReturnsOnlyCoursesOnFirstPage()
+        {
+            var department = new Department
+            {
+                DepartmentID = 1,
+                Name = "Name 1"
+            };
+
+            var course1 = new Course
+            {
+                CourseID = 1,
+                Title = "abc",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course2 = new Course
+            {
+                CourseID = 2,
+                Title = "def",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course3 = new Course
+            {
+                CourseID = 3,
+                Title = "ghi",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course4 = new Course
+            {
+                CourseID = 4,
+                Title = "jkl",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department);
+                schoolContext.Courses.Add(course1);
+                schoolContext.Courses.Add(course2);
+                schoolContext.Courses.Add(course3);
+                schoolContext.Courses.Add(course4);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/courses?pageSize=2");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+
+            result.Courses.Count.Should().Be(2);
+
+            result.Courses[0].CourseID.Should().Be(course1.CourseID);
+            result.Courses[0].Title.Should().Be(course1.Title);
+            result.Courses[0].Credits.Should().Be(course1.Credits);
+            result.Courses[0].DepartmentName.Should().Be(department.Name);
+
+            result.Courses[1].CourseID.Should().Be(course2.CourseID);
+            result.Courses[1].Title.Should().Be(course2.Title);
+            result.Courses[1].Credits.Should().Be(course2.Credits);
+            result.Courses[1].DepartmentName.Should().Be(department.Name);
+        }
+
+        [Fact]
+        public async Task GetAll_WithPageSizeAndNumber_ReturnsOnlyCoursesOnSecondPage()
+        {
+            var department = new Department
+            {
+                DepartmentID = 1,
+                Name = "Name 1"
+            };
+
+            var course1 = new Course
+            {
+                CourseID = 1,
+                Title = "abc",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course2 = new Course
+            {
+                CourseID = 2,
+                Title = "def",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course3 = new Course
+            {
+                CourseID = 3,
+                Title = "ghi",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            var course4 = new Course
+            {
+                CourseID = 4,
+                Title = "jkl",
+                Credits = 2,
+                DepartmentID = department.DepartmentID
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Departments.Add(department);
+                schoolContext.Courses.Add(course1);
+                schoolContext.Courses.Add(course2);
+                schoolContext.Courses.Add(course3);
+                schoolContext.Courses.Add(course4);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/courses?pageNumber=1&pageSize=2");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+
+            result.Courses.Count.Should().Be(2);
+
+            result.Courses[0].CourseID.Should().Be(course3.CourseID);
+            result.Courses[0].Title.Should().Be(course3.Title);
+            result.Courses[0].Credits.Should().Be(course3.Credits);
+            result.Courses[0].DepartmentName.Should().Be(department.Name);
+
+            result.Courses[1].CourseID.Should().Be(course4.CourseID);
+            result.Courses[1].Title.Should().Be(course4.Title);
+            result.Courses[1].Credits.Should().Be(course4.Credits);
+            result.Courses[1].DepartmentName.Should().Be(department.Name);
         }
 
         [Fact]
