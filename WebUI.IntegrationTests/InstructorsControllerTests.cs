@@ -2,6 +2,7 @@
 using ContosoUniversityBlazor.Domain.Entities;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using WebUI.Client.Pages.Instructors;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
 using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
@@ -51,6 +52,216 @@ namespace WebUI.IntegrationTests
             result.Instructors.First().FirstName.Should().Be(instructor.FirstMidName);
             result.Instructors.First().LastName.Should().Be(instructor.LastName);
             result.Instructors.First().HireDate.Should().Be(instructor.HireDate);
+        }
+
+        [Fact]
+        public async Task GetAll_WithSearchString_ReturnsInstructorsWithNameMatchingSearchString()
+        {
+            var instructor1 = new Instructor
+            {
+                ID = 1,
+                FirstMidName = "ab",
+                LastName = "c",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor2 = new Instructor
+            {
+                ID = 2,
+                FirstMidName = "de",
+                LastName = "f",
+                HireDate = DateTime.UtcNow,
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Instructors.Add(instructor1);
+                schoolContext.Instructors.Add(instructor2);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/instructors?searchString=de");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<InstructorsOverviewVM>());
+
+            result.Instructors.Should().ContainSingle();
+
+            result.Instructors.First().InstructorID.Should().Be(instructor2.ID);
+            result.Instructors.First().FirstName.Should().Be(instructor2.FirstMidName);
+            result.Instructors.First().LastName.Should().Be(instructor2.LastName);
+            result.Instructors.First().HireDate.Should().Be(instructor2.HireDate);
+        }
+
+        [Fact]
+        public async Task GetAll_WithOrder_ReturnsInstructorsInCorrectOrder()
+        {
+            var instructor1 = new Instructor
+            {
+                ID = 1,
+                FirstMidName = "ab",
+                LastName = "c",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor2 = new Instructor
+            {
+                ID = 2,
+                FirstMidName = "de",
+                LastName = "f",
+                HireDate = DateTime.UtcNow,
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Instructors.Add(instructor1);
+                schoolContext.Instructors.Add(instructor2);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/instructors?sortOrder=lastname_desc");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<InstructorsOverviewVM>());
+
+            result.Instructors.Count.Should().Be(2);
+
+            result.Instructors.First().InstructorID.Should().Be(instructor2.ID);
+            result.Instructors.First().FirstName.Should().Be(instructor2.FirstMidName);
+            result.Instructors.First().LastName.Should().Be(instructor2.LastName);
+            result.Instructors.First().HireDate.Should().Be(instructor2.HireDate);
+        }
+
+        [Fact]
+        public async Task GetAll_WithPageSize_ReturnsOnlyInstructorsOnFirstPage()
+        {
+            var instructor1 = new Instructor
+            {
+                ID = 1,
+                FirstMidName = "ab",
+                LastName = "c",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor2 = new Instructor
+            {
+                ID = 2,
+                FirstMidName = "de",
+                LastName = "f",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor3 = new Instructor
+            {
+                ID = 3,
+                FirstMidName = "gh",
+                LastName = "i",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor4 = new Instructor
+            {
+                ID = 4,
+                FirstMidName = "jk",
+                LastName = "l",
+                HireDate = DateTime.UtcNow,
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Instructors.Add(instructor1);
+                schoolContext.Instructors.Add(instructor2);
+                schoolContext.Instructors.Add(instructor3);
+                schoolContext.Instructors.Add(instructor4);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/instructors?pageSize=2");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<InstructorsOverviewVM>());
+
+            result.Instructors.Count.Should().Be(2);
+
+            result.Instructors[0].InstructorID.Should().Be(instructor1.ID);
+            result.Instructors[0].FirstName.Should().Be(instructor1.FirstMidName);
+            result.Instructors[0].LastName.Should().Be(instructor1.LastName);
+            result.Instructors[0].HireDate.Should().Be(instructor1.HireDate);
+
+            result.Instructors[1].InstructorID.Should().Be(instructor2.ID);
+            result.Instructors[1].FirstName.Should().Be(instructor2.FirstMidName);
+            result.Instructors[1].LastName.Should().Be(instructor2.LastName);
+            result.Instructors[1].HireDate.Should().Be(instructor2.HireDate);
+        }
+
+        [Fact]
+        public async Task GetAll_WithPageSizeAndPageNumber_ReturnsOnlyInstructorsOnSecondPage()
+        {
+            var instructor1 = new Instructor
+            {
+                ID = 1,
+                FirstMidName = "ab",
+                LastName = "c",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor2 = new Instructor
+            {
+                ID = 2,
+                FirstMidName = "de",
+                LastName = "f",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor3 = new Instructor
+            {
+                ID = 3,
+                FirstMidName = "gh",
+                LastName = "i",
+                HireDate = DateTime.UtcNow,
+            };
+
+            var instructor4 = new Instructor
+            {
+                ID = 4,
+                FirstMidName = "jk",
+                LastName = "l",
+                HireDate = DateTime.UtcNow,
+            };
+
+            using (var scope = _appFactory.Services.CreateScope())
+            {
+                var schoolContext = scope.ServiceProvider.GetRequiredService<ISchoolContext>();
+
+                schoolContext.Instructors.Add(instructor1);
+                schoolContext.Instructors.Add(instructor2);
+                schoolContext.Instructors.Add(instructor3);
+                schoolContext.Instructors.Add(instructor4);
+                await schoolContext.SaveChangesAsync();
+            }
+
+            var response = await _client.GetAsync("/api/instructors?pageSize=2&pageNumber=1");
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var result = (await response.Content.ReadAsAsync<InstructorsOverviewVM>());
+
+            result.Instructors.Count.Should().Be(2);
+
+            result.Instructors[0].InstructorID.Should().Be(instructor3.ID);
+            result.Instructors[0].FirstName.Should().Be(instructor3.FirstMidName);
+            result.Instructors[0].LastName.Should().Be(instructor3.LastName);
+            result.Instructors[0].HireDate.Should().Be(instructor3.HireDate);
+
+            result.Instructors[1].InstructorID.Should().Be(instructor4.ID);
+            result.Instructors[1].FirstName.Should().Be(instructor4.FirstMidName);
+            result.Instructors[1].LastName.Should().Be(instructor4.LastName);
+            result.Instructors[1].HireDate.Should().Be(instructor4.HireDate);
         }
 
         [Fact]
