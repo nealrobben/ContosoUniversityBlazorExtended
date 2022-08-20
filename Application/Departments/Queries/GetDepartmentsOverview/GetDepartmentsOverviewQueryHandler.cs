@@ -12,7 +12,7 @@ using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsOverview
 {
-    public class GetDepartmentsOverviewQueryHandler : IRequestHandler<GetDepartmentsOverviewQuery, DepartmentsOverviewVM>
+    public class GetDepartmentsOverviewQueryHandler : IRequestHandler<GetDepartmentsOverviewQuery, OverviewVM<DepartmentVM>>
     {
         private readonly ISchoolContext _context;
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartments
             _mapper = mapper;
         }
 
-        public async Task<DepartmentsOverviewVM> Handle(GetDepartmentsOverviewQuery request, CancellationToken cancellationToken)
+        public async Task<OverviewVM<DepartmentVM>> Handle(GetDepartmentsOverviewQuery request, CancellationToken cancellationToken)
         {
             var departments = _context.Departments
                 .Search(request.SearchString)
@@ -44,7 +44,7 @@ namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartments
                 .ProjectTo<DepartmentVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return new DepartmentsOverviewVM(items, metaData);
+            return new OverviewVM<DepartmentVM>(items, metaData);
         }
     }
 }

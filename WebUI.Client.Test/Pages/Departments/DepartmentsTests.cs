@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
+using WebUI.Shared.Common;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using Xunit;
@@ -82,9 +83,9 @@ namespace WebUI.Client.Test.Pages.Departments
         [Fact]
         public void Departments_ClickDetailsButton_OpensDialog()
         {
-            var departmentsOverviewVM = new DepartmentsOverviewVM
+            var departmentsOverviewVM = new OverviewVM<DepartmentVM>()
             {
-                Departments =
+                Records =
                 {
                     new DepartmentVM
                     {
@@ -113,9 +114,9 @@ namespace WebUI.Client.Test.Pages.Departments
         [Fact]
         public void Departments_ClickEditButton_OpensDialog()
         {
-            var departmentsOverviewVM = new DepartmentsOverviewVM
+            var departmentsOverviewVM = new OverviewVM<DepartmentVM>
             {
-                Departments =
+                Records =
                 {
                     new DepartmentVM
                     {
@@ -147,9 +148,9 @@ namespace WebUI.Client.Test.Pages.Departments
         [Fact]
         public void Departments_ClickDeleteButton_ShowsConfirmationDialog()
         {
-            var departmentsOverviewVM = new DepartmentsOverviewVM
+            var departmentsOverviewVM = new OverviewVM<DepartmentVM>
             {
-                Departments =
+                Records =
                 {
                     new DepartmentVM
                     {
@@ -183,9 +184,9 @@ namespace WebUI.Client.Test.Pages.Departments
         [Fact]
         public void Departments_ClickDeleteButtonAndConfirm_DepartmentServiceShouldBeCalled()
         {
-            var departmentsOverviewVM = new DepartmentsOverviewVM
+            var departmentsOverviewVM = new OverviewVM<DepartmentVM>
             {
-                Departments =
+                Records =
                 {
                     new DepartmentVM
                     {

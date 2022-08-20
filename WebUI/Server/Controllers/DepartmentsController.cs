@@ -10,13 +10,14 @@ using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
+using WebUI.Shared.Common;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
     public class DepartmentsController : ContosoApiController
     {
         [HttpGet]
-        public async Task<ActionResult<DepartmentsOverviewVM>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
+        public async Task<ActionResult<OverviewVM<DepartmentVM>>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
         {
             var vm = await Mediator.Send(new GetDepartmentsOverviewQuery(sortOrder, searchString, pageNumber, pageSize));
 

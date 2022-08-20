@@ -4,6 +4,7 @@ using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Services;
+using WebUI.Shared.Common;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.Client.Pages.Departments
@@ -24,7 +25,7 @@ namespace WebUI.Client.Pages.Departments
 
         private MudTable<DepartmentVM> Table;
 
-        public DepartmentsOverviewVM DepartmentsOverview { get; set; } = new DepartmentsOverviewVM();
+        public OverviewVM<DepartmentVM> DepartmentsOverview { get; set; } = new OverviewVM<DepartmentVM>();
 
         protected override void OnInitialized()
         {
@@ -116,7 +117,7 @@ namespace WebUI.Client.Pages.Departments
 
             var result = await DepartmentService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
 
-            return new TableData<DepartmentVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Departments };
+            return new TableData<DepartmentVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Records };
         }
     }
 }

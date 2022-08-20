@@ -7,6 +7,7 @@ using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
+using WebUI.Shared.Common;
 
 namespace WebUI.IntegrationTests
 {
@@ -18,7 +19,7 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            (await response.Content.ReadAsAsync<DepartmentsOverviewVM>()).Departments.Should().BeEmpty();
+            (await response.Content.ReadAsAsync<OverviewVM<DepartmentVM>>()).Records.Should().BeEmpty();
         }
 
         [Fact]
@@ -43,13 +44,13 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<DepartmentVM>>());
 
-            result.Departments.Should().ContainSingle();
-            result.Departments.First().DepartmentID.Should().Be(department.DepartmentID);
-            result.Departments.First().Name.Should().Be(department.Name);
-            result.Departments.First().Budget.Should().Be(department.Budget);
-            result.Departments.First().StartDate.Should().Be(department.StartDate);
+            result.Records.Should().ContainSingle();
+            result.Records.First().DepartmentID.Should().Be(department.DepartmentID);
+            result.Records.First().Name.Should().Be(department.Name);
+            result.Records.First().Budget.Should().Be(department.Budget);
+            result.Records.First().StartDate.Should().Be(department.StartDate);
         }
 
         [Fact]
@@ -83,13 +84,13 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments?searchString=ef");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<DepartmentVM>>());
 
-            result.Departments.Should().ContainSingle();
-            result.Departments.First().DepartmentID.Should().Be(department2.DepartmentID);
-            result.Departments.First().Name.Should().Be(department2.Name);
-            result.Departments.First().Budget.Should().Be(department2.Budget);
-            result.Departments.First().StartDate.Should().Be(department2.StartDate);
+            result.Records.Should().ContainSingle();
+            result.Records.First().DepartmentID.Should().Be(department2.DepartmentID);
+            result.Records.First().Name.Should().Be(department2.Name);
+            result.Records.First().Budget.Should().Be(department2.Budget);
+            result.Records.First().StartDate.Should().Be(department2.StartDate);
         }
 
         [Fact]
@@ -123,14 +124,13 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments?sortOrder=name_desc");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<DepartmentVM>>());
 
-            result.Departments.Count().Should().Be(2);
-            
-            result.Departments.First().DepartmentID.Should().Be(department2.DepartmentID);
-            result.Departments.First().Name.Should().Be(department2.Name);
-            result.Departments.First().Budget.Should().Be(department2.Budget);
-            result.Departments.First().StartDate.Should().Be(department2.StartDate);
+            result.Records.Count().Should().Be(2);
+            result.Records.First().DepartmentID.Should().Be(department2.DepartmentID);
+            result.Records.First().Name.Should().Be(department2.Name);
+            result.Records.First().Budget.Should().Be(department2.Budget);
+            result.Records.First().StartDate.Should().Be(department2.StartDate);
         }
 
         [Fact]
@@ -182,19 +182,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments?pageSize=2");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<DepartmentVM>>());
 
-            result.Departments.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Departments[0].DepartmentID.Should().Be(department1.DepartmentID);
-            result.Departments[0].Name.Should().Be(department1.Name);
-            result.Departments[0].Budget.Should().Be(department1.Budget);
-            result.Departments[0].StartDate.Should().Be(department1.StartDate);
+            result.Records[0].DepartmentID.Should().Be(department1.DepartmentID);
+            result.Records[0].Name.Should().Be(department1.Name);
+            result.Records[0].Budget.Should().Be(department1.Budget);
+            result.Records[0].StartDate.Should().Be(department1.StartDate);
 
-            result.Departments[1].DepartmentID.Should().Be(department2.DepartmentID);
-            result.Departments[1].Name.Should().Be(department2.Name);
-            result.Departments[1].Budget.Should().Be(department2.Budget);
-            result.Departments[1].StartDate.Should().Be(department2.StartDate);
+            result.Records[1].DepartmentID.Should().Be(department2.DepartmentID);
+            result.Records[1].Name.Should().Be(department2.Name);
+            result.Records[1].Budget.Should().Be(department2.Budget);
+            result.Records[1].StartDate.Should().Be(department2.StartDate);
         }
 
         [Fact]
@@ -246,19 +246,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/departments?pageNumber=1&pageSize=2");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<DepartmentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<DepartmentVM>>());
 
-            result.Departments.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Departments[0].DepartmentID.Should().Be(department3.DepartmentID);
-            result.Departments[0].Name.Should().Be(department3.Name);
-            result.Departments[0].Budget.Should().Be(department3.Budget);
-            result.Departments[0].StartDate.Should().Be(department3.StartDate);
+            result.Records[0].DepartmentID.Should().Be(department3.DepartmentID);
+            result.Records[0].Name.Should().Be(department3.Name);
+            result.Records[0].Budget.Should().Be(department3.Budget);
+            result.Records[0].StartDate.Should().Be(department3.StartDate);
 
-            result.Departments[1].DepartmentID.Should().Be(department4.DepartmentID);
-            result.Departments[1].Name.Should().Be(department4.Name);
-            result.Departments[1].Budget.Should().Be(department4.Budget);
-            result.Departments[1].StartDate.Should().Be(department4.StartDate);
+            result.Records[1].DepartmentID.Should().Be(department4.DepartmentID);
+            result.Records[1].Name.Should().Be(department4.Name);
+            result.Records[1].Budget.Should().Be(department4.Budget);
+            result.Records[1].StartDate.Should().Be(department4.StartDate);
         }
 
         [Fact]
