@@ -4,6 +4,7 @@ using ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebUI.Shared.Common;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
@@ -15,7 +16,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
     public class CoursesController : ContosoApiController
     {
         [HttpGet]
-        public async Task<ActionResult<CoursesOverviewVM>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
+        public async Task<ActionResult<OverviewVM<CourseVM>>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
         {
             var vm = await Mediator.Send(new GetCoursesOverviewQuery(sortOrder, searchString, pageNumber, pageSize));
 

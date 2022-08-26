@@ -12,7 +12,7 @@ using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview
 {
-    public class GetCoursesOverviewQueryHandler : IRequestHandler<GetCoursesOverviewQuery, CoursesOverviewVM>
+    public class GetCoursesOverviewQueryHandler : IRequestHandler<GetCoursesOverviewQuery, OverviewVM<CourseVM>>
     {
         private readonly ISchoolContext _context;
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview
             _mapper = mapper;
         }
 
-        public async Task<CoursesOverviewVM> Handle(GetCoursesOverviewQuery request, CancellationToken cancellationToken)
+        public async Task<OverviewVM<CourseVM>> Handle(GetCoursesOverviewQuery request, CancellationToken cancellationToken)
         {
             var courses = _context.Courses
                 .Search(request.SearchString)
@@ -44,7 +44,7 @@ namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview
                 .ProjectTo<CourseVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return new CoursesOverviewVM(items, metaData);
+            return new OverviewVM<CourseVM>(items, metaData);
         }
     }
 }

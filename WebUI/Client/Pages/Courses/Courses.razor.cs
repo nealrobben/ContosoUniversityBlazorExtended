@@ -4,6 +4,7 @@ using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Services;
+using WebUI.Shared.Common;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace WebUI.Client.Pages.Courses
@@ -24,7 +25,7 @@ namespace WebUI.Client.Pages.Courses
 
         public MudTable<CourseVM> Table { get; set; }
 
-        public CoursesOverviewVM CoursesOverview { get; set; } = new CoursesOverviewVM();
+        public OverviewVM<CourseVM> CoursesOverview { get; set; } = new OverviewVM<CourseVM>();
 
         protected override void OnInitialized()
         {
@@ -116,7 +117,7 @@ namespace WebUI.Client.Pages.Courses
 
             var result = await CourseService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
 
-            return new TableData<CourseVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Courses };
+            return new TableData<CourseVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Records };
         }
     }
 }

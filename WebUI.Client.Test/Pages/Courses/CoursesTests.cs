@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
+using WebUI.Shared.Common;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using Xunit;
@@ -82,9 +83,9 @@ namespace WebUI.Client.Test.Pages.Courses
         [Fact]
         public void Courses_ClickDetailsButton_OpensDialog()
         {
-            var coursesOverviewVM = new CoursesOverviewVM
+            var coursesOverviewVM = new OverviewVM<CourseVM>
             {
-                Courses =
+                Records =
                 {
                     new CourseVM
                     {
@@ -113,9 +114,9 @@ namespace WebUI.Client.Test.Pages.Courses
         [Fact]
         public void Courses_ClickEditButton_OpensDialog()
         {
-            var coursesOverviewVM = new CoursesOverviewVM
+            var coursesOverviewVM = new OverviewVM<CourseVM>
             {
-                Courses =
+                Records =
                 {
                     new CourseVM
                     {
@@ -147,9 +148,9 @@ namespace WebUI.Client.Test.Pages.Courses
         [Fact]
         public void Courses_ClickDeleteButton_ShowsConfirmationDialog()
         {
-            var coursesOverviewVM = new CoursesOverviewVM
+            var coursesOverviewVM = new OverviewVM<CourseVM>
             {
-                Courses =
+                Records =
                 {
                     new CourseVM
                     {
@@ -183,9 +184,9 @@ namespace WebUI.Client.Test.Pages.Courses
         [Fact]
         public void Courses_ClickDeleteButtonAndConfirm_CourseServiceShouldBeCalled()
         {
-            var coursesOverviewVM = new CoursesOverviewVM
+            var coursesOverviewVM = new OverviewVM<CourseVM>
             {
-                Courses =
+                Records =
                 {
                     new CourseVM
                     {

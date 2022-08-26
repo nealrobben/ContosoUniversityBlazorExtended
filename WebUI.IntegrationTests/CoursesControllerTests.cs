@@ -3,6 +3,7 @@ using ContosoUniversityBlazor.Domain.Entities;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using WebUI.Client.Pages.Courses;
+using WebUI.Shared.Common;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
@@ -19,7 +20,7 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/courses");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            (await response.Content.ReadAsAsync<CoursesOverviewVM>()).Courses.Should().BeEmpty();
+            (await response.Content.ReadAsAsync<OverviewVM<CourseVM>>()).Records.Should().BeEmpty();
         }
 
         [Fact]
@@ -51,12 +52,12 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/courses");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
-            result.Courses.Should().ContainSingle();
-            result.Courses.First().CourseID.Should().Be(course.CourseID);
-            result.Courses.First().Title.Should().Be(course.Title);
-            result.Courses.First().Credits.Should().Be(course.Credits);
-            result.Courses.First().DepartmentName.Should().Be(department.Name);
+            var result = (await response.Content.ReadAsAsync<OverviewVM<CourseVM>>());
+            result.Records.Should().ContainSingle();
+            result.Records.First().CourseID.Should().Be(course.CourseID);
+            result.Records.First().Title.Should().Be(course.Title);
+            result.Records.First().Credits.Should().Be(course.Credits);
+            result.Records.First().DepartmentName.Should().Be(department.Name);
         }
 
         [Fact]
@@ -97,13 +98,13 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/courses?searchString=math");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<CourseVM>>());
 
-            result.Courses.Should().ContainSingle();
-            result.Courses.First().CourseID.Should().Be(course2.CourseID);
-            result.Courses.First().Title.Should().Be(course2.Title);
-            result.Courses.First().Credits.Should().Be(course2.Credits);
-            result.Courses.First().DepartmentName.Should().Be(department.Name);
+            result.Records.Should().ContainSingle();
+            result.Records.First().CourseID.Should().Be(course2.CourseID);
+            result.Records.First().Title.Should().Be(course2.Title);
+            result.Records.First().Credits.Should().Be(course2.Credits);
+            result.Records.First().DepartmentName.Should().Be(department.Name);
         }
 
 
@@ -145,13 +146,13 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/courses?sortOrder=title_desc");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<CourseVM>>());
 
-            result.Courses.Count.Should().Be(2);
-            result.Courses.First().CourseID.Should().Be(course2.CourseID);
-            result.Courses.First().Title.Should().Be(course2.Title);
-            result.Courses.First().Credits.Should().Be(course2.Credits);
-            result.Courses.First().DepartmentName.Should().Be(department.Name);
+            result.Records.Count.Should().Be(2);
+            result.Records.First().CourseID.Should().Be(course2.CourseID);
+            result.Records.First().Title.Should().Be(course2.Title);
+            result.Records.First().Credits.Should().Be(course2.Credits);
+            result.Records.First().DepartmentName.Should().Be(department.Name);
         }
 
         [Fact]
@@ -210,19 +211,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/courses?pageSize=2");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<CourseVM>>());
 
-            result.Courses.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Courses[0].CourseID.Should().Be(course1.CourseID);
-            result.Courses[0].Title.Should().Be(course1.Title);
-            result.Courses[0].Credits.Should().Be(course1.Credits);
-            result.Courses[0].DepartmentName.Should().Be(department.Name);
+            result.Records[0].CourseID.Should().Be(course1.CourseID);
+            result.Records[0].Title.Should().Be(course1.Title);
+            result.Records[0].Credits.Should().Be(course1.Credits);
+            result.Records[0].DepartmentName.Should().Be(department.Name);
 
-            result.Courses[1].CourseID.Should().Be(course2.CourseID);
-            result.Courses[1].Title.Should().Be(course2.Title);
-            result.Courses[1].Credits.Should().Be(course2.Credits);
-            result.Courses[1].DepartmentName.Should().Be(department.Name);
+            result.Records[1].CourseID.Should().Be(course2.CourseID);
+            result.Records[1].Title.Should().Be(course2.Title);
+            result.Records[1].Credits.Should().Be(course2.Credits);
+            result.Records[1].DepartmentName.Should().Be(department.Name);
         }
 
         [Fact]
@@ -281,19 +282,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/courses?pageNumber=1&pageSize=2");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<CoursesOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<CourseVM>>());
 
-            result.Courses.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Courses[0].CourseID.Should().Be(course3.CourseID);
-            result.Courses[0].Title.Should().Be(course3.Title);
-            result.Courses[0].Credits.Should().Be(course3.Credits);
-            result.Courses[0].DepartmentName.Should().Be(department.Name);
+            result.Records[0].CourseID.Should().Be(course3.CourseID);
+            result.Records[0].Title.Should().Be(course3.Title);
+            result.Records[0].Credits.Should().Be(course3.Credits);
+            result.Records[0].DepartmentName.Should().Be(department.Name);
 
-            result.Courses[1].CourseID.Should().Be(course4.CourseID);
-            result.Courses[1].Title.Should().Be(course4.Title);
-            result.Courses[1].Credits.Should().Be(course4.Credits);
-            result.Courses[1].DepartmentName.Should().Be(department.Name);
+            result.Records[1].CourseID.Should().Be(course4.CourseID);
+            result.Records[1].Title.Should().Be(course4.Title);
+            result.Records[1].Credits.Should().Be(course4.Credits);
+            result.Records[1].DepartmentName.Should().Be(department.Name);
         }
 
         [Fact]
