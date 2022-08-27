@@ -4,6 +4,7 @@ using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Extensions;
 using WebUI.Client.Services;
+using WebUI.Shared.Common;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace WebUI.Client.Pages.Instructors
@@ -24,7 +25,7 @@ namespace WebUI.Client.Pages.Instructors
 
         private MudTable<InstructorVM> Table;
 
-        public InstructorsOverviewVM InstructorsOverview { get; set; } = new InstructorsOverviewVM();
+        public OverviewVM<InstructorVM> InstructorsOverview { get; set; } = new OverviewVM<InstructorVM>();
 
         public int? SelectedInstructorId { get; set; }
         public int? SelectedCourseId { get; set; }
@@ -130,7 +131,7 @@ namespace WebUI.Client.Pages.Instructors
 
             var result = await InstructorService.GetAllAsync(sortString, state.Page, searchString, state.PageSize);
 
-            return new TableData<InstructorVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Instructors };
+            return new TableData<InstructorVM>() { TotalItems = result.MetaData.TotalRecords, Items = result.Records };
         }
 
         public string InstructorsSelectRowClassFunc(InstructorVM instructor, int rowNumber)

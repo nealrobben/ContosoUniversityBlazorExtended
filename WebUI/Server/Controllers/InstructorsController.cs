@@ -5,6 +5,7 @@ using ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOvervi
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebUI.Shared.Common;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
 using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
@@ -16,7 +17,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
     public class InstructorsController : ContosoApiController
     {
         [HttpGet]
-        public async Task<ActionResult<InstructorsOverviewVM>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
+        public async Task<ActionResult<OverviewVM<InstructorVM>>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
         {
             var vm = await Mediator.Send(new GetInstructorsOverviewQuery(sortOrder, searchString, pageNumber, pageSize));
 

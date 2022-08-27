@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using WebUI.Shared.Common;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOverview
 {
-    public class GetInstructorsOverviewQuery : IRequest<InstructorsOverviewVM>
+    public class GetInstructorsOverviewQuery : IRequest<OverviewVM<InstructorVM>>
     {
         public string SortOrder { get; set; }
         public string SearchString { get; set; }

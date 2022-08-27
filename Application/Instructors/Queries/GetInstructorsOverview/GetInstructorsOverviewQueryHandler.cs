@@ -14,7 +14,7 @@ using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsOverview
 {
-    public class GetInstructorsOverviewQueryHandler : IRequestHandler<GetInstructorsOverviewQuery, InstructorsOverviewVM>
+    public class GetInstructorsOverviewQueryHandler : IRequestHandler<GetInstructorsOverviewQuery, OverviewVM<InstructorVM>>
     {
         private readonly ISchoolContext _context;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructors
             _mapper = mapper;
         }
 
-        public async Task<InstructorsOverviewVM> Handle(GetInstructorsOverviewQuery request, CancellationToken cancellationToken)
+        public async Task<OverviewVM<InstructorVM>> Handle(GetInstructorsOverviewQuery request, CancellationToken cancellationToken)
         {
             var instructors = _context.Instructors
                 .Search(request.SearchString)
@@ -53,7 +53,7 @@ namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructors
                   .ProjectTo<InstructorVM>(_mapper.ConfigurationProvider)
                   .ToListAsync(cancellationToken);
 
-            return new InstructorsOverviewVM(items, metaData);
+            return new OverviewVM<InstructorVM>(items, metaData);
         }
     }
 }

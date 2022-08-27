@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
+using WebUI.Shared.Common;
 using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 using WebUI.Shared.Students.Queries.GetStudentsForCourse;
@@ -88,9 +89,9 @@ namespace WebUI.Client.Test.Pages.Instructors
         [Fact]
         public void Instructor_ClickDetailsButton_OpensDialog()
         {
-            var instructorsOverviewVM = new InstructorsOverviewVM
+            var instructorsOverviewVM = new OverviewVM<InstructorVM>
             {
-                Instructors =
+                Records =
                 {
                     new InstructorVM
                     {
@@ -126,9 +127,9 @@ namespace WebUI.Client.Test.Pages.Instructors
         [Fact]
         public void Instructor_ClickEditButton_OpensDialog()
         {
-            var instructorsOverviewVM = new InstructorsOverviewVM
+            var instructorsOverviewVM = new OverviewVM<InstructorVM>
             {
-                Instructors =
+                Records =
                 {
                     new InstructorVM
                     {
@@ -167,9 +168,9 @@ namespace WebUI.Client.Test.Pages.Instructors
         [Fact]
         public void Instructor_ClickDeleteButton_ShowsConfirmationDialog()
         {
-            var instructorsOverviewVM = new InstructorsOverviewVM
+            var instructorsOverviewVM = new OverviewVM<InstructorVM>
             {
-                Instructors =
+                Records =
                 {
                     new InstructorVM
                     {
@@ -207,9 +208,9 @@ namespace WebUI.Client.Test.Pages.Instructors
         [Fact]
         public void Instructor_ClickDeleteButtonAndConfirm_InstructorServiceShouldBeCalled()
         {
-            var instructorsOverviewVM = new InstructorsOverviewVM
+            var instructorsOverviewVM = new OverviewVM<InstructorVM>
             {
-                Instructors =
+                Records =
                 {
                     new InstructorVM
                     {
@@ -250,9 +251,9 @@ namespace WebUI.Client.Test.Pages.Instructors
         [Fact]
         public void Instructor_ClickSelectButton_ShowsCoursesForInstructor()
         {
-            var instructorsOverviewVM = new InstructorsOverviewVM
+            var instructorsOverviewVM = new OverviewVM<InstructorVM>
             {
-                Instructors =
+                Records =
                 {
                     new InstructorVM
                     {
@@ -301,9 +302,9 @@ namespace WebUI.Client.Test.Pages.Instructors
         [Fact]
         public void Instructor_ClickSelectButtonOnCoursesForInstructor_ShowsStudentsForCourse()
         {
-            var instructorsOverviewVM = new InstructorsOverviewVM
+            var instructorsOverviewVM = new OverviewVM<InstructorVM>
             {
-                Instructors =
+                Records =
                 {
                     new InstructorVM
                     {
