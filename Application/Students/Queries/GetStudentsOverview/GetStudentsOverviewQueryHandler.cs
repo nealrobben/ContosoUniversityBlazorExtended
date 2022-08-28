@@ -13,7 +13,7 @@ using WebUI.Shared.Common;
 
 namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview
 {
-    public class GetStudentsOverviewQueryHandler : IRequestHandler<GetStudentsOverviewQuery, StudentsOverviewVM>
+    public class GetStudentsOverviewQueryHandler : IRequestHandler<GetStudentsOverviewQuery, OverviewVM<StudentOverviewVM>>
     {
         private const int _defaultPageSize = 3;
 
@@ -26,7 +26,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
             _mapper = mapper;
         }
 
-        public async Task<StudentsOverviewVM> Handle(GetStudentsOverviewQuery request, CancellationToken cancellationToken)
+        public async Task<OverviewVM<StudentOverviewVM>> Handle(GetStudentsOverviewQuery request, CancellationToken cancellationToken)
         {
             var students = _context.Students
                 .Search(request.SearchString)
@@ -42,7 +42,7 @@ namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOvervi
                 .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return new StudentsOverviewVM(items, metaData);
+            return new OverviewVM<StudentOverviewVM>(items, metaData);
         }
     }
 }

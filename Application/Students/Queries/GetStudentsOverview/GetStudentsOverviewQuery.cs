@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using WebUI.Shared.Common;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 
 namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview
 {
-    public class GetStudentsOverviewQuery : IRequest<StudentsOverviewVM>
+    public class GetStudentsOverviewQuery : IRequest<OverviewVM<StudentOverviewVM>>
     {
         public string SortOrder { get; set; }
         public string SearchString { get; set; }

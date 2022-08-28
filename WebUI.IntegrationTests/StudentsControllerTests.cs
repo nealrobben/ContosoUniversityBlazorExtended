@@ -2,6 +2,7 @@
 using ContosoUniversityBlazor.Domain.Entities;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using WebUI.Shared.Common;
 using WebUI.Shared.Students.Commands.CreateStudent;
 using WebUI.Shared.Students.Commands.UpdateStudent;
 using WebUI.Shared.Students.Queries.GetStudentDetails;
@@ -18,7 +19,7 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            (await response.Content.ReadAsAsync<StudentsOverviewVM>()).Students.Should().BeEmpty();
+            (await response.Content.ReadAsAsync<OverviewVM<StudentOverviewVM>>()).Records.Should().BeEmpty();
         }
 
         [Fact]
@@ -43,13 +44,13 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<StudentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<StudentOverviewVM>>());
             
-            result.Students.Should().ContainSingle();
-            result.Students.First().StudentID.Should().Be(student.ID);
-            result.Students.First().FirstName.Should().Be(student.FirstMidName);
-            result.Students.First().LastName.Should().Be(student.LastName);
-            result.Students.First().EnrollmentDate.Should().Be(student.EnrollmentDate);
+            result.Records.Should().ContainSingle();
+            result.Records.First().StudentID.Should().Be(student.ID);
+            result.Records.First().FirstName.Should().Be(student.FirstMidName);
+            result.Records.First().LastName.Should().Be(student.LastName);
+            result.Records.First().EnrollmentDate.Should().Be(student.EnrollmentDate);
         }
 
         [Fact]
@@ -83,14 +84,14 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students?searchString=de");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<StudentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<StudentOverviewVM>>());
 
-            result.Students.Should().ContainSingle();
+            result.Records.Should().ContainSingle();
 
-            result.Students.First().StudentID.Should().Be(student2.ID);
-            result.Students.First().FirstName.Should().Be(student2.FirstMidName);
-            result.Students.First().LastName.Should().Be(student2.LastName);
-            result.Students.First().EnrollmentDate.Should().Be(student2.EnrollmentDate);
+            result.Records.First().StudentID.Should().Be(student2.ID);
+            result.Records.First().FirstName.Should().Be(student2.FirstMidName);
+            result.Records.First().LastName.Should().Be(student2.LastName);
+            result.Records.First().EnrollmentDate.Should().Be(student2.EnrollmentDate);
         }
 
         [Fact]
@@ -124,19 +125,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students?sortOrder=lastname_desc");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<StudentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<StudentOverviewVM>>());
 
-            result.Students.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Students[0].StudentID.Should().Be(student2.ID);
-            result.Students[0].FirstName.Should().Be(student2.FirstMidName);
-            result.Students[0].LastName.Should().Be(student2.LastName);
-            result.Students[0].EnrollmentDate.Should().Be(student2.EnrollmentDate);
+            result.Records[0].StudentID.Should().Be(student2.ID);
+            result.Records[0].FirstName.Should().Be(student2.FirstMidName);
+            result.Records[0].LastName.Should().Be(student2.LastName);
+            result.Records[0].EnrollmentDate.Should().Be(student2.EnrollmentDate);
 
-            result.Students[1].StudentID.Should().Be(student1.ID);
-            result.Students[1].FirstName.Should().Be(student1.FirstMidName);
-            result.Students[1].LastName.Should().Be(student1.LastName);
-            result.Students[1].EnrollmentDate.Should().Be(student1.EnrollmentDate);
+            result.Records[1].StudentID.Should().Be(student1.ID);
+            result.Records[1].FirstName.Should().Be(student1.FirstMidName);
+            result.Records[1].LastName.Should().Be(student1.LastName);
+            result.Records[1].EnrollmentDate.Should().Be(student1.EnrollmentDate);
         }
 
         [Fact]
@@ -188,19 +189,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students?pageSize=2");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<StudentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<StudentOverviewVM>>());
 
-            result.Students.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Students[0].StudentID.Should().Be(student1.ID);
-            result.Students[0].FirstName.Should().Be(student1.FirstMidName);
-            result.Students[0].LastName.Should().Be(student1.LastName);
-            result.Students[0].EnrollmentDate.Should().Be(student1.EnrollmentDate);
+            result.Records[0].StudentID.Should().Be(student1.ID);
+            result.Records[0].FirstName.Should().Be(student1.FirstMidName);
+            result.Records[0].LastName.Should().Be(student1.LastName);
+            result.Records[0].EnrollmentDate.Should().Be(student1.EnrollmentDate);
 
-            result.Students[1].StudentID.Should().Be(student2.ID);
-            result.Students[1].FirstName.Should().Be(student2.FirstMidName);
-            result.Students[1].LastName.Should().Be(student2.LastName);
-            result.Students[1].EnrollmentDate.Should().Be(student2.EnrollmentDate);
+            result.Records[1].StudentID.Should().Be(student2.ID);
+            result.Records[1].FirstName.Should().Be(student2.FirstMidName);
+            result.Records[1].LastName.Should().Be(student2.LastName);
+            result.Records[1].EnrollmentDate.Should().Be(student2.EnrollmentDate);
         }
 
         [Fact]
@@ -252,19 +253,19 @@ namespace WebUI.IntegrationTests
             var response = await _client.GetAsync("/api/students?pageSize=2&pageNumber=1");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var result = (await response.Content.ReadAsAsync<StudentsOverviewVM>());
+            var result = (await response.Content.ReadAsAsync<OverviewVM<StudentOverviewVM>>());
 
-            result.Students.Count.Should().Be(2);
+            result.Records.Count.Should().Be(2);
 
-            result.Students[0].StudentID.Should().Be(student3.ID);
-            result.Students[0].FirstName.Should().Be(student3.FirstMidName);
-            result.Students[0].LastName.Should().Be(student3.LastName);
-            result.Students[0].EnrollmentDate.Should().Be(student3.EnrollmentDate);
+            result.Records[0].StudentID.Should().Be(student3.ID);
+            result.Records[0].FirstName.Should().Be(student3.FirstMidName);
+            result.Records[0].LastName.Should().Be(student3.LastName);
+            result.Records[0].EnrollmentDate.Should().Be(student3.EnrollmentDate);
 
-            result.Students[1].StudentID.Should().Be(student4.ID);
-            result.Students[1].FirstName.Should().Be(student4.FirstMidName);
-            result.Students[1].LastName.Should().Be(student4.LastName);
-            result.Students[1].EnrollmentDate.Should().Be(student4.EnrollmentDate);
+            result.Records[1].StudentID.Should().Be(student4.ID);
+            result.Records[1].FirstName.Should().Be(student4.FirstMidName);
+            result.Records[1].LastName.Should().Be(student4.LastName);
+            result.Records[1].EnrollmentDate.Should().Be(student4.EnrollmentDate);
         }
 
         [Fact]

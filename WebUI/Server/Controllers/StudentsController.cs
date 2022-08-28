@@ -5,6 +5,7 @@ using ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebUI.Shared.Common;
 using WebUI.Shared.Students.Commands.CreateStudent;
 using WebUI.Shared.Students.Commands.UpdateStudent;
 using WebUI.Shared.Students.Queries.GetStudentDetails;
@@ -16,7 +17,7 @@ namespace ContosoUniversityBlazor.WebUI.Controllers
     public class StudentsController : ContosoApiController
     {
         [HttpGet]
-        public async Task<ActionResult<StudentsOverviewVM>> GetAll(string sortOrder, 
+        public async Task<ActionResult<OverviewVM<StudentOverviewVM>>> GetAll(string sortOrder, 
             string searchString, int? pageNumber, int? pageSize)
         {
             var vm = await Mediator.Send(new GetStudentsOverviewQuery(sortOrder, 

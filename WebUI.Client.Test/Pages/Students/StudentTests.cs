@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using WebUI.Client.Services;
 using WebUI.Client.Test.Extensions;
+using WebUI.Shared.Common;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 using Xunit;
 
@@ -68,9 +69,9 @@ namespace WebUI.Client.Test.Pages.Students
         [Fact]
         public void Students_ClickDetailsButton_OpensDialog()
         {
-            var studentsOverviewVM = new StudentsOverviewVM
+            var studentsOverviewVM = new OverviewVM<StudentOverviewVM>
             {
-                Students =
+                Records =
                 {
                     new StudentOverviewVM
                     {
@@ -100,9 +101,9 @@ namespace WebUI.Client.Test.Pages.Students
         [Fact]
         public void Students_ClickEditButton_OpensDialog()
         {
-            var studentsOverviewVM = new StudentsOverviewVM
+            var studentsOverviewVM = new OverviewVM<StudentOverviewVM>
             {
-                Students =
+                Records =
                 {
                     new StudentOverviewVM
                     {
@@ -135,9 +136,9 @@ namespace WebUI.Client.Test.Pages.Students
         [Fact]
         public void Students_ClickDeleteButton_ShowsConfirmationDialog()
         {
-            var studentsOverviewVM = new StudentsOverviewVM
+            var studentsOverviewVM = new OverviewVM<StudentOverviewVM>
             {
-                Students =
+                Records =
                 {
                     new StudentOverviewVM
                     {
@@ -172,9 +173,9 @@ namespace WebUI.Client.Test.Pages.Students
         [Fact]
         public void Students_ClickDeleteButtonAndConfirm_StudentServiceShouldBeCalled()
         {
-            var studentsOverviewVM = new StudentsOverviewVM
+            var studentsOverviewVM = new OverviewVM<StudentOverviewVM>
             {
-                Students =
+                Records =
                 {
                     new StudentOverviewVM
                     {
