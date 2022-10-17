@@ -9,65 +9,64 @@ using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Students.Commands.CreateStudent;
 
-namespace WebUI.Client.Pages.Students
+namespace WebUI.Client.Pages.Students;
+
+public partial class StudentCreate
 {
-    public partial class StudentCreate
+    [Inject]
+    public IStringLocalizer<StudentCreate> Localizer { get; set; }
+
+    [Inject]
+    public IFileuploadService FileUploadService { get; set; }
+
+    [Inject]
+    public IStudentService StudentService { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    public CreateStudentCommand CreateStudentCommand { get; set; } = new CreateStudentCommand { EnrollmentDate = DateTime.Now.Date };
+
+    public bool ErrorVisible { get; set; }
+
+    public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
+
+    public async Task FormSubmitted(EditContext editContext)
     {
-        [Inject]
-        public IStringLocalizer<StudentCreate> Localizer { get; set; }
+        ErrorVisible = false;
+        bool formIsValid = editContext.Validate();
 
-        [Inject]
-        public IFileuploadService FileUploadService { get; set; }
-
-        [Inject]
-        public IStudentService StudentService { get; set; }
-
-        [CascadingParameter]
-        MudDialogInstance MudDialog { get; set; }
-
-        public CreateStudentCommand CreateStudentCommand { get; set; } = new CreateStudentCommand { EnrollmentDate = DateTime.Now.Date };
-
-        public bool ErrorVisible { get; set; }
-
-        public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
-
-        public async Task FormSubmitted(EditContext editContext)
+        if (formIsValid)
         {
-            ErrorVisible = false;
-            bool formIsValid = editContext.Validate();
-
-            if (formIsValid)
+            try
             {
-                try
+                if (files.Any())
                 {
-                    if (files.Any())
-                    {
-                        CreateStudentCommand.ProfilePictureName = await FileUploadService.UploadFile(files.First());
-                    }
-
-                    await StudentService.CreateAsync(CreateStudentCommand);
-
-                    CreateStudentCommand = new CreateStudentCommand();
-                    MudDialog.Close(DialogResult.Ok(true));
+                    CreateStudentCommand.ProfilePictureName = await FileUploadService.UploadFile(files.First());
                 }
-                catch (Exception)
-                {
-                    ErrorVisible = true;
-                }
+
+                await StudentService.CreateAsync(CreateStudentCommand);
+
+                CreateStudentCommand = new CreateStudentCommand();
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            catch (Exception)
+            {
+                ErrorVisible = true;
             }
         }
+    }
 
-        public void Cancel()
-        {
-            MudDialog.Cancel();
-        }
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
 
-        public void UploadFiles(InputFileChangeEventArgs e)
+    public void UploadFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
         {
-            foreach (var file in e.GetMultipleFiles())
-            {
-                files.Add(file);
-            }
+            files.Add(file);
         }
     }
 }

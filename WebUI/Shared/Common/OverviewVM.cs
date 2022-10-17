@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
 
-namespace WebUI.Shared.Common
+namespace WebUI.Shared.Common;
+
+public class OverviewVM<T>
 {
-    public class OverviewVM<T>
+    public IList<T> Records { get; set; }
+
+    public MetaData MetaData { get; set; }
+
+    public OverviewVM()
     {
-        public IList<T> Records { get; set; }
+        Records = new List<T>();
+        MetaData = new MetaData();
+    }
 
-        public MetaData MetaData { get; set; }
-
-        public OverviewVM()
-        {
+    public OverviewVM(IList<T> records, MetaData metaData)
+    {
+        if (records != null)
+            Records = records;
+        else
             Records = new List<T>();
-            MetaData = new MetaData();
-        }
 
-        public OverviewVM(IList<T> records, MetaData metaData)
-        {
-            if (records != null)
-                Records = records;
-            else
-                Records = new List<T>();
-
-            MetaData = metaData;
-        }
+        MetaData = metaData;
     }
 }

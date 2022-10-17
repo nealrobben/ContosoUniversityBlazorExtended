@@ -5,32 +5,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 
-namespace ContosoUniversityBlazor.Application.Departments.Commands.CreateDepartment
+namespace ContosoUniversityBlazor.Application.Departments.Commands.CreateDepartment;
+
+public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, int>
 {
-    public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, int>
+    private readonly ISchoolContext _context;
+
+    public CreateDepartmentCommandHandler(ISchoolContext context)
     {
-        private readonly ISchoolContext _context;
+        _context = context;
+    }
 
-        public CreateDepartmentCommandHandler(ISchoolContext context)
+    public async Task<int> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
+    {
+        var newDepartment = new Department
         {
-            _context = context;
-        }
+            Name = request.Name,
+            Budget = request.Budget,
+            StartDate = request.StartDate,
+            InstructorID = request.InstructorID
+        };
 
-        public async Task<int> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
-        {
-            var newDepartment = new Department
-            {
-                Name = request.Name,
-                Budget = request.Budget,
-                StartDate = request.StartDate,
-                InstructorID = request.InstructorID
-            };
+        _context.Departments.Add(newDepartment);
 
-            _context.Departments.Add(newDepartment);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return newDepartment.DepartmentID;
-        }
+        return newDepartment.DepartmentID;
     }
 }

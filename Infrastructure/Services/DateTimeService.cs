@@ -1,10 +1,9 @@
 ﻿using ContosoUniversityBlazor.Application.Common.Interfaces;
 using System;
 
-namespace ContosoUniversityBlazor.Infrastructure.Services
+namespace ContosoUniversityBlazor.Infrastructure.Services;
+
+public class DateTimeService : IDateTime
 {
-    public class DateTimeService : IDateTime
-    {
-        public DateTime Now => DateTime.Now;
-    }
+    public DateTime Now => DateTime.Now;
 }

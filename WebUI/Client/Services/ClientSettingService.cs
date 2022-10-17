@@ -3,62 +3,61 @@ using MudBlazor;
 using System.Threading.Tasks;
 using WebUI.Client.Settings;
 
-namespace WebUI.Client.Services
+namespace WebUI.Client.Services;
+
+public class ClientSettingService
 {
-    public class ClientSettingService
+    private const string clientSettingsKey = "ClientSettings";
+
+    private readonly ILocalStorageService _localStorageService;
+
+    public ClientSettingService(ILocalStorageService localStorageService)
     {
-        private const string clientSettingsKey = "ClientSettings";
+        _localStorageService = localStorageService;
+    }
 
-        private readonly ILocalStorageService _localStorageService;
-
-        public ClientSettingService(ILocalStorageService localStorageService)
+    public async Task SetCulture(string languageCode)
+    {
+        var setting = await GetSettings();
+        if (setting != null)
         {
-            _localStorageService = localStorageService;
+            setting.LanguageCode = languageCode;
+            await SetSettings(setting);
+        }
+    }
+
+    public async Task<bool> ToggleDarkModeAsync()
+    {
+        var setting = await GetSettings();
+        if (setting != null)
+        {
+            setting.IsDarkMode = !setting.IsDarkMode;
+            await SetSettings(setting);
+            return !setting.IsDarkMode;
         }
 
-        public async Task SetCulture(string languageCode)
+        return false;
+    }
+
+    public async Task<MudTheme> GetCurrentThemeAsync()
+    {
+        var setting = await GetSettings();
+
+        if (setting != null)
         {
-            var setting = await GetSettings();
-            if (setting != null)
-            {
-                setting.LanguageCode = languageCode;
-                await SetSettings(setting);
-            }
+            if (setting.IsDarkMode == true) return Themes.DarkTheme;
         }
 
-        public async Task<bool> ToggleDarkModeAsync()
-        {
-            var setting = await GetSettings();
-            if (setting != null)
-            {
-                setting.IsDarkMode = !setting.IsDarkMode;
-                await SetSettings(setting);
-                return !setting.IsDarkMode;
-            }
+        return Themes.DefaultTheme;
+    }
 
-            return false;
-        }
+    public async Task<ClientSetting> GetSettings()
+    {
+        return await _localStorageService.GetItemAsync<ClientSetting>(clientSettingsKey) ?? new ClientSetting();
+    }
 
-        public async Task<MudTheme> GetCurrentThemeAsync()
-        {
-            var setting = await GetSettings();
-
-            if (setting != null)
-            {
-                if (setting.IsDarkMode == true) return Themes.DarkTheme;
-            }
-
-            return Themes.DefaultTheme;
-        }
-
-        public async Task<ClientSetting> GetSettings()
-        {
-            return await _localStorageService.GetItemAsync<ClientSetting>(clientSettingsKey) ?? new ClientSetting();
-        }
-
-        public async Task SetSettings(ClientSetting setting)
-        {
-            await _localStorageService.SetItemAsync(clientSettingsKey, setting);
-        }
+    public async Task SetSettings(ClientSetting setting)
+    {
+        await _localStorageService.SetItemAsync(clientSettingsKey, setting);
     }
 }

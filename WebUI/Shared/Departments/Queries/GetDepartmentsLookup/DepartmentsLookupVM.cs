@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 
-namespace WebUI.Shared.Departments.Queries.GetDepartmentsLookup
+namespace WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
+
+public class DepartmentsLookupVM
 {
-    public class DepartmentsLookupVM
+    public IList<DepartmentLookupVM> Departments { get; set; }
+
+    public DepartmentsLookupVM()
     {
-        public IList<DepartmentLookupVM> Departments { get; set; }
+        Departments = new List<DepartmentLookupVM>();
+    }
 
-        public DepartmentsLookupVM()
-        {
-            Departments = new List<DepartmentLookupVM>();
-        }
-
-        public DepartmentsLookupVM(IList<DepartmentLookupVM> departments)
-        {
-            Departments = departments;
-        }
+    public DepartmentsLookupVM(IList<DepartmentLookupVM> departments)
+    {
+        Departments = departments;
     }
 }

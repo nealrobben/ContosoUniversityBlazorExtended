@@ -7,36 +7,36 @@
                 </dt>
                 <dd class="col-sm-8">
                     @if (Department != null)
-                    {
-                        @Department.Name
-                    }
+                {
+                    @Department.Name
+                }
                 </dd>
                 <dt class="col-sm-4">
                     @Localizer["Budget"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (Department != null)
-                    {
-                        @Department.Budget.ToString("F")
-                    }
+                {
+                    @Department.Budget.ToString("F")
+                }
                 </dd>
                 <dt class="col-sm-4">
                     @Localizer["StartDate"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (Department != null)
-                    {
-                        @Department.StartDate.ToShortDateString()
-                    }
+                {
+                    @Department.StartDate.ToShortDateString()
+                }
                 </dd>
                 <dt class="col-sm-4">
                     @Localizer["AdministratorName"]
                 </dt>
                 <dd class="col-sm-8">
                     @if (Department != null)
-                    {
-                        @Department.AdministratorName
-                    }
+                {
+                    @Department.AdministratorName
+                }
                 </dd>
             </dl>
         </div>

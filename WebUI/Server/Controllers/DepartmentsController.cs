@@ -12,65 +12,64 @@ using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using WebUI.Shared.Common;
 
-namespace ContosoUniversityBlazor.WebUI.Controllers
+namespace ContosoUniversityBlazor.WebUI.Controllers;
+
+public class DepartmentsController : ContosoApiController
 {
-    public class DepartmentsController : ContosoApiController
+    [HttpGet]
+    public async Task<ActionResult<OverviewVM<DepartmentVM>>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
     {
-        [HttpGet]
-        public async Task<ActionResult<OverviewVM<DepartmentVM>>> GetAll(string sortOrder, string searchString, int? pageNumber, int? pageSize)
-        {
-            var vm = await Mediator.Send(new GetDepartmentsOverviewQuery(sortOrder, searchString, pageNumber, pageSize));
+        var vm = await Mediator.Send(new GetDepartmentsOverviewQuery(sortOrder, searchString, pageNumber, pageSize));
 
-            return Ok(vm);
-        }
+        return Ok(vm);
+    }
 
-        [HttpGet("{id}", Name = "GetDepartment")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DepartmentDetailVM>> Get(string id)
-        {
-            var vm = await Mediator.Send(new GetDepartmentDetailsQuery(int.Parse(id)));
+    [HttpGet("{id}", Name = "GetDepartment")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<DepartmentDetailVM>> Get(string id)
+    {
+        var vm = await Mediator.Send(new GetDepartmentDetailsQuery(int.Parse(id)));
 
-            return Ok(vm);
-        }
+        return Ok(vm);
+    }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Create([FromBody] CreateDepartmentCommand command)
-        {
-            var departmentID = await Mediator.Send(command);
-            var result = await Mediator.Send(new GetDepartmentDetailsQuery(departmentID));
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Create([FromBody] CreateDepartmentCommand command)
+    {
+        var departmentID = await Mediator.Send(command);
+        var result = await Mediator.Send(new GetDepartmentDetailsQuery(departmentID));
 
-            return CreatedAtRoute("GetDepartment", new { id = departmentID.ToString() }, result);
-        }
+        return CreatedAtRoute("GetDepartment", new { id = departmentID.ToString() }, result);
+    }
 
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(string id)
-        {
-            await Mediator.Send(new DeleteDepartmentCommand(int.Parse(id)));
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(string id)
+    {
+        await Mediator.Send(new DeleteDepartmentCommand(int.Parse(id)));
 
-            return NoContent();
-        }
+        return NoContent();
+    }
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Update([FromBody] UpdateDepartmentCommand command)
-        {
-            await Mediator.Send(command);
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Update([FromBody] UpdateDepartmentCommand command)
+    {
+        await Mediator.Send(command);
 
-            return NoContent();
-        }
+        return NoContent();
+    }
 
-        [HttpGet("lookup")]
-        public async Task<ActionResult<DepartmentsLookupVM>> GetLookup()
-        {
-            var vm = await Mediator.Send(new GetDepartmentsLookupQuery());
+    [HttpGet("lookup")]
+    public async Task<ActionResult<DepartmentsLookupVM>> GetLookup()
+    {
+        var vm = await Mediator.Send(new GetDepartmentsLookupQuery());
 
-            return Ok(vm);
-        }
+        return Ok(vm);
     }
 }

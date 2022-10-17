@@ -1,12 +1,11 @@
 ﻿using AngleSharp.Dom;
 
-namespace WebUI.Client.Test.Extensions
+namespace WebUI.Client.Test.Extensions;
+
+public static class AngleSharpExtensions
 {
-    public static class AngleSharpExtensions
+    public static string TrimmedText(this IElement self)
     {
-        public static string TrimmedText(this IElement self)
-        {
-            return self.TextContent.Trim();
-        }
+        return self.TextContent.Trim();
     }
 }

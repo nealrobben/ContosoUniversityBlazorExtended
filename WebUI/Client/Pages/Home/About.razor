@@ -26,10 +26,10 @@ else
                     </tr>
 
                     @if (aboutInfo != null)
+                {
+                    @foreach (var item in aboutInfo.Items)
                     {
-                        @foreach (var item in aboutInfo.Items)
-                        {
-                            <tr>
+                        <tr>
                                 <td>
                                     @item.EnrollmentDate?.ToShortDateString()
                                 </td>
@@ -37,8 +37,8 @@ else
                                     @item.StudentCount
                                 </td>
                             </tr>
-                        }
                     }
+                }
 
                 </table>
             </MudText>

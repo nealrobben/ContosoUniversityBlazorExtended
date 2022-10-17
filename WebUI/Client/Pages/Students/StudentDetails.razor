@@ -11,27 +11,27 @@
                         </dt>
                         <dd class="col-sm-8">
                             @if (Student != null)
-                            {
-                                @Student.LastName
-                            }
+                        {
+                            @Student.LastName
+                        }
                         </dd>
                         <dt class="col-sm-4">
                             @Localizer["FirstName"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (Student != null)
-                            {
-                                @Student.FirstName
-                            }
+                        {
+                            @Student.FirstName
+                        }
                         </dd>
                         <dt class="col-sm-4">
                             @Localizer["EnrollmentDate"]
                         </dt>
                         <dd class="col-sm-8">
                             @if (Student != null)
-                            {
-                                @Student.EnrollmentDate.ToShortDateString()
-                            }
+                        {
+                            @Student.EnrollmentDate.ToShortDateString()
+                        }
                         </dd>
                         <dt class="col-sm-4">
                             @Localizer["Enrollments"]
@@ -43,10 +43,10 @@
                                     <th>@Localizer["StudentGrade"]</th>
                                 </tr>
                                 @if (Student != null)
+                            {
+                                @foreach (var item in Student.Enrollments)
                                 {
-                                    @foreach (var item in Student.Enrollments)
-                                    {
-                                        <tr>
+                                    <tr>
                                             <td>
                                                 @item.CourseTitle
                                             </td>
@@ -54,8 +54,8 @@
                                                 @item.Grade
                                             </td>
                                         </tr>
-                                    }
                                 }
+                            }
                             </table>
                         </dd>
                     </dl>

@@ -8,38 +8,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Students.Commands.UpdateStudent;
 
-namespace ContosoUniversityBlazor.Application.Students.Commands.UpdateStudent
+namespace ContosoUniversityBlazor.Application.Students.Commands.UpdateStudent;
+
+public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand>
 {
-    public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand>
+    private readonly ISchoolContext _context;
+    private readonly IProfilePictureService _profilePictureService;
+
+    public UpdateStudentCommandHandler(ISchoolContext context, IProfilePictureService profilePictureService)
     {
-        private readonly ISchoolContext _context;
-        private readonly IProfilePictureService _profilePictureService;
+        _context = context;
+        _profilePictureService = profilePictureService;
+    }
 
-        public UpdateStudentCommandHandler(ISchoolContext context, IProfilePictureService profilePictureService)
-        {
-            _context = context;
-            _profilePictureService = profilePictureService;
-        }
+    public async Task<Unit> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
+    {
+        if (request.StudentID == null)
+            throw new NotFoundException(nameof(Student), request.StudentID);
 
-        public async Task<Unit> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
-        {
-            if (request.StudentID == null)
-                throw new NotFoundException(nameof(Student), request.StudentID);
+        var studentToUpdate = await _context.Students
+            .FirstOrDefaultAsync(s => s.ID == request.StudentID);
 
-            var studentToUpdate = await _context.Students
-                .FirstOrDefaultAsync(s => s.ID == request.StudentID);
+        if (!Equals(studentToUpdate.ProfilePictureName, request.ProfilePictureName))
+            _profilePictureService.DeleteImageFile(studentToUpdate.ProfilePictureName);
 
-            if (!Equals(studentToUpdate.ProfilePictureName, request.ProfilePictureName))
-                _profilePictureService.DeleteImageFile(studentToUpdate.ProfilePictureName);
+        studentToUpdate.FirstMidName = request.FirstName;
+        studentToUpdate.LastName = request.LastName;
+        studentToUpdate.EnrollmentDate = request.EnrollmentDate;
+        studentToUpdate.ProfilePictureName = request.ProfilePictureName;
 
-            studentToUpdate.FirstMidName = request.FirstName;
-            studentToUpdate.LastName = request.LastName;
-            studentToUpdate.EnrollmentDate = request.EnrollmentDate;
-            studentToUpdate.ProfilePictureName = request.ProfilePictureName;
+        await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

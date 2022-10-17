@@ -5,32 +5,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Students.Commands.CreateStudent;
 
-namespace ContosoUniversityBlazor.Application.Students.Commands.CreateStudent
+namespace ContosoUniversityBlazor.Application.Students.Commands.CreateStudent;
+
+public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,int>
 {
-    public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,int>
+    private readonly ISchoolContext _context;
+
+    public CreateStudentCommandHandler(ISchoolContext context)
     {
-        private readonly ISchoolContext _context;
+        _context = context;
+    }
 
-        public CreateStudentCommandHandler(ISchoolContext context)
+    public async Task<int> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
+    {
+        var newStudent = new Student
         {
-            _context = context;
-        }
+            FirstMidName = request.FirstName,
+            LastName = request.LastName,
+            EnrollmentDate = request.EnrollmentDate,
+            ProfilePictureName = request.ProfilePictureName
+        };
 
-        public async Task<int> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
-        {
-            var newStudent = new Student
-            {
-                FirstMidName = request.FirstName,
-                LastName = request.LastName,
-                EnrollmentDate = request.EnrollmentDate,
-                ProfilePictureName = request.ProfilePictureName
-            };
+        _context.Students.Add(newStudent);
 
-            _context.Students.Add(newStudent);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return newStudent.ID;
-        }
+        return newStudent.ID;
     }
 }

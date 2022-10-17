@@ -8,28 +8,27 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebUI.Shared.Home.Queries.GetAboutInfo;
 
-namespace WebUI.Client.Pages.Home
+namespace WebUI.Client.Pages.Home;
+
+public partial class About
 {
-    public partial class About
+    private AboutInfoVM aboutInfo;
+
+    [Inject]
+    public HttpClient Http { get; set; }
+
+    [Inject]
+    IStringLocalizer<About> Localizer { get; set; }
+
+    public List<ChartSeries> Series = new List<ChartSeries>();
+    public string[] XAxisLabels = {};
+
+    protected override async Task OnInitializedAsync()
     {
-        private AboutInfoVM aboutInfo;
+        aboutInfo = await Http.GetFromJsonAsync<AboutInfoVM>("/api/about");
 
-        [Inject]
-        public HttpClient Http { get; set; }
-
-        [Inject]
-        IStringLocalizer<About> Localizer { get; set; }
-
-        public List<ChartSeries> Series = new List<ChartSeries>();
-        public string[] XAxisLabels = {};
-
-        protected override async Task OnInitializedAsync()
-        {
-            aboutInfo = await Http.GetFromJsonAsync<AboutInfoVM>("/api/about");
-
-            XAxisLabels = aboutInfo.Items.Select(x => x.EnrollmentDate.Value.ToShortDateString()).ToArray();
-            var chartSeries = new ChartSeries() { Name = "Students", Data = aboutInfo.Items.Select(x => (double)x.StudentCount).ToArray() };
-            Series = new List<ChartSeries> { chartSeries };
-        }
+        XAxisLabels = aboutInfo.Items.Select(x => x.EnrollmentDate.Value.ToShortDateString()).ToArray();
+        var chartSeries = new ChartSeries() { Name = "Students", Data = aboutInfo.Items.Select(x => (double)x.StudentCount).ToArray() };
+        Series = new List<ChartSeries> { chartSeries };
     }
 }

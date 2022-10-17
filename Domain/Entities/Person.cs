@@ -1,23 +1,22 @@
-﻿namespace ContosoUniversityBlazor.Domain.Entities
+﻿namespace ContosoUniversityBlazor.Domain.Entities;
+
+public class Person
 {
-    public class Person
+    public int ID { get; set; }
+    public string LastName { get; set; }
+    public string FirstMidName { get; set; }
+    public string ProfilePictureName { get; set; }
+
+    public string FullName
     {
-        public int ID { get; set; }
-        public string LastName { get; set; }
-        public string FirstMidName { get; set; }
-        public string ProfilePictureName { get; set; }
-
-        public string FullName
+        get
         {
-            get
-            {
-                return LastName + ", " + FirstMidName;
-            }
+            return LastName + ", " + FirstMidName;
         }
+    }
 
-        public override string ToString()
-        {
-            return FullName;
-        }
+    public override string ToString()
+    {
+        return FullName;
     }
 }

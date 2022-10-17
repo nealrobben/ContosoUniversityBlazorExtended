@@ -1,10 +1,9 @@
-﻿namespace ContosoUniversityBlazor.Domain.Enums
+﻿namespace ContosoUniversityBlazor.Domain.Enums;
+
+public enum PriorityLevel
 {
-    public enum PriorityLevel
-    {
-        None,
-        Low,
-        Medium,
-        High
-    }
+    None,
+    Low,
+    Medium,
+    High
 }

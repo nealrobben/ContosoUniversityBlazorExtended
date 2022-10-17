@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 
-namespace WebUI.Shared.Students.Queries.GetStudentsForCourse
+namespace WebUI.Shared.Students.Queries.GetStudentsForCourse;
+
+public class StudentsForCourseVM
 {
-    public class StudentsForCourseVM
+    public IList<StudentForCourseVM> Students { get; set; }
+
+    public StudentsForCourseVM()
     {
-        public IList<StudentForCourseVM> Students { get; set; }
+        Students = new List<StudentForCourseVM>();
+    }
 
-        public StudentsForCourseVM()
-        {
-            Students = new List<StudentForCourseVM>();
-        }
-
-        public StudentsForCourseVM(IList<StudentForCourseVM> students)
-        {
-            Students = students;
-        }
+    public StudentsForCourseVM(IList<StudentForCourseVM> students)
+    {
+        Students = students;
     }
 }

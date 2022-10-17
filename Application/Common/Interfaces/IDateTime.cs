@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace ContosoUniversityBlazor.Application.Common.Interfaces
+namespace ContosoUniversityBlazor.Application.Common.Interfaces;
+
+public interface IDateTime
 {
-    public interface IDateTime
-    {
-        DateTime Now { get; }
-    }
+    DateTime Now { get; }
 }

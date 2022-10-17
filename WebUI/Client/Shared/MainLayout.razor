@@ -28,23 +28,23 @@
 </MudLayout>
 
 @code {
-    bool _drawerOpen = true;
-    MudTheme _currentTheme;
+bool _drawerOpen = true;
+MudTheme _currentTheme;
 
-    protected override async Task OnInitializedAsync()
-    {
-        _currentTheme = await ClientSettingService.GetCurrentThemeAsync();
-    }
+protected override async Task OnInitializedAsync()
+{
+    _currentTheme = await ClientSettingService.GetCurrentThemeAsync();
+}
 
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
+void DrawerToggle()
+{
+    _drawerOpen = !_drawerOpen;
+}
 
-    private async Task ToggleDarkMode()
-    {
-        bool isDarkMode = await ClientSettingService.ToggleDarkModeAsync();
-        _currentTheme = isDarkMode
-            ? Themes.DefaultTheme: Themes.DarkTheme;
-    }
+private async Task ToggleDarkMode()
+{
+    bool isDarkMode = await ClientSettingService.ToggleDarkModeAsync();
+    _currentTheme = isDarkMode
+        ? Themes.DefaultTheme: Themes.DarkTheme;
+}
 }

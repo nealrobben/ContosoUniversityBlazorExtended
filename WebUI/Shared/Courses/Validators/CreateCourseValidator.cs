@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 
-namespace WebUI.Shared.Courses.Validators
+namespace WebUI.Shared.Courses.Validators;
+
+public class CreateCourseValidator : AbstractValidator<CreateCourseCommand>
 {
-    public class CreateCourseValidator : AbstractValidator<CreateCourseCommand>
+    public CreateCourseValidator()
     {
-        public CreateCourseValidator()
-        {
-            RuleFor(p => p.CourseID).NotEmpty();
-            RuleFor(p => p.Title).NotEmpty().MaximumLength(50);
-            RuleFor(p => p.Credits).NotEmpty().GreaterThan(0);
-            RuleFor(p => p.DepartmentID).NotEmpty();
-        }
+        RuleFor(p => p.CourseID).NotEmpty();
+        RuleFor(p => p.Title).NotEmpty().MaximumLength(50);
+        RuleFor(p => p.Credits).NotEmpty().GreaterThan(0);
+        RuleFor(p => p.DepartmentID).NotEmpty();
     }
 }

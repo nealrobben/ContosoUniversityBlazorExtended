@@ -1,15 +1,14 @@
 ﻿using MediatR;
 
-namespace WebUI.Shared.Courses.Commands.CreateCourse
+namespace WebUI.Shared.Courses.Commands.CreateCourse;
+
+public class CreateCourseCommand : IRequest<int>
 {
-    public class CreateCourseCommand : IRequest<int>
-    {
-        public int CourseID { get; set; }
+    public int CourseID { get; set; }
 
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-        public int Credits { get; set; }
+    public int Credits { get; set; }
 
-        public int DepartmentID { get; set; }
-    }
+    public int DepartmentID { get; set; }
 }

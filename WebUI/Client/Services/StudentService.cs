@@ -8,27 +8,26 @@ using WebUI.Shared.Students.Queries.GetStudentsOverview;
 using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 using WebUI.Shared.Common;
 
-namespace WebUI.Client.Services
+namespace WebUI.Client.Services;
+
+public interface IStudentService 
+    : IServiceBase<OverviewVM<StudentOverviewVM>, StudentDetailsVM, 
+        CreateStudentCommand, UpdateStudentCommand>
 {
-    public interface IStudentService 
-        : IServiceBase<OverviewVM<StudentOverviewVM>, StudentDetailsVM, 
-            CreateStudentCommand, UpdateStudentCommand>
+    Task<StudentsForCourseVM> GetStudentsForCourse(string courseId);
+}
+
+public class StudentService 
+    : ServiceBase<OverviewVM<StudentOverviewVM>, StudentDetailsVM, 
+        CreateStudentCommand, UpdateStudentCommand>, IStudentService
+{
+    public StudentService(HttpClient http) 
+        : base(http, "students")
     {
-        Task<StudentsForCourseVM> GetStudentsForCourse(string courseId);
     }
 
-    public class StudentService 
-        : ServiceBase<OverviewVM<StudentOverviewVM>, StudentDetailsVM, 
-            CreateStudentCommand, UpdateStudentCommand>, IStudentService
+    public async Task<StudentsForCourseVM> GetStudentsForCourse(string courseId)
     {
-        public StudentService(HttpClient http) 
-            : base(http, "students")
-        {
-        }
-
-        public async Task<StudentsForCourseVM> GetStudentsForCourse(string courseId)
-        {
-            return await _http.GetFromJsonAsync<StudentsForCourseVM>($"{Endpoint}/bycourse/{courseId}");
-        }
+        return await _http.GetFromJsonAsync<StudentsForCourseVM>($"{Endpoint}/bycourse/{courseId}");
     }
 }

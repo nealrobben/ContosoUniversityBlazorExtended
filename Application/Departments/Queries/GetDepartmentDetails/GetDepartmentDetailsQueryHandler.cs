@@ -9,34 +9,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 
-namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentDetails
+namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentDetails;
+
+public class GetDepartmentDetailsQueryHandler : IRequestHandler<GetDepartmentDetailsQuery, DepartmentDetailVM>
 {
-    public class GetDepartmentDetailsQueryHandler : IRequestHandler<GetDepartmentDetailsQuery, DepartmentDetailVM>
+    private readonly ISchoolContext _context;
+    private readonly IMapper _mapper;
+
+    public GetDepartmentDetailsQueryHandler(ISchoolContext context, IMapper mapper)
     {
-        private readonly ISchoolContext _context;
-        private readonly IMapper _mapper;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public GetDepartmentDetailsQueryHandler(ISchoolContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+    public async Task<DepartmentDetailVM> Handle(GetDepartmentDetailsQuery request, CancellationToken cancellationToken)
+    {
+        if (request.ID == null)
+            throw new NotFoundException(nameof(Department), request.ID);
 
-        public async Task<DepartmentDetailVM> Handle(GetDepartmentDetailsQuery request, CancellationToken cancellationToken)
-        {
-            if (request.ID == null)
-                throw new NotFoundException(nameof(Department), request.ID);
+        var department = await _context.Departments
+            .Include(i => i.Administrator)
+            .AsNoTracking()
+            .ProjectTo<DepartmentDetailVM>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(m => m.DepartmentID == request.ID, cancellationToken);
 
-            var department = await _context.Departments
-                .Include(i => i.Administrator)
-                .AsNoTracking()
-                .ProjectTo<DepartmentDetailVM>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(m => m.DepartmentID == request.ID, cancellationToken);
+        if(department == null)
+            throw new NotFoundException(nameof(Department), request.ID);
 
-            if(department == null)
-                throw new NotFoundException(nameof(Department), request.ID);
-
-            return department;
-        }
+        return department;
     }
 }

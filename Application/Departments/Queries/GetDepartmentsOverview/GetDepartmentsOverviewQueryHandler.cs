@@ -10,41 +10,40 @@ using System.Threading.Tasks;
 using WebUI.Shared.Common;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
-namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsOverview
+namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsOverview;
+
+public class GetDepartmentsOverviewQueryHandler : IRequestHandler<GetDepartmentsOverviewQuery, OverviewVM<DepartmentVM>>
 {
-    public class GetDepartmentsOverviewQueryHandler : IRequestHandler<GetDepartmentsOverviewQuery, OverviewVM<DepartmentVM>>
+    private readonly ISchoolContext _context;
+    private readonly IMapper _mapper;
+
+    private const int _defaultPageSize = 10;
+
+    public GetDepartmentsOverviewQueryHandler(ISchoolContext context, IMapper mapper)
     {
-        private readonly ISchoolContext _context;
-        private readonly IMapper _mapper;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        private const int _defaultPageSize = 10;
+    public async Task<OverviewVM<DepartmentVM>> Handle(GetDepartmentsOverviewQuery request, CancellationToken cancellationToken)
+    {
+        var departments = _context.Departments
+            .Search(request.SearchString)
+            .Sort(request.SortOrder);
 
-        public GetDepartmentsOverviewQueryHandler(ISchoolContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        var totalDepartments = await departments.CountAsync();
 
-        public async Task<OverviewVM<DepartmentVM>> Handle(GetDepartmentsOverviewQuery request, CancellationToken cancellationToken)
-        {
-            var departments = _context.Departments
-                .Search(request.SearchString)
-                .Sort(request.SortOrder);
+        var metaData = new MetaData(request.PageNumber ?? 0, totalDepartments,
+            request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
 
-            var totalDepartments = await departments.CountAsync();
+        var items = await departments
+            .Include(d => d.Administrator)
+            .AsNoTracking()
+            .Skip((metaData.PageNumber) * metaData.PageSize)
+            .Take(metaData.PageSize)
+            .ProjectTo<DepartmentVM>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
 
-            var metaData = new MetaData(request.PageNumber ?? 0, totalDepartments,
-                request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
-
-            var items = await departments
-                .Include(d => d.Administrator)
-                .AsNoTracking()
-                .Skip((metaData.PageNumber) * metaData.PageSize)
-                .Take(metaData.PageSize)
-                .ProjectTo<DepartmentVM>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
-
-            return new OverviewVM<DepartmentVM>(items, metaData);
-        }
+        return new OverviewVM<DepartmentVM>(items, metaData);
     }
 }

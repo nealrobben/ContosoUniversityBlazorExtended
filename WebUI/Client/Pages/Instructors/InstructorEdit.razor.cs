@@ -8,77 +8,76 @@ using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 
-namespace WebUI.Client.Pages.Instructors
+namespace WebUI.Client.Pages.Instructors;
+
+public partial class InstructorEdit
 {
-    public partial class InstructorEdit
+    [Inject]
+    public IFileuploadService _fileuploadService { get; set; }
+
+    [Inject]
+    public IStringLocalizer<InstructorEdit> Localizer { get; set; }
+
+    [Inject]
+    public IInstructorService InstructorService { get; set; }
+
+    [Parameter]
+    public int InstructorId { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    public UpdateInstructorCommand UpdateInstructorCommand = new UpdateInstructorCommand();
+
+    public bool ErrorVisible { get; set; }
+
+    public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
+
+    protected override async Task OnParametersSetAsync()
     {
-        [Inject]
-        public IFileuploadService _fileuploadService { get; set; }
+        var instructor = await InstructorService.GetAsync(InstructorId.ToString());
 
-        [Inject]
-        public IStringLocalizer<InstructorEdit> Localizer { get; set; }
+        UpdateInstructorCommand.InstructorID = instructor.InstructorID;
+        UpdateInstructorCommand.FirstName = instructor.FirstName;
+        UpdateInstructorCommand.LastName = instructor.LastName;
+        UpdateInstructorCommand.HireDate = instructor.HireDate;
+        UpdateInstructorCommand.OfficeLocation = instructor.OfficeLocation;
+        UpdateInstructorCommand.ProfilePictureName = instructor.ProfilePictureName;
+    }
 
-        [Inject]
-        public IInstructorService InstructorService { get; set; }
+    public async Task FormSubmitted(EditContext editContext)
+    {
+        bool formIsValid = editContext.Validate();
 
-        [Parameter]
-        public int InstructorId { get; set; }
-
-        [CascadingParameter]
-        MudDialogInstance MudDialog { get; set; }
-
-        public UpdateInstructorCommand UpdateInstructorCommand = new UpdateInstructorCommand();
-
-        public bool ErrorVisible { get; set; }
-
-        public IList<IBrowserFile> files { get; set; } = new List<IBrowserFile>();
-
-        protected override async Task OnParametersSetAsync()
+        if (formIsValid)
         {
-            var instructor = await InstructorService.GetAsync(InstructorId.ToString());
-
-            UpdateInstructorCommand.InstructorID = instructor.InstructorID;
-            UpdateInstructorCommand.FirstName = instructor.FirstName;
-            UpdateInstructorCommand.LastName = instructor.LastName;
-            UpdateInstructorCommand.HireDate = instructor.HireDate;
-            UpdateInstructorCommand.OfficeLocation = instructor.OfficeLocation;
-            UpdateInstructorCommand.ProfilePictureName = instructor.ProfilePictureName;
-        }
-
-        public async Task FormSubmitted(EditContext editContext)
-        {
-            bool formIsValid = editContext.Validate();
-
-            if (formIsValid)
+            try
             {
-                try
+                if (files.Any())
                 {
-                    if (files.Any())
-                    {
-                        UpdateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
-                    }
+                    UpdateInstructorCommand.ProfilePictureName = await _fileuploadService.UploadFile(files.First());
+                }
 
-                    await InstructorService.UpdateAsync(UpdateInstructorCommand);
-                    MudDialog.Close(DialogResult.Ok(true));
-                }
-                catch (System.Exception)
-                {
-                    ErrorVisible = true;
-                }
+                await InstructorService.UpdateAsync(UpdateInstructorCommand);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            catch (System.Exception)
+            {
+                ErrorVisible = true;
             }
         }
+    }
 
-        public void Cancel()
-        {
-            MudDialog.Cancel();
-        }
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
 
-        public void UploadFiles(InputFileChangeEventArgs e)
+    public void UploadFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
         {
-            foreach (var file in e.GetMultipleFiles())
-            {
-                files.Add(file);
-            }
+            files.Add(file);
         }
     }
 }

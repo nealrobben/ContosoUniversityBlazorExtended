@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 
-namespace WebUI.Shared.Departments.Validators
+namespace WebUI.Shared.Departments.Validators;
+
+public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentCommand>
 {
-    public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentCommand>
+    public CreateDepartmentValidator()
     {
-        public CreateDepartmentValidator()
-        {
-            RuleFor(p => p.Name).NotEmpty().MaximumLength(50);
-            RuleFor(p => p.Budget).NotEmpty().GreaterThan(0);
-            RuleFor(p => p.StartDate).NotEmpty();
-            RuleFor(p => p.InstructorID).NotEmpty();
-        }
+        RuleFor(p => p.Name).NotEmpty().MaximumLength(50);
+        RuleFor(p => p.Budget).NotEmpty().GreaterThan(0);
+        RuleFor(p => p.StartDate).NotEmpty();
+        RuleFor(p => p.InstructorID).NotEmpty();
     }
 }

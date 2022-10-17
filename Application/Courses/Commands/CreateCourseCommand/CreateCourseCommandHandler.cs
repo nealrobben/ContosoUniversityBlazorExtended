@@ -5,31 +5,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 
-namespace ContosoUniversityBlazor.Application.Courses.Commands.CreateCourse
+namespace ContosoUniversityBlazor.Application.Courses.Commands.CreateCourse;
+
+public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand,int>
 {
-    public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand,int>
+    private readonly ISchoolContext _context;
+
+    public CreateCourseCommandHandler(ISchoolContext context)
     {
-        private readonly ISchoolContext _context;
+        _context = context;
+    }
 
-        public CreateCourseCommandHandler(ISchoolContext context)
+    public async Task<int> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
+    {
+        var course = new Course
         {
-            _context = context;
-        }
+            CourseID = request.CourseID,
+            Title = request.Title,
+            Credits = request.Credits,
+            DepartmentID = request.DepartmentID
+        };
 
-        public async Task<int> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
-        {
-            var course = new Course
-            {
-                CourseID = request.CourseID,
-                Title = request.Title,
-                Credits = request.Credits,
-                DepartmentID = request.DepartmentID
-            };
+        _context.Courses.Add(course);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return course.CourseID;
-        }
+        return course.CourseID;
     }
 }

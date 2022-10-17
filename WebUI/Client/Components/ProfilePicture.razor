@@ -4,27 +4,27 @@
 
 @code {
 
-    private string _fileName;
-    private const string emptyUrl = "img/person.png";
+private string _fileName;
+private const string emptyUrl = "img/person.png";
 
-    [Parameter]
-    public string FileName
+[Parameter]
+public string FileName
+{
+    get
     {
-        get
+        if (!string.IsNullOrWhiteSpace(_fileName))
         {
-            if (!string.IsNullOrWhiteSpace(_fileName))
-            {
-                return string.Concat("api/File/",_fileName);
-            }
-            else
-            {
-                return emptyUrl;
-            }
+            return string.Concat("api/File/",_fileName);
         }
-        set
+        else
         {
-            _fileName = value;
+            return emptyUrl;
         }
     }
+    set
+    {
+        _fileName = value;
+    }
+}
 
 }

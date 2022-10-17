@@ -5,31 +5,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
 
-namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstructor
+namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstructor;
+
+public class CreateInstructorCommandHandler : IRequestHandler<CreateInstructorCommand,int>
 {
-    public class CreateInstructorCommandHandler : IRequestHandler<CreateInstructorCommand,int>
+    private readonly ISchoolContext _context;
+
+    public CreateInstructorCommandHandler(ISchoolContext context)
     {
-        private readonly ISchoolContext _context;
+        _context = context;
+    }
 
-        public CreateInstructorCommandHandler(ISchoolContext context)
+    public async Task<int> Handle(CreateInstructorCommand request, CancellationToken cancellationToken)
+    {
+        var newInstructor = new Instructor
         {
-            _context = context;
-        }
+            FirstMidName = request.FirstName,
+            LastName = request.LastName,
+            HireDate = request.HireDate,
+            ProfilePictureName = request.ProfilePictureName
+        };
+        _context.Instructors.Add(newInstructor);
 
-        public async Task<int> Handle(CreateInstructorCommand request, CancellationToken cancellationToken)
-        {
-            var newInstructor = new Instructor
-            {
-                FirstMidName = request.FirstName,
-                LastName = request.LastName,
-                HireDate = request.HireDate,
-                ProfilePictureName = request.ProfilePictureName
-            };
-            _context.Instructors.Add(newInstructor);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return newInstructor.ID;
-        }
+        return newInstructor.ID;
     }
 }

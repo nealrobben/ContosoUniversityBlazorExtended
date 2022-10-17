@@ -11,38 +11,37 @@ using WebUI.Shared.Students.Queries.GetStudentsOverview;
 using Application.Common.Extensions;
 using WebUI.Shared.Common;
 
-namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview
+namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview;
+
+public class GetStudentsOverviewQueryHandler : IRequestHandler<GetStudentsOverviewQuery, OverviewVM<StudentOverviewVM>>
 {
-    public class GetStudentsOverviewQueryHandler : IRequestHandler<GetStudentsOverviewQuery, OverviewVM<StudentOverviewVM>>
+    private const int _defaultPageSize = 3;
+
+    private readonly ISchoolContext _context;
+    private readonly IMapper _mapper;
+
+    public GetStudentsOverviewQueryHandler(ISchoolContext context, IMapper mapper)
     {
-        private const int _defaultPageSize = 3;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        private readonly ISchoolContext _context;
-        private readonly IMapper _mapper;
+    public async Task<OverviewVM<StudentOverviewVM>> Handle(GetStudentsOverviewQuery request, CancellationToken cancellationToken)
+    {
+        var students = _context.Students
+            .Search(request.SearchString)
+            .Sort(request.SortOrder);
 
-        public GetStudentsOverviewQueryHandler(ISchoolContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        var totalStudents = await students.CountAsync();
 
-        public async Task<OverviewVM<StudentOverviewVM>> Handle(GetStudentsOverviewQuery request, CancellationToken cancellationToken)
-        {
-            var students = _context.Students
-                .Search(request.SearchString)
-                .Sort(request.SortOrder);
+        var metaData = new MetaData(request.PageNumber ?? 0, totalStudents, 
+            request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
 
-            var totalStudents = await students.CountAsync();
+        var items = await students.AsNoTracking().Skip((metaData.PageNumber) * metaData.PageSize)
+            .Take(metaData.PageSize)
+            .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
 
-            var metaData = new MetaData(request.PageNumber ?? 0, totalStudents, 
-                request.PageSize ?? _defaultPageSize, request.SortOrder, request.SearchString);
-
-            var items = await students.AsNoTracking().Skip((metaData.PageNumber) * metaData.PageSize)
-                .Take(metaData.PageSize)
-                .ProjectTo<StudentOverviewVM>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
-
-            return new OverviewVM<StudentOverviewVM>(items, metaData);
-        }
+        return new OverviewVM<StudentOverviewVM>(items, metaData);
     }
 }

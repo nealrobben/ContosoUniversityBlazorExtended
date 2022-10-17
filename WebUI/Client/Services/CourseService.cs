@@ -8,27 +8,26 @@ using WebUI.Shared.Courses.Queries.GetCourseDetails;
 using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
-namespace WebUI.Client.Services
+namespace WebUI.Client.Services;
+
+public interface ICourseService 
+    : IServiceBase<OverviewVM<CourseVM>, CourseDetailVM,
+        CreateCourseCommand, UpdateCourseCommand>
 {
-    public interface ICourseService 
-        : IServiceBase<OverviewVM<CourseVM>, CourseDetailVM,
-            CreateCourseCommand, UpdateCourseCommand>
+    Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId);
+}
+
+public class CourseService 
+    : ServiceBase<OverviewVM<CourseVM>, CourseDetailVM, 
+        CreateCourseCommand, UpdateCourseCommand>, ICourseService
+{
+    public CourseService(HttpClient http) 
+        : base(http, "courses")
     {
-        Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId);
     }
 
-    public class CourseService 
-        : ServiceBase<OverviewVM<CourseVM>, CourseDetailVM, 
-            CreateCourseCommand, UpdateCourseCommand>, ICourseService
+    public async Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId)
     {
-        public CourseService(HttpClient http) 
-            : base(http, "courses")
-        {
-        }
-
-        public async Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId)
-        {
-            return await _http.GetFromJsonAsync<CoursesForInstructorOverviewVM>($"{Endpoint}/byinstructor/{instructorId}");
-        }
+        return await _http.GetFromJsonAsync<CoursesForInstructorOverviewVM>($"{Endpoint}/byinstructor/{instructorId}");
     }
 }

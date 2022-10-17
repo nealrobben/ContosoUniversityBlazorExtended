@@ -2,15 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace ContosoUniversityBlazor.WebUI.Services
-{
-    public class CurrentUserService : ICurrentUserService
-    {
-        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
-        {
-            UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
+namespace ContosoUniversityBlazor.WebUI.Services;
 
-        public string UserId { get; }
+public class CurrentUserService : ICurrentUserService
+{
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    {
+        UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     }
+
+    public string UserId { get; }
 }

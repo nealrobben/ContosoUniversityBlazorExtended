@@ -8,27 +8,26 @@ using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
-namespace WebUI.Client.Services
+namespace WebUI.Client.Services;
+
+public interface IDepartmentService
+    : IServiceBase<OverviewVM<DepartmentVM>, DepartmentDetailVM,
+        CreateDepartmentCommand, UpdateDepartmentCommand>
 {
-    public interface IDepartmentService
-        : IServiceBase<OverviewVM<DepartmentVM>, DepartmentDetailVM,
-            CreateDepartmentCommand, UpdateDepartmentCommand>
+    Task<DepartmentsLookupVM> GetLookupAsync();
+}
+
+public class DepartmentService
+    : ServiceBase<OverviewVM<DepartmentVM>, DepartmentDetailVM, 
+        CreateDepartmentCommand, UpdateDepartmentCommand>, IDepartmentService
+{
+    public DepartmentService(HttpClient http)
+        : base(http, "departments")
     {
-        Task<DepartmentsLookupVM> GetLookupAsync();
     }
 
-    public class DepartmentService
-        : ServiceBase<OverviewVM<DepartmentVM>, DepartmentDetailVM, 
-            CreateDepartmentCommand, UpdateDepartmentCommand>, IDepartmentService
+    public async Task<DepartmentsLookupVM> GetLookupAsync()
     {
-        public DepartmentService(HttpClient http)
-            : base(http, "departments")
-        {
-        }
-
-        public async Task<DepartmentsLookupVM> GetLookupAsync()
-        {
-            return await _http.GetFromJsonAsync<DepartmentsLookupVM>($"{Endpoint}/lookup");
-        }
+        return await _http.GetFromJsonAsync<DepartmentsLookupVM>($"{Endpoint}/lookup");
     }
 }

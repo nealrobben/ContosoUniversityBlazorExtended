@@ -5,30 +5,30 @@
 
 <MudMenu Icon="@Icons.Material.Outlined.Language" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
     @foreach (var language in supportedCultures)
-    {
-        <MudMenuItem OnClick="(()=> ChangeLanguageAsync(language))">@language.DisplayName</MudMenuItem>
-    }
+{
+    <MudMenuItem OnClick="(()=> ChangeLanguageAsync(language))">@language.DisplayName</MudMenuItem>
+}
 </MudMenu>
 
 @code
 {
     private CultureInfo[] supportedCultures = new[]
-    {
-        new CultureInfo("en-US"),
-        new CultureInfo("nl-NL"),
-    };
+{
+    new CultureInfo("en-US"),
+    new CultureInfo("nl-NL"),
+};
 
-    private CultureInfo Culture
-    {
-        get => CultureInfo.CurrentCulture;
-    }
+private CultureInfo Culture
+{
+    get => CultureInfo.CurrentCulture;
+}
 
-    private async Task ChangeLanguageAsync(CultureInfo culture)
+private async Task ChangeLanguageAsync(CultureInfo culture)
+{
+    if (CultureInfo.CurrentCulture != culture)
     {
-        if (CultureInfo.CurrentCulture != culture)
-        {
-            await ClientPreferenceService.SetCulture(culture.Name);
-            Nav.NavigateTo(Nav.Uri, forceLoad: true);
-        }
+        await ClientPreferenceService.SetCulture(culture.Name);
+        Nav.NavigateTo(Nav.Uri, forceLoad: true);
     }
+}
 }

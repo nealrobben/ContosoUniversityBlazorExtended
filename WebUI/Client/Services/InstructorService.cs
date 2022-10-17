@@ -8,27 +8,26 @@ using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
 using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
-namespace WebUI.Client.Services
+namespace WebUI.Client.Services;
+
+public interface IInstructorService 
+    : IServiceBase<OverviewVM<InstructorVM>, InstructorDetailsVM,
+        CreateInstructorCommand, UpdateInstructorCommand>
 {
-    public interface IInstructorService 
-        : IServiceBase<OverviewVM<InstructorVM>, InstructorDetailsVM,
-            CreateInstructorCommand, UpdateInstructorCommand>
+    Task<InstructorsLookupVM> GetLookupAsync();
+}
+
+public class InstructorService 
+    : ServiceBase<OverviewVM<InstructorVM>, InstructorDetailsVM, 
+        CreateInstructorCommand, UpdateInstructorCommand>, IInstructorService
+{
+    public InstructorService(HttpClient http) 
+        : base(http, "instructors")
     {
-        Task<InstructorsLookupVM> GetLookupAsync();
     }
 
-    public class InstructorService 
-        : ServiceBase<OverviewVM<InstructorVM>, InstructorDetailsVM, 
-            CreateInstructorCommand, UpdateInstructorCommand>, IInstructorService
+    public async Task<InstructorsLookupVM> GetLookupAsync()
     {
-        public InstructorService(HttpClient http) 
-            : base(http, "instructors")
-        {
-        }
-
-        public async Task<InstructorsLookupVM> GetLookupAsync()
-        {
-            return await _http.GetFromJsonAsync<InstructorsLookupVM>($"{Endpoint}/lookup");
-        }
+        return await _http.GetFromJsonAsync<InstructorsLookupVM>($"{Endpoint}/lookup");
     }
 }

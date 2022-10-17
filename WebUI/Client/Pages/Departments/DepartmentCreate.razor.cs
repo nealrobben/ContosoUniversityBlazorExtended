@@ -13,70 +13,69 @@ using WebUI.Client.Shared;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 
-namespace WebUI.Client.Pages.Departments
+namespace WebUI.Client.Pages.Departments;
+
+public partial class DepartmentCreate
 {
-    public partial class DepartmentCreate
+    [Inject]
+    IDepartmentService DepartmentService { get; set; }
+
+    [Inject]
+    IInstructorService InstructorService { get; set; }
+    
+    [Inject]
+    IStringLocalizer<DepartmentCreate> Localizer { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private CustomValidation _customValidation;
+
+    public CreateDepartmentCommand CreateDepartmentCommand { get; set; } = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
+    public InstructorsLookupVM InstructorsLookup { get; set; }
+
+    public bool ErrorVisible { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        [Inject]
-        IDepartmentService DepartmentService { get; set; }
+        InstructorsLookup = await InstructorService.GetLookupAsync();
+        CreateDepartmentCommand.InstructorID = InstructorsLookup.Instructors.First().ID;
+        StateHasChanged();
+    }
 
-        [Inject]
-        IInstructorService InstructorService { get; set; }
-        
-        [Inject]
-        IStringLocalizer<DepartmentCreate> Localizer { get; set; }
+    public async Task FormSubmitted(EditContext editContext)
+    {
+        _customValidation.ClearErrors();
+        ErrorVisible = false;
+        bool formIsValid = editContext.Validate();
 
-        [CascadingParameter]
-        MudDialogInstance MudDialog { get; set; }
-
-        private CustomValidation _customValidation;
-
-        public CreateDepartmentCommand CreateDepartmentCommand { get; set; } = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
-        public InstructorsLookupVM InstructorsLookup { get; set; }
-
-        public bool ErrorVisible { get; set; }
-
-        protected override async Task OnInitializedAsync()
+        if (formIsValid)
         {
-            InstructorsLookup = await InstructorService.GetLookupAsync();
-            CreateDepartmentCommand.InstructorID = InstructorsLookup.Instructors.First().ID;
-            StateHasChanged();
-        }
-
-        public async Task FormSubmitted(EditContext editContext)
-        {
-            _customValidation.ClearErrors();
-            ErrorVisible = false;
-            bool formIsValid = editContext.Validate();
-
-            if (formIsValid)
+            try
             {
-                try
-                {
-                    await DepartmentService.CreateAsync(CreateDepartmentCommand);
+                await DepartmentService.CreateAsync(CreateDepartmentCommand);
 
-                    CreateDepartmentCommand = new CreateDepartmentCommand();
-                    MudDialog.Close(DialogResult.Ok(true));
-                }
-                catch (ApiException ex)
-                {
-                    var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(ex.Response);
+                CreateDepartmentCommand = new CreateDepartmentCommand();
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            catch (ApiException ex)
+            {
+                var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(ex.Response);
 
-                    if (problemDetails != null)
-                    {
-                        _customValidation.DisplayErrors(problemDetails.Errors);
-                    }
-                }
-                catch (Exception)
+                if (problemDetails != null)
                 {
-                    ErrorVisible = true;
+                    _customValidation.DisplayErrors(problemDetails.Errors);
                 }
             }
+            catch (Exception)
+            {
+                ErrorVisible = true;
+            }
         }
+    }
 
-        public void Cancel()
-        {
-            MudDialog.Cancel();
-        }
+    public void Cancel()
+    {
+        MudDialog.Cancel();
     }
 }
